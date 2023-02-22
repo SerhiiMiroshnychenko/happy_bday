@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class BDays(models.Model):
     title = models.CharField(max_length=30, verbose_name='День народження')
     content = models.TextField(max_length=255, null=True, blank=True, verbose_name='Опис')
-    photo = models.ImageField(upload_to='photos/',
+    photo = models.ImageField(null=True, blank=True, upload_to='photos/',
                               verbose_name='Фото')  # upload_to -> показує в який каталог і які підкаталоги
     # ми будемо завантажувати наші фото
     # year = models.IntegerField(null=True, blank=True, verbose_name='Рік')

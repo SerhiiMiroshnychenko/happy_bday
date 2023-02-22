@@ -1,0 +1,89 @@
+{% load static %}
+{% load notes_tags %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+	<title>{{title}}</title>
+	<link type="text/css" href="{% static 'happy_site/css/styles.css' %}" rel="stylesheet" />
+</head>
+<body>
+
+<header>
+    {% block header %}
+    {% endblock %}
+</header>
+
+{% block mainmenu %}
+    <section>
+        <div>
+            <div>
+                <div>
+                        <a class="note" style="text-decoration: none;
+                                  color: rgb(20, 75, 135);
+                                  margin-left: 150px;
+                                  margin-right: 5px;
+                                  font-size: 26px;
+                                  font-weight: bold;
+                        " href="bdays/">Дні народження</a>
+                        <a class="note" style="text-decoration: none;
+                                      color: rgb(20, 75, 135);
+                                      margin: 5px;
+                                      font-size: 26px;
+                                      font-weight: bold;
+                            " href="add_bday/">Додати день народження</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block top_animator %}
+    <div class="animator">
+        <svg  height="20" width="auto">
+            <circle cx="10" cy="10" r="10" fill="tomato">
+                <animate attributeName="cx" from="0" to="2000" dur="100s" fill="freeze" repeatCount="10"/>
+            </circle>
+        </svg>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block bottom_animator %}
+    <div class="animator">
+        <svg  height="100" width="auto">
+            <circle cx="10" cy="50" r="50" fill="khaki">
+                <animate attributeName="cx" from="0" to="2000" dur="100s" fill="freeze" repeatCount="10"/>
+            </circle>
+        </svg>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer>
+        <div class="contacts">
+                <h3><span>Контакти автора</span></h3>
+                <div>
+                    <a id="link1" href="https://www.linkedin.com/in/serhii-miroshnychenko-mariupol/" target="_blank">
+                        <img alt="Linkedin" src="{% static 'happy_site/images/Linkedin.png' %}" />
+                    </a>
+                    <a href="https://www.sololearn.com/" target="_blank" target="_blank">
+                        <img alt="SoloLearn" src="https://www.sololearn.com/Uploads/icons/sololearn.png" />
+                    </a>
+                    <a id="link2" href="https://github.com/SerhiiMiroshnychenko" target="_blank">
+                        <img alt="GitHub" src="{% static 'happy_site/images/GitHub.png' %}" />
+                    </a>
+                </div>
+            </div>
+            <!-- Contacts section end -->
+
+            <div class="copyright">
+                &copy; 2023 Happy B-days!. All rights reserved.
+            </div>
+    </footer>
+{% endblock %}
+</body>
+</html>

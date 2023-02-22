@@ -1,0 +1,8 @@
+.idea
+.venv
+.env
+happy_site/migrations
+db.sqlite3
+
+/happy_bday/happy_site/migrations/
+/venv/

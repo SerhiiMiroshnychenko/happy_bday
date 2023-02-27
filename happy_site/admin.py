@@ -10,7 +10,6 @@ class BDaysAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'title')  # Поля за якими можна перейти на відповідну статтю
     search_fields = ('title',)  # За якими полями можна буде проводити пошук
     list_filter = ('user',)  # Призначаємо поля для фільтрації списку статей
-    prepopulated_fields = {"slug": ("title",)}
     date_hierarchy = 'date'
 
 
@@ -20,5 +19,4 @@ class ReminderAdmin(admin.ModelAdmin):
     list_filter = ('bday__user',)
     list_display_links = ('id', 'bday')
     search_fields = ('bday__title',)
-    prepopulated_fields = {"slug": ("id",)}  # Заповнювати автоматично поле slug на основі поля name
     date_hierarchy = 'date'

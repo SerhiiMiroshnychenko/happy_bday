@@ -1,25 +1,37 @@
 {% extends 'happy_site/base.html' %}
 
 {% block header %}
-    <h1 style="font-family: Georgia, serif">Дні народження</h1>
+    <h1>Дні народження</h1>
 {% endblock %}
 
 
 
 {% block content %}
-    <div class="content">
-        {% for day in object_list %}
-            <div class="note">
-                <h4>{{ day.title }}</h4>
-                <p>{{ day.content }}</p>
-                <p>{{ day.date }}</p>
-                <p><a style='text-decoration: none;
-                          color: khaki;
-                          margin: 100px;
-                          font-size: 18px;
-                          background-color: rgb(43,84,131);
-                          font-weight: bold;' href="#">дивитися B-day</a></p>
+    <h3>Дні народження:</h3>
+    <ul class="list-articles">
+	{% for day in object_list %}
+			<li><div class="article-panel">
+    <p class="first">{{day.date}}</p>
+</div>
+{% if day.photo %}
+	<p><img class="img-article-left thumb" src="{{day.photo.url}}"></p>
+{% endif %}
+				<h2>{{day.title}}</h2>
+	{% autoescape on %}
+	{{day.content|linebreaks|truncatewords:50}}
+	{% endautoescape %}
+        <div class="clear"></div>
+            <div class="button-group-bd" style="display: inline-block; float: right;">
+                <div class="button-bd" style="display: inline-block; margin-right: 30px;">
+                    <a href="#">Видалити</a></div>
+                <div class="button-bd" style="display: inline-block; margin-right: 30px;">
+                    <a href="/bdays/{{ day.id }}/edit">Редагувати</a></div>
+                <div class="button-bd" style="display: inline-block; margin-right: 10px;">
+                    <a href="#">Додати нагадування</a></div>
             </div>
-        {% endfor %}
-    </div>
+        <div class="clear" style="padding-bottom: 10px"></div>
+        </li>
+	{% endfor %}
+</ul>
+
 {% endblock %}

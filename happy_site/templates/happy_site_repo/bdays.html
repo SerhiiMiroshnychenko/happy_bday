@@ -1,0 +1,25 @@
+{% extends 'happy_site/base.html' %}
+
+{% block header %}
+    <h1 style="font-family: Georgia, serif">Дні народження</h1>
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="content">
+        {% for day in object_list %}
+            <div class="note">
+                <h4>{{ day.title }}</h4>
+                <p>{{ day.content }}</p>
+                <p>{{ day.date }}</p>
+                <p><a style='text-decoration: none;
+                          color: khaki;
+                          margin: 100px;
+                          font-size: 18px;
+                          background-color: rgb(43,84,131);
+                          font-weight: bold;' href="#">дивитися B-day</a></p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

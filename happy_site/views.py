@@ -54,6 +54,12 @@ def edit_bd(request, bd_id):
     return render(request, 'happy_site/edit_bday.html', {'form': form})
 
 
+def delete_bd(request, bd_id):
+    topic = BDays.objects.filter(id=bd_id)
+    topic.delete()
+    return redirect('b_days')
+
+
 class BDayList(DataMixin, ListView):
     model = BDays  # Модель список екземплярів якої будемо подавати
     template_name = 'happy_site/bdays.html'  # Адреса шаблону, куди подавати

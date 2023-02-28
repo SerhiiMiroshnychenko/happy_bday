@@ -8,8 +8,18 @@
 
 {% block content %}
     <h3>Дні народження:</h3>
+<form class="months" method="get" action="">
+    <select name="month" onchange="this.form.submit()">
+        <option value="" {% if not request.GET.month %}selected{% endif %}>Всі місяці</option>
+        {% for month in months %}
+            <option value="{{ month.month }}" {% if request.GET.month == month.month|stringformat:"i" and  month.month|stringformat:"i" %}selected{% endif %}>
+                {{ month|date:"F" }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
     <ul class="list-articles">
-	{% for day in object_list %}
+	{% for day in b_days %}
 			<li><div class="article-panel">
     <p class="first">{{day.date}}</p>
 </div>
@@ -20,6 +30,7 @@
 	{% autoescape on %}
 	{{day.content|linebreaks|truncatewords:50}}
 	{% endautoescape %}
+            <p>Виповнюється: <b>{{day.age}}</b> років</p>
         <div class="clear"></div>
             <div class="button-group-bd" style="display: inline-block; float: right;">
                 <div class="button-bd" style="display: inline-block; margin-right: 30px;">

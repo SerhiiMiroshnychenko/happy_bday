@@ -9,10 +9,15 @@
         <div class="form-error">{{ form.non_field_errors }}</div>
 
         {% for f in form %}
-            <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+            <p>
+                <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}:</label>
+                {{ f }}
+                {% if f.help_text %}
+                    <span class="help-text">{{ f.help_text }}</span>
+                {% endif %}
+            </p>
             <div class="form-error">{{ f.errors }}</div>
         {% endfor %}
-
 
         <button type="submit">Додати</button>
     </form>

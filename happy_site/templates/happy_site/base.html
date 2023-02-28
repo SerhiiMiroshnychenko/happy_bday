@@ -15,9 +15,24 @@
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
                 <li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
+            {% if user.is_authenticated %}
                 <li><a href="/bdays/">Дні народження</a></li>
                 <li><a href="/add_bday/">Додати день народження{{m.title}}</a></li>
-                <li class="last"><a href="{% url 'register' %}">Реєстрація</a> | <a href="{% url 'login' %}">Вхід</a></li>
+            {% endif %}
+                    {% if user.is_authenticated %}
+                            {% if user.username == 'admin' %}
+                                <li class="last"><a href="/admin/">Привіт, {{ user.username }}</a>
+                                                 | <a href="{% url 'logout' %}">Вихід</a></li>
+                            {% else %}
+                                <li class="last"><a href="home/">Привіт, {{ user.username }}</a>
+                                                 | <a href="{% url 'logout' %}">Вихід</a></li>
+                            {% endif %}
+                    {%  else %}
+
+                    <li class="last"><a href="{% url 'register' %}">Реєстрація</a>
+                    | <a href="{% url 'login' %}">Вхід</a></li>
+                {% endif %}
+
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -27,11 +42,30 @@
 <tr>
 <!-- Sidebar зліва -->
 	<td valign="top" class="left-chapters">
+        <h4><a class="contacts" href="/bdays/?month=">Весь рік</a></h4>
+	<table>
+  <tr>
+    <td><a class="contacts" href="/bdays/?month=12">Грудень</a></td>
+    <td><a class="contacts" href="/bdays/?month=1">Січень</a></td>
+    <td><a class="contacts" href="/bdays/?month=2">Лютий</a></td>
+  </tr>
+  <tr>
+    <td><a class="contacts" href="/bdays/?month=3">Березень</a></td>
+    <td><a class="contacts" href="/bdays/?month=4">Квітень</a></td>
+    <td><a class="contacts" href="/bdays/?month=5">Травень</a></td>
 
-	<ul id="leftchapters">
-        Місяці
-        <li><a class="contacts" href="#"></a>Січень</li>
-	</ul>
+  </tr>
+  <tr>
+    <td><a class="contacts" href="/bdays/?month=6">Червень</a></td>
+    <td><a class="contacts" href="/bdays/?month=7">Липень</a></td>
+    <td><a class="contacts" href="/bdays/?month=8">Серпень</a></td>
+  </tr>
+  <tr>
+    <td><a class="contacts" href="/bdays/?month=9">Вересень</a></td>
+    <td><a class="contacts" href="/bdays/?month=10">Жовтень</a></td>
+    <td><a class="contacts" href="/bdays/?month=11">Листопад</a></td>
+  </tr>
+</table>
 </td>
 <!-- Кінець Sidebar'а -->
 
@@ -56,14 +90,14 @@
 <footer>
         <td>
             <div id="footer" class="contacts">
-                &copy; 2023 Happy B-days!
-                <a href="https://www.linkedin.com/in/serhii-miroshnychenko-mariupol/" target="_blank">
+                <p>&copy; 2023 Happy B-days!</p>
+                <a class="link-contact" href="https://www.linkedin.com/in/serhii-miroshnychenko-mariupol/" target="_blank">
                         <img alt="Linkedin" src="{% static 'happy_site/images/Linkedin.png' %}" />
                     </a>
-                <a href="https://www.sololearn.com/" target="_blank">
+                <a class="link-contact" href="https://www.sololearn.com/" target="_blank">
                         <img alt="SoloLearn" src="https://www.sololearn.com/Uploads/icons/sololearn.png" />
                     </a>
-                <a href="https://github.com/SerhiiMiroshnychenko" target="_blank">
+                <a class="link-contact" href="https://github.com/SerhiiMiroshnychenko" target="_blank">
                         <img alt="GitHub" src="{% static 'happy_site/images/GitHub.png' %}" />
                     </a>
             </div>

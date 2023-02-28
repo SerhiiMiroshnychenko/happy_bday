@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -16,13 +17,31 @@ class BDays(models.Model):
     date = models.DateField(verbose_name='Дата народження')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Користувач')
 
+    @property
+    def month(self):
+        return self.date.month
+
+    @classmethod
+    def get_birthdays_by_month(cls, month):
+        return cls.objects.filter(date__month=month)
+
+    def get_age(self):
+        """Return the age of the person on their birthday in the current year."""
+        today = date.today()
+        birthday = self.date.replace(year=today.year)
+        if birthday < today:
+            return today.year - self.date.year
+        else:
+            return today.year - self.date.year - 1
+
     def __str__(self):
         return self.title
 
     class Meta:
         verbose_name = 'День народження'
         verbose_name_plural = 'Дні народження'
-        ordering = ['title']  # Задаємо сортування в адмін-панелі
+        ordering = ['date__month', 'date__day', 'title']
+        # сортуємо за місяцем, днем та title в адмін-панелі
         # та на сайті (в списку екземплярів моделі BDays)
 
 

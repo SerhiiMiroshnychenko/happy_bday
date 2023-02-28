@@ -201,12 +201,10 @@ div.button {
 .left-chapters ul li.share a.share-yt {
 	width: 100%;
 	height: 30px;
-	background: url('../images/share_yt.png') no-repeat 0 0
 }
 .left-chapters ul li.share a.share-yt:hover {
 	width: 100%;
 	height: 30px;
-	background: url('../images/share_yt.png') no-repeat 0 -30px
 }
 
 .content {
@@ -434,13 +432,56 @@ ul.lang-list li a:hover {color: #fdc073;}
 .button-bd {
     display: inline-block;
     padding: 0.5em 1em;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #D6ECE4;
+	color: black;
     text-decoration: none;
     border-radius: 5px;
     margin-right: 10px;
 }
 
 .button-bd:hover {
-    background-color: #0069d9;
+    background-color: #94CE89;
+}
+
+/* Стилі для контейнера форми */
+.months form {
+	display: inline-block;
+	position: relative;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+/* Стилі для випадаючого списку */
+.months select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  width: 200px;
+  cursor: pointer;
+}
+
+/* Стилі для випадаючих елементів списку */
+.months select option {
+  background-color: white;
+  color: #333;
+}
+
+/* Стилі для випадаючих елементів списку, що вибрані */
+.months select option:checked {
+  background-color: #007bff;
+  color: white;
+}
+
+.help-text {
+	font-size: 18px;
+	color: #777777;
+	margin-left: 20px;
+}
+
+.link-contact {
+	text-decoration: none;
 }

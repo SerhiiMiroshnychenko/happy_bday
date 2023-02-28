@@ -14,7 +14,20 @@ class AddBDayForm(forms.ModelForm):
         #  widgets - індивідуальні стилі для полів
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-input'}),
-            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+            'content': forms.Textarea(attrs={'cols': 39, 'rows': 6}),
+
+        }
+        labels = {
+            'title': 'Іменинник',
+            'content': 'Опис',
+            'photo': 'Фото',
+            'date': 'Дата народження',
+        }
+        help_texts = {
+            'title': 'Введіть назву події ( наприклад ПІБ іменинника)',
+            'content': "Опис події (Необов'язкове поле)",
+            'photo': "Фото іменинника (Необов'язкове поле).",
+            'date': 'Введіть дату народження у форматі "рік-місяць-день" (yyyy-mm-dd).',
         }
 
     def clean_title(self):

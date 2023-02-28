@@ -6,7 +6,58 @@
 
 
 {% block content %}
-    <div class="content">
-        <h1>Сайт Happy B-Days!</h1>
-    </div>
+     <ul class="list-articles">
+
+{% if today_birthday %}
+    <h3>День народження сьогодні:</h3>
+			<li><div class="article-panel">
+    <p class="first">{{today_birthday.date}}</p>
+</div>
+{% if today_birthday.photo %}
+	<p><img class="img-article-left thumb" src="{{today_birthday.photo.url}}"></p>
+{% endif %}
+				<h2>{{today_birthday.title}}</h2>
+	{% autoescape on %}
+	{{today_birthday.content|linebreaks|truncatewords:50}}
+	{% endautoescape %}
+            <p>Виповнюється: <b>{{today_birthday.get_age}}</b> років</p>
+        <div class="clear"></div>
+            <div class="button-group-bd" style="display: inline-block; float: right;">
+                <div class="button-bd" style="display: inline-block; margin-right: 30px;">
+                    <a  href="/bdays/{{ today_birthday.id }}/delete"
+                        onclick="return confirm('Ви впевнені, що хочете видалити цю нотатку?')">Видалити</a></div>
+                <div class="button-bd" style="display: inline-block; margin-right: 30px;">
+                    <a href="/bdays/{{ today_birthday.id }}/edit">Редагувати</a></div>
+                <div class="button-bd" style="display: inline-block; margin-right: 10px;">
+                    <a href="#">Додати нагадування</a></div>
+            </div>
+        <div class="clear" style="padding-bottom: 10px"></div>
+        </li>
+     {% endif %}
+<h3>Наступний день народження:</h3>
+	<li><div class="article-panel">
+    <p class="first">{{next_birthday.date}}</p>
+</div>
+
+{% if next_birthday.photo %}
+	<p><img class="img-article-left thumb" src="{{next_birthday.photo.url}}"></p>
+{% endif %}
+				<h2>{{next_birthday.title}}</h2>
+	{% autoescape on %}
+	{{next_birthday.content|linebreaks|truncatewords:50}}
+	{% endautoescape %}
+            <p>Виповнюється: <b>{{next_birthday.get_age}}</b> років</p>
+        <div class="clear"></div>
+            <div class="button-group-bd" style="display: inline-block; float: right;">
+                <div class="button-bd" style="display: inline-block; margin-right: 30px;">
+                    <a  href="/bdays/{{ next_birthday.id }}/delete"
+                        onclick="return confirm('Ви впевнені, що хочете видалити цю нотатку?')">Видалити</a></div>
+                <div class="button-bd" style="display: inline-block; margin-right: 30px;">
+                    <a href="/bdays/{{ next_birthday.id }}/edit">Редагувати</a></div>
+                <div class="button-bd" style="display: inline-block; margin-right: 10px;">
+                    <a href="#">Додати нагадування</a></div>
+            </div>
+        <div class="clear" style="padding-bottom: 10px"></div>
+        </li>
+</ul>
 {% endblock %}

@@ -111,14 +111,14 @@ class NextBDay(TemplateView):
         today = datetime.now()
 
         # Знаходимо наступний день народження
-        next_birthday = BDays.objects.filter(
+        next_birthday = BDays.objects.filter(user=self.request.user).filter(
             Q(date__month=today.month, date__day__gte=today.day) | Q(date__month=today.month+1, date__day__lte=today.day)
         ).annotate(
             days_until_birthday=ExtractDay('date') - today.day + ExtractDay(today.replace(year=today.year+1, month=1, day=1))
         ).order_by('days_until_birthday').first()
 
         # Знаходимо сьогоднішній день народження
-        today_birthday = BDays.objects.filter(
+        today_birthday = BDays.objects.filter(user=self.request.user).filter(
             date__month=today.month,
             date__day=today.day
         ).first()

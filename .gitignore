@@ -2,6 +2,7 @@
 .venv
 .env
 happy_site/migrations
+happy_bot/migrations
 db.sqlite3
 
 /happy_bday/happy_site/migrations/

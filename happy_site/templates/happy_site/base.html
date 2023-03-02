@@ -18,6 +18,7 @@
             {% if user.is_authenticated %}
                 <li><a href="/bdays/">Дні народження</a></li>
                 <li><a href="/add_bday/">Додати день народження{{m.title}}</a></li>
+               <li><a href="https://web.telegram.org/k/#@hhappy_bday_bbot" target="_blank">Happy Bot</a></li>
             {% endif %}
                     {% if user.is_authenticated %}
                             {% if user.username == 'admin' %}
@@ -42,6 +43,8 @@
 <tr>
 <!-- Sidebar зліва -->
 	<td valign="top" class="left-chapters">
+
+        {% if user.is_authenticated %}
         <h4><a class="contacts" href="/bdays/?month=">Весь рік</a></h4>
 	<table>
   <tr>
@@ -66,10 +69,22 @@
     <td><a class="contacts" href="/bdays/?month=11">Листопад</a></td>
   </tr>
 </table>
+{% else %}
+            <div class="welcome-site">
+            <h1 class="welcome">WELCOME</h1>
+            <h1 class="welcome">to</h1>
+            <h1 class="welcome">HAPPY</h1>
+            <h1 class="welcome">B-DAYS</h1>
+            <h1 class="welcome">SITE!</h1>
+            </div>
+
+        {% endif %}
 </td>
+
 <!-- Кінець Sidebar'а -->
 
 <td valign="top" class="content">
+
 
 <!-- Хлібні крихти -->
 {% block breadcrumbs %}

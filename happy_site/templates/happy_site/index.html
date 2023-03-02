@@ -7,6 +7,7 @@
 
 
 {% block content %}
+    {% if user.is_authenticated %}
      <ul class="list-articles">
 
 {% if today_birthday %}
@@ -63,9 +64,10 @@
                 <div class="button-bd" style="display: inline-block; margin-right: 30px;">
                     <a href="/bdays/{{ next_birthday.id }}/edit">Редагувати</a></div>
                 <div class="button-bd" style="display: inline-block; margin-right: 10px;">
-                    <a href="#">Додати нагадування</a></div>
+                    <a href="/bdays/{{ next_birthday.id }}/add_reminder">Додати нагадування</a></div>
             </div>
         <div class="clear" style="padding-bottom: 10px"></div>
         </li>
 </ul>
+    {% endif %}
 {% endblock %}

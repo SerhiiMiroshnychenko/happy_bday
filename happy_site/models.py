@@ -15,6 +15,7 @@ class BDays(models.Model):
     # month = models.IntegerField(verbose_name='Місяць')
     # day = models.IntegerField(verbose_name='День')
     date = models.DateField(verbose_name='Дата народження')
+    #telegram_chat_id = models.CharField(max_length=100, null=True, blank=True, verbose_name='ID чату в Telegram')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Користувач')
 
     @property

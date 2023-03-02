@@ -1,0 +1,16 @@
+{% extends 'happy_site/base.html' %}
+
+{% block header %}
+    <h1>Редагування нагадування</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Зберегти</button>
+    </form>
+    <br>
+    <h1>{{ current_reminder }}</h1>
+
+{% endblock %}

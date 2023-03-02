@@ -485,3 +485,22 @@ ul.lang-list li a:hover {color: #fdc073;}
 .link-contact {
 	text-decoration: none;
 }
+
+.btn-group .btn {
+	background-color: #f0f0f0;
+	color: #333;
+	border-radius: 25px;
+	padding: 8px 16px;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+.btn-group .btn:hover {
+	background-color: #ddd;
+	color: #333;
+	cursor: pointer;
+}
+
+.btn-secondary {
+	margin: 10px;
+}

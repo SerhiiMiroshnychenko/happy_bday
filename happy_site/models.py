@@ -47,16 +47,16 @@ class BDays(models.Model):
 
 class Reminder(models.Model):
     text = models.TextField(default='', verbose_name='Текст повідомлення')
-    date = models.DateField(verbose_name='Дата нагадування')
+    date_time = models.DateTimeField(default=datetime.now(), verbose_name='Дата та час нагадування')
     bday = models.ForeignKey(BDays, on_delete=models.CASCADE, verbose_name='День народження')
 
     def save(self, *args, **kwargs):
         if not self.text:
-            self.text = f'Нагадую про день народження {self.bday.title}: {self.date.strftime("%d.%m")}'
+            self.text = f'Нагадую про день народження {self.bday.title}: {self.date_time.strftime("%d.%m")}'
         super(Reminder, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.bday.title} - {self.date.strftime("%d.%m.%Y")}'
+        return f'Reminder for {self.bday.title} on {self.date_time.strftime("%d.%m.%Y %H:%M")}'
 
     class Meta:
         verbose_name = 'Нагадування'

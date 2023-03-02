@@ -15,8 +15,8 @@ class BDaysAdmin(admin.ModelAdmin):
 
 @admin.register(Reminder)
 class ReminderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'text', 'date', 'bday')
+    list_display = ('id', 'text', 'date_time', 'bday')
     list_filter = ('bday__user',)
     list_display_links = ('id', 'bday')
     search_fields = ('bday__title',)
-    date_hierarchy = 'date'
+    date_hierarchy = 'date_time'

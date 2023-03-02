@@ -19,6 +19,7 @@ from pathlib import Path
 env = environ.Env()
 environ.Env.read_env()
 
+# TELEGRAM_BOT_TOKEN = env('TELEGRAM_BOT_TOKEN')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,7 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # my apps
-    'happy_site.apps.HappySiteConfig',
+    'happy_site.apps.HappySiteConfig',  # Додаємо сайт
+    'happy_bot.apps.HappyBotConfig',  # Додаємо бот
+
 ]
 
 MIDDLEWARE = [

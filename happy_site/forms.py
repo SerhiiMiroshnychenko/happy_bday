@@ -45,6 +45,12 @@ class UpdateBDayForm(forms.ModelForm):
         fields = ['title', 'content', 'photo', 'date']
 
 
+class UpdateReminderForm(forms.ModelForm):
+    class Meta:
+        model = Reminder
+        fields = ['text', 'date_time']
+
+
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логін', widget=forms.TextInput(attrs={'class': 'form-input'}))
     email = forms.EmailField(label='Email', required=False, widget=forms.EmailInput(attrs={'class': 'form-input'}))
@@ -59,3 +65,15 @@ class RegisterUserForm(UserCreationForm):
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Логін', widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+
+class ReminderForm(forms.ModelForm):
+    days_before = forms.IntegerField(min_value=0, label='За скільки днів попереджати')
+    time_of_day = forms.TimeField(label='Час нагадування')
+
+    class Meta:
+        model = Reminder
+        fields = ('text', 'days_before', 'time_of_day')
+        labels = {
+            'text': 'Текст повідомлення'
+        }

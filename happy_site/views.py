@@ -1,3 +1,5 @@
+from turtle import title
+
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import redirect, render, get_object_or_404
@@ -12,7 +14,8 @@ from datetime import datetime, timedelta
 from django.db.models.functions import ExtractDay, ExtractMonth
 from django.db.models import Q
 from django.views.generic import ListView
-from datetime import date
+from django.views import View
+from datetime import date, timedelta
 from django.db.models.functions import ExtractYear
 from django.db.models import Q
 
@@ -39,10 +42,8 @@ class AddBDay(LoginRequiredMixin, DataMixin, CreateView):
         return super().form_valid(form)
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        print(**kwargs)
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Додавання дня народження")
-        print(dict(list(context.items()) + list(c_def.items())))
         return dict(list(context.items()) + list(c_def.items()))
 
 
@@ -106,29 +107,30 @@ class NextBDay(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            # Отримуємо сьогоднішню дату
+            today = datetime.now()
 
-        # Отримуємо сьогоднішню дату
-        today = datetime.now()
+            # Знаходимо наступний день народження
+            next_birthday = BDays.objects.filter(
+                Q(date__month=today.month, date__day__gte=today.day) | Q(date__month=today.month + 1,
+                                                                         date__day__lte=today.day),
+                user=self.request.user
+            ).annotate(
+                days_until_birthday=ExtractDay('date') - today.day + ExtractDay(
+                    today.replace(year=today.year + 1, month=1, day=1))
+            ).order_by('days_until_birthday').first()
 
-        # Знаходимо наступний день народження
-        next_birthday = BDays.objects.filter(user=self.request.user).filter(
-            Q(date__month=today.month, date__day__gte=today.day) | Q(date__month=today.month+1, date__day__lte=today.day)
-        ).annotate(
-            days_until_birthday=ExtractDay('date') - today.day + ExtractDay(today.replace(year=today.year+1, month=1, day=1))
-        ).order_by('days_until_birthday').first()
+            # Знаходимо сьогоднішній день народження
+            today_birthday = BDays.objects.filter(
+                date__month=today.month,
+                date__day=today.day,
+                user=self.request.user
+            ).first()
 
-        # Знаходимо сьогоднішній день народження
-        today_birthday = BDays.objects.filter(user=self.request.user).filter(
-            date__month=today.month,
-            date__day=today.day
-        ).first()
+            context['today_birthday'] = today_birthday
 
-        context['today_birthday'] = today_birthday
-        print(f'{today_birthday=}')
-
-        context['next_birthday'] = next_birthday
-        print(f'{next_birthday=}')
-        print(next_birthday.date)
+            context['next_birthday'] = next_birthday
 
         return context
 
@@ -162,4 +164,36 @@ class LoginUser(DataMixin, LoginView):
         return reverse_lazy('home')
 
 
+class AddReminder(LoginRequiredMixin, CreateView):
+    model = Reminder
+    form_class = ReminderForm
+    success_url = reverse_lazy('b_days')
+    template_name = 'happy_site/add_reminder.html'
+
+    def form_valid(self, form):
+        bday = BDays.objects.get(pk=self.kwargs['bd_id'])
+        form.instance.bday = bday
+        form.instance.user = self.request.user
+        form.instance.date_time = datetime.combine(
+            form.instance.bday.date,
+            form.cleaned_data['time_of_day']
+        ).replace(year=datetime.now().year) - timedelta(days=form.cleaned_data['days_before'])
+        form.instance.date_time -= timedelta(days=form.cleaned_data['days_before'])
+        return super().form_valid(form)
+
+
+def get_reminders_by_birthday(birthday):
+    return Reminder.objects.filter(bday=birthday)
+
+
+def edit_reminder(request, reminder_id):
+    current_reminder = get_object_or_404(Reminder, pk=reminder_id)
+    if request.method == 'POST':
+        form = UpdateReminderForm(request.POST, instance=current_reminder)
+        if form.is_valid():
+            form.save()
+            return redirect('b_days')
+    else:
+        form = UpdateReminderForm(instance=current_reminder)
+    return render(request, 'happy_site/edit_reminder.html', {'form': form})
 

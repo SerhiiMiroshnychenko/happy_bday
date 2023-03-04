@@ -80,8 +80,8 @@ class BDayList(LoginRequiredMixin, DataMixin, ListView):
         context = {**context, **c_def}
 
         # get months with birthdays
-        months = self.model.objects.dates('date', 'month').filter(user=self.request.user).order_by('date__month')
-
+        months = self.model.objects.filter(user=self.request.user).order_by('date__month').values('date__month').distinct()
+        print(months)
         context['months'] = months
 
         # months = self.model.objects.filter(user=self.request.user).dates('date', 'month').distinct()

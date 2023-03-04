@@ -13,8 +13,8 @@
     <select name="month" onchange="this.form.submit()">
         <option value="" {% if not request.GET.month %}selected{% endif %}>Всі місяці</option>
         {% for month in months %}
-            <option value="{{ month.month }}" {% if request.GET.month == month.month|stringformat:"i" and  month.month|stringformat:"i" %}selected{% endif %}>
-                {{ month|date:"F" }}
+            <option value="{{ month.date__month }}" {% if request.GET.month == month.date__month|stringformat:"i" and  month.date__month|stringformat:"i" %}selected{% endif %}>
+                {{ month.date__month }}
             </option>
         {% endfor %}
     </select>

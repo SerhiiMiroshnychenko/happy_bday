@@ -52,7 +52,7 @@
 	{{next_birthday.content|linebreaks|truncatewords:50}}
 	{% endautoescape %}
             <p>Виповнюється: <b>{{next_birthday.get_age}}</b> років</p>
-            <h4>Нагадування:</h4>
+
             <div class="btn-group">
                 {% reminders_for_birthday next_birthday %}
             </div>

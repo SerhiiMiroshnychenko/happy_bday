@@ -10,7 +10,7 @@ register = template.Library()
 def reminders_for_birthday(birthday):
     if not (reminders := get_reminders_by_birthday(birthday)):
         return ''
-    html = ''
+    html = '<p><i>Н</i>агадування:</p>'
     for reminder in reminders:
         url = reverse('edit_reminder', args=[reminder.id])
 

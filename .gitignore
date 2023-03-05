@@ -7,3 +7,5 @@ db.sqlite3
 
 /happy_bday/happy_site/migrations/
 /venv/
+/happy_bot/message_arg.json
+/media/

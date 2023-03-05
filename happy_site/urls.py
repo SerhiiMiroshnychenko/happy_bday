@@ -13,6 +13,7 @@ urlpatterns = [
     path('bdays/<int:bd_id>/delete', delete_bd, name='delete'),
     path('bdays/<int:bd_id>/add_reminder', AddReminder.as_view(), name='add_reminder'),
     path('edit_reminder/<int:reminder_id>', edit_reminder, name='edit_reminder'),
+    path('edit_reminder/<int:reminder_id>/delete', del_reminder, name='del_reminder'),
 
 ]
 

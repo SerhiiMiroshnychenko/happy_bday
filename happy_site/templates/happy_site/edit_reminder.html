@@ -8,7 +8,10 @@
         {{ form.as_p }}
         <button type="submit">Зберегти</button>
     </form>
-    <br>
-    <h1>{{ current_reminder }}</h1>
+
+<div class="button-bd" style="display: inline-block; margin-right: 30px;">
+    <a  href="/edit_reminder/{{ reminder_id }}/delete"
+        onclick="return confirm('Ви впевнені, що хочете видалити це нагадування?')">Видалити</a>
+</div>
 
 {% endblock %}

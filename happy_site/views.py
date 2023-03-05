@@ -197,3 +197,8 @@ def edit_reminder(request, reminder_id):
         form = UpdateReminderForm(instance=current_reminder)
     return render(request, 'happy_site/edit_reminder.html', {'form': form})
 
+
+def del_reminder(request, reminder_id):
+    current_reminder = Reminder.objects.filter(id=reminder_id)
+    current_reminder.delete()
+    return redirect('b_days')

@@ -1,11 +1,15 @@
+import pytz
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import BDays, Reminder
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from happy_bday.settings import TIME_ZONE
+from datetime import datetime
 
 
 class AddBDayForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(format='%d.%m.%Y'))
 
     class Meta:
         model = BDays  # Зв'язуємо ModelForm з моделлю BDays
@@ -27,7 +31,7 @@ class AddBDayForm(forms.ModelForm):
             'title': 'Введіть назву події ( наприклад ПІБ іменинника)',
             'content': "Опис події (Необов'язкове поле)",
             'photo': "Фото іменинника (Необов'язкове поле).",
-            'date': 'Введіть дату народження у форматі "рік-місяць-день" (yyyy-mm-dd).',
+            'date': 'Введіть дату народження у форматі "день.місяць.рік" (dd.mm.yyyy).',
         }
 
     def clean_title(self):
@@ -69,7 +73,7 @@ class LoginUserForm(AuthenticationForm):
 
 class ReminderForm(forms.ModelForm):
     days_before = forms.IntegerField(min_value=0, label='За скільки днів попереджати')
-    time_of_day = forms.TimeField(label='Час нагадування')
+    time_of_day = forms.TimeField(label='Час нагадування', input_formats=['%H:%M'])
 
     class Meta:
         model = Reminder
@@ -77,3 +81,4 @@ class ReminderForm(forms.ModelForm):
         labels = {
             'text': 'Текст повідомлення'
         }
+

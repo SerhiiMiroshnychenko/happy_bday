@@ -9,3 +9,4 @@ db.sqlite3
 /venv/
 /happy_bot/message_arg.json
 /media/
+/message_arg.json

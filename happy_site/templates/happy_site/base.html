@@ -18,7 +18,9 @@
             {% if user.is_authenticated %}
                 <li><a href="/bdays/">Дні народження</a></li>
                 <li><a href="/add_bday/">Додати день народження{{m.title}}</a></li>
-               <li><a href="https://web.telegram.org/k/#@hhappy_bday_bbot" target="_blank">Happy Bot</a></li>
+               <li>Happy Bot<a href="https://web.telegram.org/k/#@hhappy_bday_bbot" target="_blank">
+                   <img id="happy-bot" style="width: 30px; height: 30px"
+                        alt="Happy Bot" src="{% static 'happy_site/images/happy_bot.png' %}" /></a></li>
             {% endif %}
                     {% if user.is_authenticated %}
                             {% if user.username == 'admin' %}

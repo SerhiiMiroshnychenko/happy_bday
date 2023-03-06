@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 import environ
 from pathlib import Path
-# from dotenv import load_dotenv
 
 
 # Initialise environment variables

@@ -2,6 +2,9 @@ from datetime import date
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
+from happy_bday.settings import TIME_ZONE
+import pytz
+from django.utils import timezone
 
 
 # Create your models here.
@@ -11,11 +14,7 @@ class BDays(models.Model):
     photo = models.ImageField(null=True, blank=True, upload_to='photos/',
                               verbose_name='Фото')  # upload_to -> показує в який каталог і які підкаталоги
     # ми будемо завантажувати наші фото
-    # year = models.IntegerField(null=True, blank=True, verbose_name='Рік')
-    # month = models.IntegerField(verbose_name='Місяць')
-    # day = models.IntegerField(verbose_name='День')
     date = models.DateField(verbose_name='Дата народження')
-    #telegram_chat_id = models.CharField(max_length=100, null=True, blank=True, verbose_name='ID чату в Telegram')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Користувач')
 
     @property
@@ -47,17 +46,19 @@ class BDays(models.Model):
 
 
 class Reminder(models.Model):
-    text = models.TextField(default='', verbose_name='Текст повідомлення')
-    date_time = models.DateTimeField(default=datetime.now(), verbose_name='Дата та час нагадування')
+    text = models.TextField(blank=True, null=True, verbose_name='Текст повідомлення')
+    date_time = models.DateTimeField(verbose_name='Дата та час нагадування')
     bday = models.ForeignKey(BDays, on_delete=models.CASCADE, verbose_name='День народження')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Користувач')
 
     def save(self, *args, **kwargs):
         if not self.text:
-            self.text = f'Нагадую про день народження {self.bday.title}: {self.date_time.strftime("%d.%m")}'
+            self.text = f'Нагадую про день народження {self.bday.title}:'
         super(Reminder, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f'Reminder for {self.bday.title} on {self.date_time.strftime("%d.%m.%Y %H:%M")}'
+        local_date_time = timezone.localtime(self.date_time)
+        return f'Reminder for {self.bday.title} on {local_date_time.strftime("%d.%m.%Y %H:%M %Z")}'
 
     class Meta:
         verbose_name = 'Нагадування'

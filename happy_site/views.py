@@ -1,5 +1,3 @@
-from turtle import title
-
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import redirect, render, get_object_or_404
@@ -18,6 +16,10 @@ from django.views import View
 from datetime import date, timedelta
 from django.db.models.functions import ExtractYear
 from django.db.models import Q
+from happy_bday.settings import TIME_ZONE
+
+
+
 
 from .utils import *
 from .forms import *
@@ -174,16 +176,20 @@ class AddReminder(LoginRequiredMixin, CreateView):
         bday = BDays.objects.get(pk=self.kwargs['bd_id'])
         form.instance.bday = bday
         form.instance.user = self.request.user
+
         form.instance.date_time = datetime.combine(
             form.instance.bday.date,
             form.cleaned_data['time_of_day']
         ).replace(year=datetime.now().year) - timedelta(days=form.cleaned_data['days_before'])
+
         form.instance.date_time -= timedelta(days=form.cleaned_data['days_before'])
+
         return super().form_valid(form)
 
 
 def get_reminders_by_birthday(birthday):
     return Reminder.objects.filter(bday=birthday)
+
 
 
 def edit_reminder(request, reminder_id):

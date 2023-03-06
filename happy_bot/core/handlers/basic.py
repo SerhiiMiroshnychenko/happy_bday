@@ -9,6 +9,10 @@ from ..utils.commands import set_commands
 
 from happy_bot.models import Profile, User
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from happy_bot.core.handlers.schedul_task import send_message_glory
+from datetime import datetime, timedelta
+
 
 async def start_bot(bot: Bot):
     await set_commands(bot)
@@ -68,13 +72,25 @@ async def get_photo(message: Message, bot: Bot):
     # та (за необхідності) шляху куди файл зберігати
 
 
-async def get_glory(message: Message, bot: Bot):
+async def get_glory(message: Message, bot: Bot, apscheduler: AsyncIOScheduler):
     """
     Реакція на повідомлення з текстом "Слава Україні"
     """
     print(f'MESSAGE від {message.from_user.full_name}:'
           f' "{message.text}".')
     await message.answer('Героям Слава!')
+    apscheduler.add_job(send_message_glory, trigger='date',
+                        run_date=datetime.now() + timedelta(seconds=8),
+                        kwargs={'bot': bot, 'chat_id': message.from_user.id})
+
+
+async def get_glory_answer(message: Message, bot: Bot):
+    """
+    Реакція на повідомлення з текстом "Смерть ворогам"
+    """
+    print(f'MESSAGE від {message.from_user.full_name}:'
+          f' "{message.text}".')
+    await message.answer('<b>ПЕРЕМОЗІ БУТИ</b>!')
 
 
 async def get_message(message: Message, bot: Bot):

@@ -92,6 +92,11 @@ ul.list-articles li {
 	height: 60px;
 }
 
+#happy-bot {
+  width: 50px;
+  height: 50px;
+}
+
 ul.mainmenu {
 	list-style: none;
 	margin: 0;

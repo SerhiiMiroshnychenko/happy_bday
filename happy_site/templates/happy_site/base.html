@@ -5,7 +5,7 @@
 	<title>{{title}}</title>
 	<link type="text/css" href="{% static 'happy_site/css/styles.css' %}" rel="stylesheet" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" href="{% static 'happy_site/images/logo.png' %}" type="image/x-icon"/>
+	<link rel="shortcut icon" href="{% static 'happy_site/images/happy_logo.png' %}" type="image/x-icon"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -47,28 +47,103 @@
 	<td valign="top" class="left-chapters">
 
         {% if user.is_authenticated %}
-        <h4><a class="contacts" href="/bdays/?month=">Весь рік</a></h4>
-	<table>
+        <h4 style="padding-left: 100px;"><a class="contacts" href="/bdays/?month=">ВЕСЬ РІК</a></h4>
+	<table class="calendar" border="5px" style="
+	border-color: lightgray;
+	margin: 5px;
+    ">
   <tr>
-    <td><a class="contacts" href="/bdays/?month=12">Грудень</a></td>
-    <td><a class="contacts" href="/bdays/?month=1">Січень</a></td>
-    <td><a class="contacts" href="/bdays/?month=2">Лютий</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=12">Грудень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=1">Січень</a></td>
+    <td align="center" style="
+   padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=2">Лютий</a></td>
   </tr>
   <tr>
-    <td><a class="contacts" href="/bdays/?month=3">Березень</a></td>
-    <td><a class="contacts" href="/bdays/?month=4">Квітень</a></td>
-    <td><a class="contacts" href="/bdays/?month=5">Травень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=3">Березень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=4">Квітень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=5">Травень</a></td>
 
   </tr>
   <tr>
-    <td><a class="contacts" href="/bdays/?month=6">Червень</a></td>
-    <td><a class="contacts" href="/bdays/?month=7">Липень</a></td>
-    <td><a class="contacts" href="/bdays/?month=8">Серпень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=6">Червень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=7">Липень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=8">Серпень</a></td>
   </tr>
   <tr>
-    <td><a class="contacts" href="/bdays/?month=9">Вересень</a></td>
-    <td><a class="contacts" href="/bdays/?month=10">Жовтень</a></td>
-    <td><a class="contacts" href="/bdays/?month=11">Листопад</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=9">Вересень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=10">Жовтень</a></td>
+    <td align="center" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;"><a class="contacts" href="/bdays/?month=11">Листопад</a></td>
   </tr>
 </table>
 {% else %}

@@ -33,21 +33,26 @@ async def write_file(content):
 
 
 @sync_to_async
-def check_user(telegram_id):
+def check_user(telegram_id) -> tuple:
     print(f'{telegram_id=}')
     user_name = None
+    user_id = None
     try:
         user = Profile.objects.filter(telegram_chat_id=telegram_id)
         user_name = user.first().user.username
+        user_id = user.first().user.id
+        print(f'{user_id=}')
         print(f'{user_name=}')
     except BaseException as e:
         print(e.__class__, e)
-    return user_name
+    results = user_id, user_name
+    print(f'{results=}')
+    return results
 
 
 async def get_start(message: Message, bot: Bot):
     """Обробка натискання користувача на кнопку старт"""
-    user_name = await check_user(message.from_user.id)
+    user_id, user_name = await check_user(message.from_user.id)
     current_user = f'{user_name} ({message.from_user.full_name})' if user_name else f'{message.from_user.full_name}'
     print(f'MESSAGE to {current_user}:'
           f' "Вітаю, {current_user}! Я бот сайту HAPPY B-DAYS!."')

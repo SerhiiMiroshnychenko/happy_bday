@@ -1,10 +1,10 @@
 html, body {
-	font-family: 'Arial', sans-serif;
+	font-family: Arial, sans-serif;
 	margin: 0;
 	padding: 0;
 	height: 100%;
 	width: 100%;
-	color: #444;
+	color: steelblue;
 }
 
 a {
@@ -49,7 +49,7 @@ div.article-panel {
     padding: 5px 10px 5px 10px;
     box-sizing: border-box;
     overflow: hidden;
-    color: #555;
+    color: #2b5483;
 }
 div.article-panel p.first {
     margin: 0;
@@ -79,17 +79,17 @@ ul.list-articles li {
 .clear {clear: both;}
 
 .header {
-	background: #3F4137;
-	height: 60px;
+	background: steelblue;
+	height: 70px;
 }
 
 .logo {
-	background-image: url("../images/logo.png");
+	background-image: url("../images/happy_logo.png");
 	background-repeat: no-repeat;
     background-size: contain;
     background-position: 10px 5px;
-	width: 70px;
-	height: 60px;
+	width: 50px;
+	height: 80px;
 }
 
 #happy-bot {
@@ -102,7 +102,7 @@ ul.mainmenu {
 	margin: 0;
 	padding: 0;
 	height: 60px;
-	color: #fdc073;
+	color: lightsteelblue;
 	font-size: 20px;
 	overflow: hidden;
 }
@@ -114,11 +114,11 @@ ul.mainmenu li.logo {margin: 0;}
 ul.mainmenu li.last {float: right;}
 
 ul.mainmenu li a {
-	color: #fdc073;
+	color: #c7ddfa;
 	text-decoration: none;
 }
 ul.mainmenu li a:hover {
-	color: #FDA83D;
+	color: white;
 }
 
 .panelitems {
@@ -144,7 +144,7 @@ ul.langitem li.image {
 	overflow: hidden;
 }
 ul.langitem li.descr {
-	color: #777;
+	color: steelblue;
 	height: 170px;
 	overflow: hidden;
 }
@@ -157,7 +157,7 @@ ul.langitem li a:hover {
 	color: #FDA83D;
 }
 div.button {
-	background: #3F4137;
+	background: steelblue;
 	max-width: 200px;
 	margin: 0 auto;
 	padding: 5px 20px 5px 20px;
@@ -173,8 +173,8 @@ div.button {
 
 .left-chapters {
 	margin: 0;
-	background: #eee;
-	border-right: 1px solid #ccc;
+	background: #eaf1fc;
+	border-right: 1px solid #e2edfd;
 	min-height: 100%;
 }
 .left-chapters ul {
@@ -191,7 +191,7 @@ div.button {
 }
 .left-chapters ul li.selected {color: #0059b2; }
 .left-chapters ul li a {
-	color: #444;
+	color: steelblue;
 	text-decoration: none;
 }
 .left-chapters ul li a:hover { color: #CC0000; }
@@ -282,7 +282,7 @@ ul.lang-list {
 	list-style: none;
 	margin: 0;
 	padding: 14px 0 0 0;
-	background: #3F4137;
+	background: steelblue;
 	width: 100%;
 	height: 50px;
 	border-top: 1px solid #959A82;
@@ -365,7 +365,7 @@ ul.lang-list li a:hover {color: #fdc073;}
 #footer {
 	box-sizing: border-box;
 
-	background: #3F4137;
+	background: steelblue;
 	padding: 5px;
 	color: #aaa;
 	font-size: 14px;
@@ -437,7 +437,7 @@ ul.lang-list li a:hover {color: #fdc073;}
 .button-bd {
     display: inline-block;
     padding: 0.5em 1em;
-    background-color: #D6ECE4;
+    background-color: lightsteelblue;
 	color: black;
     text-decoration: none;
     border-radius: 5px;
@@ -445,7 +445,18 @@ ul.lang-list li a:hover {color: #fdc073;}
 }
 
 .button-bd:hover {
-    background-color: #94CE89;
+    background-color: steelblue;
+	color: white;
+}
+
+
+.button-bd a {
+	color: #2b5483;
+	text-decoration: none;
+}
+
+.button-bd:hover a {
+	color: white;
 }
 
 /* Стилі для контейнера форми */
@@ -509,4 +520,8 @@ ul.lang-list li a:hover {color: #fdc073;}
 
 .btn-secondary {
 	margin: 10px;
+}
+
+.calendar {
+	border: 1px solid gray;
 }

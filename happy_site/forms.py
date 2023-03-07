@@ -9,7 +9,6 @@ from datetime import datetime
 
 
 class AddBDayForm(forms.ModelForm):
-    date = forms.DateField(widget=forms.DateInput(format='%d.%m.%Y'))
 
     class Meta:
         model = BDays  # Зв'язуємо ModelForm з моделлю BDays
@@ -19,6 +18,7 @@ class AddBDayForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-input'}),
             'content': forms.Textarea(attrs={'cols': 39, 'rows': 6}),
+            'date': forms.DateInput(format='%d.%m.%Y')
 
         }
         labels = {

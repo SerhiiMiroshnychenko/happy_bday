@@ -18,9 +18,6 @@ from django.db.models.functions import ExtractYear
 from django.db.models import Q
 from happy_bday.settings import TIME_ZONE
 
-
-
-
 from .utils import *
 from .forms import *
 from .models import BDays
@@ -74,20 +71,24 @@ class BDayList(LoginRequiredMixin, DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)  # Передаємо вже сформований контекст
-        # context['menu'] = menu
-        # context['title'] = 'Happy B-days!'
-        # return context
         c_def = self.get_user_context(title="Happy B-days!")
 
         context = {**context, **c_def}
 
         # get months with birthdays
-        months = self.model.objects.filter(user=self.request.user).order_by('date__month').values('date__month').distinct()
+        months = self.model.objects.filter(user=self.request.user).\
+            order_by('date__month').values('date__month').distinct()
         print(months)
-        context['months'] = months
 
-        # months = self.model.objects.filter(user=self.request.user).dates('date', 'month').distinct()
-        # context['months'] = months.values_list('month', flat=True)
+        ###
+        # for month in months:
+        #     month['num_bdays'] = self.model.objects.filter(
+        #         user=self.request.user,
+        #         date__month=month['date__month']
+        #     ).aggregate(num_bdays=Count('id'))['num_bdays']
+        ###
+
+        context['months'] = months
 
         return context
 
@@ -133,6 +134,8 @@ class NextBDay(TemplateView):
             context['today_birthday'] = today_birthday
 
             context['next_birthday'] = next_birthday
+
+            context['title'] = 'Birthday'
 
         return context
 
@@ -181,8 +184,7 @@ class AddReminder(LoginRequiredMixin, CreateView):
             form.instance.bday.date,
             form.cleaned_data['time_of_day']
         ).replace(year=datetime.now().year) - timedelta(days=form.cleaned_data['days_before'])
-
-        form.instance.date_time -= timedelta(days=form.cleaned_data['days_before'])
+        print(timedelta(days=form.cleaned_data['days_before']))
 
         return super().form_valid(form)
 

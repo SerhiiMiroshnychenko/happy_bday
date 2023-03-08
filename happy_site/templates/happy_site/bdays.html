@@ -8,7 +8,8 @@
 
 
 {% block content %}
-    <h3>Дні народження:</h3>
+
+    <h3 class="BD">ДНІ НАРОДЖЕННЯ</h3>
 <form class="months" method="get" action="">
     <select name="month" onchange="this.form.submit()">
         <option value="" {% if not request.GET.month %}selected{% endif %}>Всі місяці</option>
@@ -27,7 +28,7 @@
 {% if day.photo %}
 	<p><img class="img-article-left thumb" src="{{day.photo.url}}"></p>
 {% endif %}
-				<h2>{{day.title}}</h2>
+				<h2 class="BD-link"><a href="/bday/{{ day.id }}/">{{day.title}}</a></h2>
 	{% autoescape on %}
 	{{day.content|linebreaks|truncatewords:50}}
 	{% endautoescape %}

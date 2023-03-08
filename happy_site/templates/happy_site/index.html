@@ -11,14 +11,14 @@
      <ul class="list-articles">
 
 {% if today_birthday %}
-    <h3>День народження сьогодні:</h3>
+    <h3 class="BD">ДЕНЬ НАРОДЖЕННЯ СЬОГОДНІ</h3>
 			<li><div class="article-panel">
     <p class="first">{{today_birthday.date}}</p>
 </div>
 {% if today_birthday.photo %}
 	<p><img class="img-article-left thumb" src="{{today_birthday.photo.url}}"></p>
 {% endif %}
-				<h2>{{today_birthday.title}}</h2>
+				<h2 class="BD-link"><a href="/bday/{{ today_birthday.id }}/">{{today_birthday.title}}</a></h2>
 	{% autoescape on %}
 	{{today_birthday.content|linebreaks|truncatewords:50}}
 	{% endautoescape %}
@@ -39,7 +39,8 @@
         <div class="clear" style="padding-bottom: 10px"></div>
         </li>
      {% endif %}
-<h3>Наступний день народження:</h3>
+    <h3 class="BD">НАСТУПНИЙ ДЕНЬ НАРОДЖЕННЯ</h3>
+
 	<li><div class="article-panel">
     <p class="first">{{next_birthday.date}}</p>
 </div>
@@ -47,7 +48,7 @@
 {% if next_birthday.photo %}
 	<p><img class="img-article-left thumb" src="{{next_birthday.photo.url}}"></p>
 {% endif %}
-				<h2>{{next_birthday.title}}</h2>
+				<h2 class="BD-link"><a href="/bday/{{ next_birthday.id }}/">{{next_birthday.title}}</a></h2>
 	{% autoescape on %}
 	{{next_birthday.content|linebreaks|truncatewords:50}}
 	{% endautoescape %}

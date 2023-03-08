@@ -566,3 +566,15 @@ ul.lang-list li a:hover {color: #fdc073;}
     font-size: 14px;
 	color: #24456b;
 }
+
+.BD {
+	color: steelblue;
+}
+
+.BD-link a {
+	text-decoration: none;
+}
+
+.BD-link a:hover {
+	color: midnightblue;
+}

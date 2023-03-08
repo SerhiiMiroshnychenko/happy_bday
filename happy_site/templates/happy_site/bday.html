@@ -2,7 +2,7 @@
 {% load happy_tags %}
 
 {% block content %}
-<h1>{{bday.title}}</h1>
+<h3 class="BD">ДЕНЬ НАРОДЖЕННЯ</h3>
     <ul class="list-articles">
 
             <li><div class="article-panel">
@@ -15,7 +15,7 @@
                 {% autoescape on %}
                     {{bday.content|linebreaks|truncatewords:50}}
                 {% endautoescape %}
-                <p>Виповнюється: <b>{{bday.age}}</b> років</p>
+                <p>Виповнюється: <b>{{bday.get_age}}</b> років</p>
 
                 <div class="btn-group">
                     {% reminders_for_birthday bday %}

@@ -1,6 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import redirect, render, get_object_or_404
+from django.utils.decorators import method_decorator
+
 from .forms import AddBDayForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
@@ -54,7 +57,7 @@ def edit_bd(request, bd_id):
         form = UpdateBDayForm(request.POST, instance=current_bd)
         if form.is_valid():
             form.save()
-            return redirect('b_days')
+            return redirect('bday', bday_pk=current_bd.pk)
     else:
         form = UpdateBDayForm(instance=current_bd)
     return render(request, 'happy_site/edit_bday.html', {'form': form})
@@ -145,24 +148,19 @@ class NextBDay(TemplateView):
         return context
 
 
-class ShowBDay(DataMixin, DetailView):
+@method_decorator(login_required, name='dispatch')
+class ShowBDay(DetailView):
     model = BDays
-    template_name = 'happy_site/bday.html'  # Шаблон за яким буде подаватися
-    pk_url_kwarg = 'bday_pk'
-    context_object_name = 'bday'  # Ім'я під яким викликається в шаблоні post.html
+    template_name = 'happy_site/bday.html'
+    context_object_name = 'bday'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.request.user.is_authenticated:
-            bday = BDays.objects.filter(user=self.request.user)
-            print(bday)
-
-
-
-        # context['title'] = bday.title
-
-        return context
+    def get_object(self, queryset=None):
+        """
+        Returns the object the view is displaying.
+        """
+        return get_object_or_404(
+            BDays, pk=self.kwargs['bday_pk'], user=self.request.user
+        )
 
 
 def sing_out(request):
@@ -197,7 +195,6 @@ class LoginUser(DataMixin, LoginView):
 class AddReminder(LoginRequiredMixin, CreateView):
     model = Reminder
     form_class = ReminderForm
-    success_url = reverse_lazy('b_days')
     template_name = 'happy_site/add_reminder.html'
 
     def form_valid(self, form):
@@ -213,6 +210,10 @@ class AddReminder(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('bday', kwargs={'bday_pk': self.kwargs['bd_id']})
+
+
 
 def get_reminders_by_birthday(birthday):
     return Reminder.objects.filter(bday=birthday)
@@ -224,7 +225,7 @@ def edit_reminder(request, reminder_id):
         form = UpdateReminderForm(request.POST, instance=current_reminder)
         if form.is_valid():
             form.save()
-            return redirect('b_days')
+            return redirect('bday', bday_pk=current_reminder.bday.id)
     else:
         form = UpdateReminderForm(instance=current_reminder)
     return render(request, 'happy_site/edit_reminder.html', {'form': form})
@@ -232,5 +233,6 @@ def edit_reminder(request, reminder_id):
 
 def del_reminder(request, reminder_id):
     current_reminder = Reminder.objects.filter(id=reminder_id)
+    bday_id = current_reminder.first().bday.id
     current_reminder.delete()
-    return redirect('b_days')
+    return redirect('bday', bday_pk=bday_id)

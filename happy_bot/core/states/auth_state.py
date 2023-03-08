@@ -1,4 +1,3 @@
-from aiogram.types import Message
 from aiogram.fsm.state import State, StatesGroup
 
 

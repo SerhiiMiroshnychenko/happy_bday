@@ -13,15 +13,12 @@ scheduler.add_job(schedul_task.send_message_time,
                   trigger='date', run_date=datetime.now() + timedelta(seconds=10),
                   kwargs={'bot': bot})
 
-# scheduler.add_job(schedul_task.send_message_cron,
-#                   trigger='cron', hour=datetime.now().hour,
-#                   minute=datetime.now().minute + 1, start_date=datetime.now(),
-#                   kwargs={'bot': bot})
 scheduler.add_job(schedul_task.send_message_interval,
                   trigger='interval', minutes=10, kwargs={'bot': bot})
 
 scheduler.add_job(schedul_task.send_message_date,
                   trigger='date', run_date=schedul_task.job_date,
                   kwargs={'bot': bot})
+
 """Кінець блока планувальника"""
 

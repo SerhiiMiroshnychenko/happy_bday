@@ -1,4 +1,3 @@
-from aiogram import Bot
 from aiogram.types import Message
 
 from happy_bot.core.handlers.basic import check_user

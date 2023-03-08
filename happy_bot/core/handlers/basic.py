@@ -5,13 +5,16 @@ from aiogram.types import Message
 from asgiref.sync import sync_to_async
 
 from happy_bday.settings import ADMIN_ID
-from ..utils.commands import set_commands
+from happy_bot.core.utils.commands import set_commands
 
-from happy_bot.models import Profile, User
+from happy_bot.models import Profile
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from happy_bot.core.handlers.schedul_task import send_message_glory
 from datetime import datetime, timedelta
+from happy_bot.core.bot_scheduler.add_reminders import make_reminders_for_id
+
+from happy_bot.core.handlers.check_user import check_user
 
 
 async def start_bot(bot: Bot):
@@ -19,6 +22,26 @@ async def start_bot(bot: Bot):
     text = 'Бот запушено.'
     print(text)
     await bot.send_message(ADMIN_ID, text=text)
+    users = await get_users()
+    if users:
+        for user in users:
+            await make_reminders_for_id(bot=bot, chat_id=user.telegram_chat_id)
+
+
+@sync_to_async
+def get_users():
+
+    users = None
+    try:
+        users = Profile.objects.all()
+        for user in users:
+            print(f'{user=}')
+            print('Chat id:', user.telegram_chat_id)
+    except BaseException as e:
+        print(e.__class__, e)
+
+    return users
+
 
 
 async def stop_bot(bot: Bot):
@@ -30,24 +53,6 @@ async def stop_bot(bot: Bot):
 async def write_file(content):
     with open('message_arg.json', 'w') as f:
         json.dump(content, f, indent=4, default=str)
-
-
-@sync_to_async
-def check_user(telegram_id) -> tuple:
-    print(f'{telegram_id=}')
-    user_name = None
-    user_id = None
-    try:
-        user = Profile.objects.filter(telegram_chat_id=telegram_id)
-        user_name = user.first().user.username
-        user_id = user.first().user.id
-        print(f'{user_id=}')
-        print(f'{user_name=}')
-    except BaseException as e:
-        print(e.__class__, e)
-    results = user_id, user_name
-    print(f'{results=}')
-    return results
 
 
 async def get_photo(message: Message, bot: Bot):

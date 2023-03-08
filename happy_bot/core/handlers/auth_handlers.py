@@ -1,8 +1,6 @@
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
-from aiogram.filters import Command
 from django.contrib.auth import authenticate
-from django.core.exceptions import SynchronousOnlyOperation
 
 from ..states.auth_state import AuthState
 from happy_bot.models import Profile, User

@@ -1,0 +1,38 @@
+{% extends 'happy_site/base.html' %}
+{% load happy_tags %}
+
+{% block content %}
+<h1>{{bday.title}}</h1>
+    <ul class="list-articles">
+
+            <li><div class="article-panel">
+                <p class="first">{{bday.date}}</p>
+            </div>
+                {% if bday.photo %}
+                    <p><img class="img-article-left thumb" src="{{bday.photo.url}}"></p>
+                {% endif %}
+                <h2>{{bday.title}}</h2>
+                {% autoescape on %}
+                    {{bday.content|linebreaks|truncatewords:50}}
+                {% endautoescape %}
+                <p>Виповнюється: <b>{{bday.age}}</b> років</p>
+
+                <div class="btn-group">
+                    {% reminders_for_birthday bday %}
+                </div>
+                <div class="clear"></div>
+                <div class="button-group-bd" style="display: inline-block; float: right;">
+                    <div class="button-bd" style="display: inline-block; margin-right: 30px;">
+                        <a  href="/bdays/{{ bday.id }}/delete"
+                            onclick="return confirm('Ви впевнені, що хочете видалити цю нотатку?')">Видалити</a></div>
+                    <div class="button-bd" style="display: inline-block; margin-right: 30px;">
+                        <a href="/bdays/{{ bday.id }}/edit">Редагувати</a></div>
+                    <div class="button-bd" style="display: inline-block; margin-right: 10px;">
+                        <a href="/bdays/{{ bday.id }}/add_reminder">Додати нагадування</a></div>
+                </div>
+                <div class="clear" style="padding-bottom: 10px"></div>
+            </li>
+
+    </ul>
+
+{% endblock content %}

@@ -33,6 +33,7 @@ class AddBDay(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddBDayForm
     template_name = 'happy_site/add_bday.html'
     success_url = reverse_lazy('b_days')  # Маршрут, куди ми перейдемо після додавання статті
+
     # Функція reverse_lazy - будує маршрут коли він буде потрібен, а не наперед
     # Це запобігає помилці, коли маршрут намагається побудуватися, коли django
     # Ще його не побудував
@@ -77,13 +78,12 @@ class BDayList(LoginRequiredMixin, DataMixin, ListView):
         context = {**context, **c_def}
 
         # get months with birthdays
-        months = self.model.objects.filter(user=self.request.user).\
+        months = self.model.objects.filter(user=self.request.user). \
             order_by('date__month').values('date__month').distinct()
         # print(months)
         # for month in months:
         #     month['date__month'] = calendar.month_name[month['date__month']]
         #     print(month['date__month'])
-
 
         ###
         # for month in months:
@@ -145,6 +145,26 @@ class NextBDay(TemplateView):
         return context
 
 
+class ShowBDay(DataMixin, DetailView):
+    model = BDays
+    template_name = 'happy_site/bday.html'  # Шаблон за яким буде подаватися
+    pk_url_kwarg = 'bday_pk'
+    context_object_name = 'bday'  # Ім'я під яким викликається в шаблоні post.html
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            bday = BDays.objects.filter(user=self.request.user)
+            print(bday)
+
+
+
+        # context['title'] = bday.title
+
+        return context
+
+
 def sing_out(request):
     logout(request)
     return redirect('home')
@@ -196,7 +216,6 @@ class AddReminder(LoginRequiredMixin, CreateView):
 
 def get_reminders_by_birthday(birthday):
     return Reminder.objects.filter(bday=birthday)
-
 
 
 def edit_reminder(request, reminder_id):

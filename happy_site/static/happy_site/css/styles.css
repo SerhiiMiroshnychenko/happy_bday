@@ -92,9 +92,18 @@ ul.list-articles li {
 	height: 80px;
 }
 
+.logo:hover {
+	opacity: 0.5;
+}
+
 #happy-bot {
   width: 50px;
   height: 50px;
+}
+
+
+#happy-bot:hover {
+	opacity: 0.5;
 }
 
 ul.mainmenu {
@@ -531,3 +540,29 @@ ul.lang-list li a:hover {color: #fdc073;}
 	margin: 10px;
 }
 
+.author-contacts {
+	position: fixed;
+    bottom: 10px;
+    right: 20px;
+}
+
+.author-contacts img {
+    height: 35px;
+    width: 35px;
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+.author-contacts a {
+    text-decoration: none;
+}
+
+.author-contacts img:hover {
+    opacity: 0.5;
+}
+
+.author-contacts {
+    text-align: center;
+    font-size: 14px;
+	color: #24456b;
+}

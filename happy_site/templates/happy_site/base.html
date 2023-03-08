@@ -38,6 +38,13 @@
 
 			</ul>
 			<div class="clear"></div>
+    <div class="animator">
+        <svg  height="20" width="auto">
+            <circle cx="10" cy="10" r="10" fill="lightsteelblue">
+                <animate attributeName="cx" from="0" to="2000" dur="100s" fill="freeze" repeatCount="10"/>
+            </circle>
+        </svg>
+    </div>
 		</div>
 {% endblock mainmenu %}
 
@@ -182,19 +189,29 @@
 <footer>
         <td>
             <div id="footer" class="contacts">
-                <p>&copy; 2023 Happy B-days!</p>
-                <a class="link-contact" href="https://www.linkedin.com/in/serhii-miroshnychenko-mariupol/" target="_blank">
-                        <img alt="Linkedin" src="{% static 'happy_site/images/Linkedin.png' %}" />
-                    </a>
-                <a class="link-contact" href="https://www.sololearn.com/" target="_blank">
-                        <img alt="SoloLearn" src="https://www.sololearn.com/Uploads/icons/sololearn.png" />
-                    </a>
-                <a class="link-contact" href="https://github.com/SerhiiMiroshnychenko" target="_blank">
-                        <img alt="GitHub" src="{% static 'happy_site/images/GitHub.png' %}" />
-                    </a>
-            </div>
+                <div class="animator">
+                    <svg  height="50" width="auto">
+                        <circle cx="10" cy="25" r="20" fill="lightsteelblue">
+                            <animate attributeName="cx" from="0" to="2000" dur="100s" fill="freeze" repeatCount="10"/>
+                        </circle>
+                    </svg>
+                </div>
         </td>
 </footer>
+    <div class="author-contacts">
+    <h3><span>Контакти автора</span></h3>
+                <div>
+                   <a class="link-contact" href="https://www.linkedin.com/in/serhii-miroshnychenko-mariupol/" target="_blank">
+                    <img alt="Linkedin" src="{% static 'happy_site/images/Linkedin.png' %}" />
+                   </a>
+                    <a class="link-contact" href="https://www.sololearn.com/" target="_blank">
+                            <img alt="SoloLearn" src="https://www.sololearn.com/Uploads/icons/sololearn.png" />
+                    </a>
+                    <a class="link-contact" href="https://github.com/SerhiiMiroshnychenko" target="_blank">
+                            <img alt="GitHub" src="{% static 'happy_site/images/GitHub.png' %}" />
+                    </a>
+                </div>
+    </div>
 <!-- Кінець footer'а та сторінки -->
 {% endblock %}
 </body>

@@ -45,7 +45,7 @@ p.link-read-post a {
 
 
 div.article-panel {
-    background: #eee;
+    background: #d8e8fc;
     padding: 5px 10px 5px 10px;
     box-sizing: border-box;
     overflow: hidden;
@@ -118,7 +118,8 @@ ul.mainmenu li a {
 	text-decoration: none;
 }
 ul.mainmenu li a:hover {
-	color: white;
+	color: whitesmoke;
+
 }
 
 .panelitems {
@@ -272,7 +273,7 @@ ul.content-table li a:hover {color: #F0711C;}
 
 .content-text {
 	margin: 60px 0 0 30px;
-	color: #000;
+	color: #24456b;
 	font-size: 20px;
 	font-family: Arial, sans-serif;
 }
@@ -312,7 +313,7 @@ ul.lang-list li a:hover {color: #fdc073;}
 	color: #777;
 	padding: 0 10px 0 10px;
 	margin-left: 30px;
-	background: #fff;
+	background: lightsteelblue;
 	font-family: Sans-serif, Arial, Tahoma, sans-serif;
 }
 
@@ -464,32 +465,39 @@ ul.lang-list li a:hover {color: #fdc073;}
 	display: inline-block;
 	position: relative;
 	font-family: Arial, sans-serif;
-	font-size: 16px;
+	font-size: 20px;
 }
 
 /* Стилі для випадаючого списку */
 .months select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 10px;
-  width: 200px;
-  cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-color: white;
+	border: 2px solid lightsteelblue;
+	border-radius: 5px;
+	padding: 10px;
+	width: 200px;
+	cursor: pointer;
 }
 
-/* Стилі для випадаючих елементів списку */
 .months select option {
-  background-color: white;
-  color: #333;
+    color: steelblue;
 }
 
-/* Стилі для випадаючих елементів списку, що вибрані */
-.months select option:checked {
-  background-color: #007bff;
-  color: white;
+.months select:hover {
+    background-color: lightsteelblue;
+	color: white;
+}
+
+.months select option:hover {
+    background-color: white;
+	color: steelblue;
+}
+
+.months select {
+    z-index: 999;
+    position: relative;
 }
 
 .help-text {
@@ -503,9 +511,10 @@ ul.lang-list li a:hover {color: #fdc073;}
 }
 
 .btn-group .btn {
-	background-color: #f0f0f0;
-	color: #333;
-	border-radius: 25px;
+	background-color: #d8e8fc;
+	text-decoration: none;
+	color: steelblue;
+	border-radius: 5px;
 	padding: 8px 16px;
 	margin-right: 10px;
 	margin-top: 10px;
@@ -513,8 +522,8 @@ ul.lang-list li a:hover {color: #fdc073;}
 }
 
 .btn-group .btn:hover {
-	background-color: #ddd;
-	color: #333;
+	background-color: #c2d7f3;
+	color: steelblue;
 	cursor: pointer;
 }
 
@@ -522,6 +531,3 @@ ul.lang-list li a:hover {color: #fdc073;}
 	margin: 10px;
 }
 
-.calendar {
-	border: 1px solid gray;
-}

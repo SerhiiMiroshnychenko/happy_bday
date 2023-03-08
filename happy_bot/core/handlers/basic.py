@@ -50,18 +50,6 @@ def check_user(telegram_id) -> tuple:
     return results
 
 
-async def get_start(message: Message, bot: Bot):
-    """Обробка натискання користувача на кнопку старт"""
-    user_id, user_name = await check_user(message.from_user.id)
-    current_user = f'{user_name} ({message.from_user.full_name})' if user_name else f'{message.from_user.full_name}'
-    print(f'MESSAGE to {current_user}:'
-          f' "Вітаю, {current_user}! Я бот сайту HAPPY B-DAYS!."')
-    await message.answer(f'\U0001F916Вітаю, <b>{current_user}</b>!\n\n'
-                         f'Я бот сайту <b>HAPPY B-DAYS</b>!.')
-    json_message = message.dict()
-    await write_file(json_message)
-
-
 async def get_photo(message: Message, bot: Bot):
     """
     Реакція на надсилання користувачем картинки

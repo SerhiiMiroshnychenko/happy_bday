@@ -69,5 +69,4 @@ job_date = datetime(2023, 3, 7, 10, 0, 0)
 
 
 async def send_message_date(bot: Bot, chat_id: int):
-    await bot.send_message(chat_id, f'Це повідомлення отримано по заданій даті:'
-                                     f'{job_date}.')
+    await bot.send_message(chat_id, f'Це повідомлення отримано по заданій даті: {job_date}.')

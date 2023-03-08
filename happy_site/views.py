@@ -17,6 +17,7 @@ from datetime import date, timedelta
 from django.db.models.functions import ExtractYear
 from django.db.models import Q
 from happy_bday.settings import TIME_ZONE
+import calendar
 
 from .utils import *
 from .forms import *
@@ -78,7 +79,11 @@ class BDayList(LoginRequiredMixin, DataMixin, ListView):
         # get months with birthdays
         months = self.model.objects.filter(user=self.request.user).\
             order_by('date__month').values('date__month').distinct()
-        print(months)
+        # print(months)
+        # for month in months:
+        #     month['date__month'] = calendar.month_name[month['date__month']]
+        #     print(month['date__month'])
+
 
         ###
         # for month in months:

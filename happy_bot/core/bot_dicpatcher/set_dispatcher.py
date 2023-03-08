@@ -5,6 +5,7 @@ from aiogram.filters import CommandStart
 
 from ..handlers.basic import *
 from happy_bot.core.handlers.auth_handlers import *
+from happy_bot.core.handlers.basic_command_handlers import get_start, get_help
 from happy_bot.core.handlers.reminders import set_reminders
 
 # Middleware
@@ -38,6 +39,7 @@ dp.message.register(get_glory_answer, F.text == 'смерть ворогам.')
 dp.message.register(get_glory_answer, F.text == 'смерть ворогам!')
 
 dp.message.register(get_start, CommandStart())
+dp.message.register(get_help, Command('help'))
 
 dp.message.register(set_reminders, F.text == '/rem')
 

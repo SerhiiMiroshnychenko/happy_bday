@@ -16,6 +16,10 @@ async def set_commands(bot: Bot):
             command='auth',
             description='Автентифікація'
         ),
+        BotCommand(
+            command='off',
+            description='Деактивація бота'
+        ),
     ]
 
     await bot.set_my_commands(commands, BotCommandScopeDefault())

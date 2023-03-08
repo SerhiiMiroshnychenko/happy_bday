@@ -12,7 +12,7 @@ from happy_bot.core.handlers.basic import check_user
 
 
 async def process_auth_command(message: Message, state: FSMContext):
-    user_name = await check_user(message.from_user.id)
+    user_id, user_name = await check_user(message.from_user.id)
     if user_name:
         await message.answer(f'<b>{user_name}</b>, ви вже зареєстровані в боті.')
         await state.clear()

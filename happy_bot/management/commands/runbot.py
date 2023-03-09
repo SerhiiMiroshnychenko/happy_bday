@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 
 import asyncio
 import logging
+import platform
 
 from happy_bot.core.bot_dicpatcher.set_dispatcher import dp
 from happy_bot.bd_bot import bot
@@ -27,4 +28,6 @@ class Command(BaseCommand):
     help = 'RUN COMMAND: python manage.py runbot'
 
     def handle(self, *args, **options):
+        # if platform.system() == 'Windows':
+        #     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         asyncio.run(start())

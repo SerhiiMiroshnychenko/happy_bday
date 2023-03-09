@@ -22,6 +22,9 @@ from django.db.models import Q
 from happy_bday.settings import TIME_ZONE
 import calendar
 
+from happy_bot.core.handlers.check_user import rem_id_to_bd_id, is_user_in_bot, check_user
+from happy_bot.bd_bot import bot
+
 from .utils import *
 from .forms import *
 from .models import BDays
@@ -206,13 +209,11 @@ class AddReminder(LoginRequiredMixin, CreateView):
             form.instance.bday.date,
             form.cleaned_data['time_of_day']
         ).replace(year=datetime.now().year) - timedelta(days=form.cleaned_data['days_before'])
-        print(timedelta(days=form.cleaned_data['days_before']))
 
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('bday', kwargs={'bday_pk': self.kwargs['bd_id']})
-
 
 
 def get_reminders_by_birthday(birthday):
@@ -221,10 +222,13 @@ def get_reminders_by_birthday(birthday):
 
 def edit_reminder(request, reminder_id):
     current_reminder = get_object_or_404(Reminder, pk=reminder_id)
+    bday_id = current_reminder.bday.id
+
     if request.method == 'POST':
         form = UpdateReminderForm(request.POST, instance=current_reminder)
         if form.is_valid():
             form.save()
+
             return redirect('bday', bday_pk=current_reminder.bday.id)
     else:
         form = UpdateReminderForm(instance=current_reminder)
@@ -235,4 +239,5 @@ def del_reminder(request, reminder_id):
     current_reminder = Reminder.objects.filter(id=reminder_id)
     bday_id = current_reminder.first().bday.id
     current_reminder.delete()
+
     return redirect('bday', bday_pk=bday_id)

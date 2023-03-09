@@ -61,7 +61,6 @@ async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
 
 # Отримання всіх нагадувань для користувача та повертаємо їх як список:
 async def set_reminders(chat_id: int = None) -> list[Info]:
-
     user_id, user_name = await check_user(chat_id)
     user = await get_user_for_user_id(user_id)
     reminders = await get_reminders(user)
@@ -81,3 +80,16 @@ async def set_reminders(chat_id: int = None) -> list[Info]:
         #     bot, chat_id, info)
 
     return information
+
+
+async def show_reminders(message: Message, bot: Bot):
+    chat_id = message.from_user.id
+    reminders = await set_reminders(chat_id)
+    for reminder in reminders:
+        await send_reminder_date(bot, chat_id, reminder)
+
+
+async def show_reminders_for_id(id_chat: int, bot: Bot):
+    reminders = await set_reminders(id_chat)
+    for reminder in reminders:
+        await send_reminder_date(bot, id_chat, reminder)

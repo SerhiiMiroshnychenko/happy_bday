@@ -1,5 +1,9 @@
 from aiogram.types import Message
 
+from happy_bot.models import Profile
+
+
+from asgiref.sync import sync_to_async
 from happy_bot.core.handlers.basic import check_user
 from happy_bot.core.messages.bese_command_messages import help_message
 
@@ -31,4 +35,27 @@ async def get_start(message: Message):
 
 async def get_help(message: Message):
     await message.answer(help_message)
+
+
+"""OFF"""
+
+
+@sync_to_async
+def profile_delete(id_user):
+    print(f'{id_user=}')
+    try:
+        Profile.objects.get(telegram_chat_id=id_user).delete()
+        print('\n\n ___ПРОФІЛЬ ВИДАЛЕНО___ \n\n')
+    except BaseException as e:
+        print(e.__class__, e)
+
+
+async def disabling_authentication(message: Message):
+    user_id, user_name = await check_user(message.from_user.id)
+    if user_id:
+        await profile_delete(message.from_user.id)
+        await message.answer(f'{message.from_user.full_name}, Ваша реєстрація анульована.'
+                             f' Для відновлення використовуйте команду /auth.')
+    else:
+        await message.answer(f'{message.from_user.full_name},Ви ще не зареєстровані в боті. Дивиться команду /halp.')
 

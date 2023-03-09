@@ -43,7 +43,6 @@ def get_users():
     return users
 
 
-
 async def stop_bot(bot: Bot):
     text = 'Бот зупинено.'
     print(text)

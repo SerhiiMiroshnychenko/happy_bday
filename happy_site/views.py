@@ -125,26 +125,33 @@ class NextBDay(TemplateView):
             # Отримуємо сьогоднішню дату
             today = datetime.now()
 
-            # Знаходимо наступний день народження
-            next_birthday = BDays.objects.filter(
-                Q(date__month=today.month, date__day__gte=today.day) | Q(date__month=today.month + 1,
-                                                                         date__day__lte=today.day),
-                user=self.request.user
-            ).annotate(
-                days_until_birthday=ExtractDay('date') - today.day + ExtractDay(
-                    today.replace(year=today.year + 1, month=1, day=1))
-            ).order_by('days_until_birthday').first()
-
-            # Знаходимо сьогоднішній день народження
-            today_birthday = BDays.objects.filter(
+            # Знаходимо сьогоднішні дні народження
+            today_birthdays = BDays.objects.filter(
                 date__month=today.month,
                 date__day=today.day,
                 user=self.request.user
-            ).first()
+            ).order_by('date', 'title')
 
-            context['today_birthday'] = today_birthday
+            # Знаходимо наступні дні народження
+            birthdays = BDays.objects.filter(user=self.request.user).order_by('date__month', 'date__day', 'title')
 
-            context['next_birthday'] = next_birthday
+            next_bd = None
+            next_day_month = None, None
+            for birthday in birthdays:
+                if next_bd:
+                    next_day_month = birthday.date.day, birthday.date.month
+                    break
+                if birthday == today_birthdays.last():
+                    next_bd = True
+
+            next_birthdays = BDays.objects.filter(
+                date__month=next_day_month[1],
+                date__day=next_day_month[0],
+                user=self.request.user
+            ).order_by('date', 'title')
+
+            context['today_birthdays'] = today_birthdays
+            context['next_birthdays'] = next_birthdays
 
             context['title'] = 'Birthday'
 

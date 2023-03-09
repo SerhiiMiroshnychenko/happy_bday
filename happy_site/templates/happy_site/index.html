@@ -10,8 +10,9 @@
     {% if user.is_authenticated %}
      <ul class="list-articles">
 
-{% if today_birthday %}
+{% if today_birthdays %}
     <h3 class="BD">ДЕНЬ НАРОДЖЕННЯ СЬОГОДНІ</h3>
+    {% for today_birthday in today_birthdays %}
 			<li><div class="article-panel">
     <p class="first">{{today_birthday.date}}</p>
 </div>
@@ -38,8 +39,10 @@
             </div>
         <div class="clear" style="padding-bottom: 10px"></div>
         </li>
+    {% endfor %}
      {% endif %}
     <h3 class="BD">НАСТУПНИЙ ДЕНЬ НАРОДЖЕННЯ</h3>
+     {% for next_birthday in next_birthdays %}
 
 	<li><div class="article-panel">
     <p class="first">{{next_birthday.date}}</p>
@@ -72,5 +75,6 @@
         <div class="clear" style="padding-bottom: 10px"></div>
         </li>
 </ul>
+        {% endfor %}
     {% endif %}
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends 'happy_site/base.html' %}
 {% load happy_tags %}
+{% load humanize %}
 
 {% block header %}
     <h1>Дні народження</h1>
@@ -15,7 +16,7 @@
         <option value="" {% if not request.GET.month %}selected{% endif %}>Всі місяці</option>
         {% for month in months %}
             <option value="{{ month.date__month }}" {% if request.GET.month == month.date__month|stringformat:"i" and  month.date__month|stringformat:"i" %}selected{% endif %}>
-                {{ month.date__month }}
+                {{ month.name__month }}
             </option>
         {% endfor %}
     </select>

@@ -86,18 +86,24 @@ class BDayList(LoginRequiredMixin, DataMixin, ListView):
         # get months with birthdays
         months = self.model.objects.filter(user=self.request.user). \
             order_by('date__month').values('date__month').distinct()
-        # print(months)
-        # for month in months:
-        #     month['date__month'] = calendar.month_name[month['date__month']]
-        #     print(month['date__month'])
+        print(f'{months=}')
 
-        ###
-        # for month in months:
-        #     month['num_bdays'] = self.model.objects.filter(
-        #         user=self.request.user,
-        #         date__month=month['date__month']
-        #     ).aggregate(num_bdays=Count('id'))['num_bdays']
-        ###
+        month_names = {
+            1: 'Січень',
+            2: 'Лютий',
+            3: 'Березень',
+            4: 'Квітень',
+            5: 'Травень',
+            6: 'Червень',
+            7: 'Липень',
+            8: 'Серпень',
+            9: 'Вересень',
+            10: 'Жовтень',
+            11: 'Листопад',
+            12: 'Грудень'
+        }
+        for month in months:
+            month["name__month"] = month_names[month["date__month"]]
 
         context['months'] = months
 
@@ -135,20 +141,25 @@ class NextBDay(TemplateView):
             # Знаходимо наступні дні народження
             birthdays = BDays.objects.filter(user=self.request.user).order_by('date__month', 'date__day', 'title')
 
-            next_bd = None
             next_day_month = None, None
             for birthday in birthdays:
-                if next_bd:
+                bday_month = birthday.date.month
+                bday_day = birthday.date.day
+                if (
+                    bday_month == today.month
+                    and bday_day > today.day
+                    or bday_month != today.month
+                    and bday_month > today.month
+                ):
                     next_day_month = birthday.date.day, birthday.date.month
                     break
-                if birthday == today_birthdays.last():
-                    next_bd = True
 
             next_birthdays = BDays.objects.filter(
                 date__month=next_day_month[1],
                 date__day=next_day_month[0],
                 user=self.request.user
             ).order_by('date', 'title')
+            print(f'{next_birthdays=}')
 
             context['today_birthdays'] = today_birthdays
             context['next_birthdays'] = next_birthdays

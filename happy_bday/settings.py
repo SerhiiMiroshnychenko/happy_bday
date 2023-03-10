@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',  # Для відображення місяців
     # my apps
     'happy_site.apps.HappySiteConfig',  # Додаємо сайт
     'happy_bot.apps.HappyBotConfig',  # Додаємо бот
@@ -121,6 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'uk'
+
+DEFAULT_CHARSET = 'utf-8'
 
 TIME_ZONE = 'Europe/Kyiv'
 

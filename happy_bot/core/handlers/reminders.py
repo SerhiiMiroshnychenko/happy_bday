@@ -49,13 +49,13 @@ def get_reminders(user):
 
 # Надсилання нагадування користувачу
 async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
-    message = f'Нагадування про День народження:\n' \
-              f' Іменинник:  <b>{reminder.title}</b>\n' \
-              f' Коли:  <b>{reminder.birth_date.strftime("%d.%m.%Y")}</b>\n' \
-              f' Виповнюється:  <b>{reminder.age}</b> років\n' \
-              f' Текст:  "{reminder.text}"\n' \
+    message = f'Нагадую про день народження:\n\n' \
+              f'<b>{reminder.title.upper()}</b>\n' \
+              f'<b>{reminder.birth_date.strftime("%d.%m.%Y")}</b>\n' \
+              f'Виповнюється:  <b>{reminder.age}</b> років\n\n' \
               f' Дата нагадування:  ' \
-              f'{reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m о %H:%M")}'
+              f'{reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m о %H:%M")}\n' \
+              f'(<i>{reminder.text}</i>)'
     await bot.send_message(chat_id, message)
 
 

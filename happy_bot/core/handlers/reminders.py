@@ -37,13 +37,13 @@ def get_user_for_user_id(user_id: int):
 @sync_to_async
 def get_reminders(user):
     rems = Reminder.objects.filter(user_id=user)
-    print(f'{rems=}')
+
     reminders = []
     for rem in rems:
         birthday = BDays.objects.get(id=rem.bday_id)
         info = rem.id, birthday.title, birthday.date, birthday.get_age(), rem.text, rem.date_time
         reminders.append(info)
-    print(f'{reminders=}')
+
     return reminders
 
 
@@ -83,7 +83,9 @@ async def set_reminders(chat_id: int = None) -> list[Info]:
 
 
 async def show_reminders(message: Message, bot: Bot):
+    print('\n\n\n_____OK show_reminders______\n\n\n')
     chat_id = message.from_user.id
+    print(f'{chat_id=}')
     reminders = await set_reminders(chat_id)
     for reminder in reminders:
         await send_reminder_date(bot, chat_id, reminder)

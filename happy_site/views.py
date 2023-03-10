@@ -159,7 +159,6 @@ class NextBDay(TemplateView):
                 date__day=next_day_month[0],
                 user=self.request.user
             ).order_by('date', 'title')
-            print(f'{next_birthdays=}')
 
             context['today_birthdays'] = today_birthdays
             context['next_birthdays'] = next_birthdays

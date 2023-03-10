@@ -1,4 +1,5 @@
 from aiogram import Bot
+from aiogram.types import Message
 
 from happy_bday.settings import ADMIN_ID
 from datetime import datetime
@@ -48,3 +49,6 @@ async def send_message_date(bot: Bot):
 async def send_message_glory(bot: Bot, chat_id: int):
     await bot.send_message(chat_id, 'Слава Нації!')
 
+
+async def send_message_chat_gpt(message: Message):
+    await message.answer('\U0001F916 \n\nЯ звісно не ChatGPT, але спробую допомогти)')

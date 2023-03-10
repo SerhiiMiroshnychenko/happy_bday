@@ -53,7 +53,7 @@ class Reminder(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.text:
-            self.text = f'Нагадую про день народження {self.bday.title}:'
+            self.text = 'Заплановане нагадування:'
         super(Reminder, self).save(*args, **kwargs)
 
     def __str__(self):

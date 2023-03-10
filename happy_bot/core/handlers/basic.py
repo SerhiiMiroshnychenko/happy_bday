@@ -5,6 +5,7 @@ from aiogram.types import Message
 from asgiref.sync import sync_to_async
 
 from happy_bday.settings import ADMIN_ID
+from happy_bot.core.keyboards.inline import get_ukr_keyboard
 from happy_bot.core.utils.commands import set_commands
 
 from happy_bot.models import Profile
@@ -50,7 +51,7 @@ async def stop_bot(bot: Bot):
 
 
 async def write_file(content):
-    with open('message_arg.json', 'w') as f:
+    with open('happy_bot/message_arg.json', 'w') as f:
         json.dump(content, f, indent=4, default=str)
 
 
@@ -87,7 +88,7 @@ async def get_glory_answer(message: Message, bot: Bot):
     """
     print(f'MESSAGE від {message.from_user.full_name}:'
           f' "{message.text}".')
-    await message.answer('<b>ПЕРЕМОЗІ БУТИ</b>!')
+    await message.answer('<b>ПЕРЕМОЗІ БУТИ</b>!', reply_markup=get_ukr_keyboard())
 
 
 async def get_message(message: Message, bot: Bot):
@@ -96,6 +97,8 @@ async def get_message(message: Message, bot: Bot):
     """
     print(f'MESSAGE від {message.from_user.full_name}:'
           f' "{message.text}".')
+    json_message = message.dict()
+    await write_file(json_message)
     await message.reply(f'Тобі також: "<i>{message.text}</i>", <b>{message.from_user.full_name}</b>!')
 
 

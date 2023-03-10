@@ -18,15 +18,7 @@ async def rem_unpack(reminders, chat_id, bot):
         job_date = reminder.rem_time
         job_id = str(reminder.id)
 
-        print(f'\n\n {job_id=}{job_date=} \n\n')
-
-        del_job = scheduler.get_job(job_id)
-
-        print(f'\n\n УВАГА! {del_job=} \n\n')
-
-        if del_job:
-            print(f'\n\n Видаляємо завдання {job_id=} \n\n')
-            print(f'\n\n Видаляємо завдання {del_job=} \n\n')
+        if scheduler.get_job(job_id):
 
             scheduler.remove_job(job_id)
 
@@ -34,7 +26,6 @@ async def rem_unpack(reminders, chat_id, bot):
                           trigger='date', run_date=job_date,
                           kwargs={'bot': bot, 'chat_id': chat_id,
                                   'reminder': reminder}, id=job_id)
-        print(f'\n\n Завдання {job_id} оновлено \n\n')
 
 
 async def make_reminders(message: Message, bot: Bot):
@@ -45,7 +36,7 @@ async def make_reminders(message: Message, bot: Bot):
 
     await rem_unpack(reminders, chat_id, bot)
 
-    await message.answer('Нагадування оновлено.')
+    await message.answer('Нагадування оновлені.')
 
 
 async def make_reminders_for_id(bot: Bot, chat_id: int):

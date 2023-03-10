@@ -533,6 +533,11 @@ ul.lang-list li a:hover {color: #fdc073;}
 	text-decoration: none;
 }
 
+.btn-group {
+	text-align: right;
+
+}
+
 .btn-group .btn {
 	background-color: #d8e8fc;
 	text-decoration: none;

@@ -26,7 +26,7 @@ async def get_start(message: Message):
     print(f'{user_name=}')
     print(f'{user_id=}')
 
-    start_message_for_auth = f'\U0001F916Вітаю, <b>{user_name} ({message.from_user.full_name})</b>,' \
+    start_message_for_auth = f'\U0001F916\n\nВітаю, <b>{user_name} ({message.from_user.full_name})</b>,' \
                              f' чим можу допомогти?'
 
     start_message_for_not_auth = f'\U0001F916Вітаю, <b>{message.from_user.full_name}</b>, ' \

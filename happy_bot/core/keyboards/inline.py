@@ -33,17 +33,39 @@ def get_macbook_keyboard():
 
 def get_reminders_keyboard(user_id: int):
     keyboard_builder = InlineKeyboardBuilder()
+
+    keyboard_builder.button(text='За місяцем', callback_data='show_month_ver')
+    keyboard_builder.button(text='За іменинником', callback_data='Оберіть критерій пошуку:')
     keyboard_builder.button(text='Показати всі', callback_data=f'show_reminders_{user_id}')
-    keyboard_builder.button(text='Пошук', callback_data='Оберіть критерій пошуку:')
 
-    keyboard_builder.adjust(2)
+    keyboard_builder.adjust(2, 1)
     return keyboard_builder.as_markup()
 
 
-def get_rem_search_keyboard():
+month_names = {
+            1: 'Січень',
+            2: 'Лютий',
+            3: 'Березень',
+            4: 'Квітень',
+            5: 'Травень',
+            6: 'Червень',
+            7: 'Липень',
+            8: 'Серпень',
+            9: 'Вересень',
+            10: 'Жовтень',
+            11: 'Листопад',
+            12: 'Грудень'
+        }
+
+
+def get_months_keyboard(user_id: int):
+    print('\n\n\n_____OK from get_months_keyboard______\n\n\n')
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text='За місяцем', callback_data='Ось всі нагадування:')
-    keyboard_builder.button(text="За іменинником", callback_data='Оберіть критерій пошуку:')
+    print(month_names.items())
+    for number, month in month_names.items():
+        print(number, month)
+        keyboard_builder.button(text=month, callback_data=f'showmonths_{user_id}_{number}')
 
-    keyboard_builder.adjust(2)
+    keyboard_builder.adjust(2, 3, 3, 3, 1)
     return keyboard_builder.as_markup()
+

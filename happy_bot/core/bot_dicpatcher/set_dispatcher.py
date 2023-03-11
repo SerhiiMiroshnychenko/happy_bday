@@ -2,7 +2,7 @@ from aiogram import Dispatcher
 from aiogram import F
 from aiogram.filters import CommandStart, Command
 
-from happy_bot.core.handlers.basic_keyboard_handlers import get_rem
+from happy_bot.core.handlers.basic_keyboard_handlers import get_rem, show_month_ver
 from happy_bot.core.states.auth_state import AuthState
 
 from happy_bot.core.handlers.basic import\
@@ -19,7 +19,7 @@ from happy_bot.core.bot_scheduler.schedule_block import scheduler
 
 from happy_bot.core.handlers.inline_handlers import get_macbook
 from happy_bot.core.utils.callbackdata import MacInfo
-from happy_bot.core.handlers.callback import select_answer, select_reminders
+from happy_bot.core.handlers.callback import select_answer, select_reminders, select_months
 from happy_bot.core.handlers.callback import select_macbook
 
 dp = Dispatcher()
@@ -37,6 +37,8 @@ dp.callback_query.register(select_macbook, MacInfo.filter(F.model == 'pro'))  # 
 dp.callback_query.register(select_answer, F.data.startswith(' ...'))  # додав фільтр, що не обробляло
 # select_macbook, які відсікаються їхнім фільтром
 dp.callback_query.register(select_reminders, F.data.startswith('show_reminders'))
+dp.callback_query.register(show_month_ver, F.data == 'show_month_ver')
+dp.callback_query.register(select_months, F.data.startswith('showmonths'))
 
 dp.message.register(get_macbook, Command(commands='macbook'))
 

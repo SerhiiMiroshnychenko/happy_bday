@@ -2,6 +2,7 @@ from aiogram import Bot
 from aiogram.types import CallbackQuery
 
 from .reminders import show_reminders, show_reminders_for_id
+from .reminders_inline_handlers import show_rems_for_month
 from ..utils.callbackdata import MacInfo
 from ...bd_bot import bot
 
@@ -38,4 +39,14 @@ async def select_answer(call: CallbackQuery, bot: Bot):
 async def select_reminders(callback_query: CallbackQuery):
     user_id = int(callback_query.data.split('_')[-1])
     print('\n\n\n_____OK from select_reminders______\n\n\n')
+    await callback_query.message.answer('\U0001F916\n\nВСІ НАГАДУВАННЯ:')
     await show_reminders_for_id(user_id, bot)
+
+
+async def select_months(callback_query: CallbackQuery):
+    user_id = int(callback_query.data.split('_')[-2])
+    month_number = int(callback_query.data.split('_')[-1])
+    print('\n\n\n_____OK from select_reminders______\n\n\n')
+    await show_rems_for_month(user_id, month_number, bot)
+
+

@@ -35,7 +35,7 @@ def get_reminders_keyboard(user_id: int):
     keyboard_builder = InlineKeyboardBuilder()
 
     keyboard_builder.button(text='За місяцем', callback_data='show_month_ver')
-    keyboard_builder.button(text='За іменинником', callback_data='Оберіть критерій пошуку:')
+    keyboard_builder.button(text='За іменинником', callback_data='ask_name')
     keyboard_builder.button(text='Показати всі', callback_data=f'show_reminders_{user_id}')
 
     keyboard_builder.adjust(2, 1)

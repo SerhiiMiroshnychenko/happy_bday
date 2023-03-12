@@ -1,9 +1,10 @@
 from aiogram import Bot
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from asgiref.sync import sync_to_async
 
 from datetime import datetime, date
 
+from happy_bot.core.utils.callbackdata import Search
 from happy_bot.models import User
 from happy_site.models import Reminder, BDays
 from happy_bot.core.handlers.check_user import check_user
@@ -20,6 +21,15 @@ class Info(NamedTuple):
     age: int
     text: str
     rem_time: datetime
+
+
+class BDinfo(NamedTuple):
+    id: int
+    title: str
+    content: str
+    photo_path: str
+    birth_date: date
+    age: int
 
 
 # Отримуємо об'єкт User по його id
@@ -95,3 +105,55 @@ async def show_reminders_for_id(id_chat: int, bot: Bot):
     reminders = await set_reminders(id_chat)
     for reminder in reminders:
         await send_reminder_date(bot, id_chat, reminder)
+
+
+"""BIRTHDAYS"""
+
+
+async def show_birthdays_for_id(id_chat: int, bot: Bot):
+    birthdays = await set_bdays(id_chat)
+    for birthday in birthdays:
+        await send_birthday_date(bot, id_chat, birthday)
+
+
+async def set_bdays(chat_id: int = None) -> list[BDinfo]:
+    user_id, user_name = await check_user(chat_id)
+    user = await get_user_for_user_id(user_id)
+    bdays = await get_bdays(user)
+
+    information = []
+    for bday in bdays:
+        info = BDinfo(
+            id=bday[0],
+            title=bday[1],
+            content=bday[2],
+            photo_path=bday[3],
+            birth_date=bday[4],
+            age=bday[5])
+        information.append(info)
+        # await send_reminder_date(
+        #     bot, chat_id, info)
+
+    return information
+
+
+@sync_to_async
+def get_bdays(user):
+    bdays = BDays.objects.filter(user_id=user)
+
+    birthdays = []
+    for bday in bdays:
+        info = bday.id, bday.title, bday.content, bday.photo,  bday.date, bday.get_age()
+        birthdays.append(info)
+
+    return birthdays
+
+
+async def send_birthday_date(bot: Bot, chat_id: int, birthday: BDinfo):
+    message = f'{birthday.photo_path}\n' \
+              f'<b>{birthday.title.upper()}</b>\n' \
+              f'{birthday.content}\n' \
+              f'<b>{birthday.birth_date.strftime("%d.%m.%Y")}</b>\n' \
+              f'Виповнюється:  <b>{birthday.age}</b> років\n\n' \
+
+    await bot.send_message(chat_id, message)

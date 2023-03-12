@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from happy_bot.core.utils.callbackdata import MacInfo
+from happy_bot.core.utils.callbackdata import MacInfo, Search
 
 
 def get_ukr_keyboard():
@@ -31,12 +31,29 @@ def get_macbook_keyboard():
     return keyboard_builder.as_markup()
 
 
-def get_reminders_keyboard(user_id: int):
+def get_rem_bd_keyboard(user_id: int, f_object: str):
     keyboard_builder = InlineKeyboardBuilder()
 
-    keyboard_builder.button(text='За місяцем', callback_data='show_month_ver')
-    keyboard_builder.button(text='За іменинником', callback_data='ask_name')
-    keyboard_builder.button(text='Показати всі', callback_data=f'show_reminders_{user_id}')
+    # keyboard_builder.button(text='За місяцем', callback_data='show_month_ver')
+    # keyboard_builder.button(text='За іменинником', callback_data='ask_name')
+    # keyboard_builder.button(text='Показати всі', callback_data=f'show_reminders_{user_id}')
+
+    keyboard_builder.button(text='За місяцем',
+                            callback_data=Search(
+                                search_object=f_object,
+                                search_function='show_month_ver',
+                                user_id=user_id
+                            ))
+    keyboard_builder.button(text='За іменинником', callback_data=Search(
+                                search_object=f_object,
+                                search_function='ask_name',
+                                user_id=user_id
+                            ))
+    keyboard_builder.button(text='Показати всі', callback_data=Search(
+                                search_object=f_object,
+                                search_function='show_rem_bd',
+                                user_id=user_id
+                            ))
 
     keyboard_builder.adjust(2, 1)
     return keyboard_builder.as_markup()
@@ -58,13 +75,13 @@ month_names = {
         }
 
 
-def get_months_keyboard(user_id: int):
+def get_months_keyboard(user_id: int, f_object: str):
     print('\n\n\n_____OK from get_months_keyboard______\n\n\n')
     keyboard_builder = InlineKeyboardBuilder()
     print(month_names.items())
     for number, month in month_names.items():
         print(number, month)
-        keyboard_builder.button(text=month, callback_data=f'showmonths_{user_id}_{number}')
+        keyboard_builder.button(text=month, callback_data=f'showmonths_{user_id}_{number}_{f_object}')
 
     keyboard_builder.adjust(2, 3, 3, 3, 1)
     return keyboard_builder.as_markup()

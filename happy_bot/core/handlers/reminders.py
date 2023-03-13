@@ -58,11 +58,29 @@ def get_user_for_user_id(user_id: int):
 def get_reminders(user):
     rems = Reminder.objects.filter(user_id=user)
 
+    now = datetime.now()
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{rems=}')
+    print('\n\n', '^' * 20, '\n\n')
+
     reminders = []
+    print('\n\n', '*' * 20, '\n\n')
     for rem in rems:
+        print(f'{rem=}')
+        print(f'{rem.date_time=}')
+        print(f'{now=}')
+        print(type(rem))
+
+        if rem.date_time.date() < now.date():
+            print("rem.date_time менше за now")
+            rem.date_time = rem.date_time.replace(year=rem.date_time.year + 1)
+            rem.save()
+
         birthday = BDays.objects.get(id=rem.bday_id)
         info = rem.id, birthday.title, birthday.date, birthday.get_age(), rem.text, rem.date_time
         reminders.append(info)
+    print('\n\n', '^' * 20, '\n\n')
 
     return reminders
 

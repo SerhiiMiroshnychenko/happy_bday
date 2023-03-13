@@ -60,4 +60,8 @@ async def send_rem_date(bot: Bot, chat_id: int, num: int, reminder: Info):
               f'Виповнюється:  <b>{reminder.age}</b> років\n' \
               f' Дата нагадування:  ' \
               f'{reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m о %H:%M")}\n'
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE))=}')
+
+    print('\n\n', '^' * 20, '\n\n')
     await bot.send_message(chat_id, message)

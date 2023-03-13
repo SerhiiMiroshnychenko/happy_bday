@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from aiogram import Bot
 from aiogram.types import Message
 
+from happy_bot.bd_bot import bot
+from happy_bot.core.handlers.send_media import get_picture
 from happy_bot.models import Profile
 
 
@@ -36,14 +38,17 @@ async def get_start(message: Message):
     message_for_user = start_message_for_auth if user_id else start_message_for_not_auth
     print(f'{message_for_user=}')
 
-    await message.answer(message_for_user, reply_markup=get_reply_keyboard())
+    await get_picture(message.from_user.id, bot, message_for_user, 'start')
+
+    # await message.answer(message_for_user, reply_markup=get_reply_keyboard())
 
 
 """HELP"""
 
 
 async def get_help(message: Message, apscheduler: AsyncIOScheduler):
-    await message.answer(help_message)
+    # await message.answer(help_message)
+    await get_picture(message.from_user.id, bot, help_message, 'help')
     apscheduler.add_job(send_message_chat_gpt, trigger='date',
                         run_date=datetime.now() + timedelta(seconds=60),
                         kwargs={'message': message})
@@ -66,8 +71,10 @@ async def disabling_authentication(message: Message):
     user_id, user_name = await check_user(message.from_user.id)
     if user_id:
         await profile_delete(message.from_user.id)
-        await message.answer(f'{message.from_user.full_name}, Ваша реєстрація анульована.'
-                             f' Для відновлення використовуйте команду /auth.')
+        await get_picture(message.from_user.id, bot, f'{message.from_user.full_name}, Ваша реєстрація анульована. '
+                                                     f'Для відновлення використовуйте команду /auth.', 'off')
+        # await message.answer(f'{message.from_user.full_name}, Ваша реєстрація анульована.'
+        #                      f' Для відновлення використовуйте команду /auth.')
     else:
         await message.answer(f'{message.from_user.full_name},Ви ще не зареєстровані в боті. Дивиться команду /halp.')
 

@@ -5,6 +5,7 @@ from happy_site.models import Reminder
 from happy_bot.core.bot_scheduler.add_reminders import make_reminders_for_id
 from happy_bot.bd_bot import bot
 from happy_bday.settings import ADMIN_ID
+import asyncio
 
 
 @receiver(post_delete, sender=Reminder)
@@ -15,8 +16,14 @@ def delete_reminder(sender, instance, **kwargs):
     print('\n\n___SIGNAL!___\n\n')
     print(f'{instance=}')
     chat_id = ADMIN_ID
-    new_func = async_to_sync(make_reminders_for_id)
-    new_func(bot, chat_id)
+    new_func = async_to_sync(make_reminders_for_id, force_new_loop=True)
+
+
+
+    try:
+        new_func(bot, chat_id)
+    except BaseException as error:
+        print(error.__class__, error, 'in new_func')
 
 
 

@@ -51,4 +51,4 @@ async def send_message_glory(bot: Bot, chat_id: int):
 
 
 async def send_message_chat_gpt(message: Message):
-    await message.answer('\U0001F916 \n\nЯ звісно не ChatGPT, але спробую допомогти)')
+    await message.answer('\U0001F916 \n\nЯ, звісно, не ChatGPT, але спробую допомогти)')

@@ -14,7 +14,7 @@ import pytz
 from happy_bday.settings import TIME_ZONE
 
 from datetime import datetime
-from happy_bot.core.handlers.send_media import get_reminder_picture, get_birthday_photo
+from happy_bot.core.handlers.send_media import get_picture, get_birthday_photo
 
 
 class Info(NamedTuple):
@@ -88,7 +88,7 @@ def get_reminders(user):
 # Надсилання нагадування користувачу
 async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
     reminder_dtime = reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m.%y о %H:%M")
-    message = f'Нагадую про день народження:\n\n' \
+    message_for_user = f'Нагадую про день народження:\n\n' \
               f'<b>{reminder.title.upper()}</b>\n' \
               f'<b>{reminder.birth_date.strftime("%d.%m.%Y")}</b>\n' \
               f'Виповнюється:  <b>{reminder.age}</b> років\n\n' \
@@ -103,9 +103,9 @@ async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
     print('\n\n', '^' * 20, '\n\n')
 
     if reminder_dtime == dtime_now:
-        await get_reminder_picture(chat_id, bot, message)
+        await get_picture(chat_id, bot, message_for_user, 'clock')
     else:
-        await bot.send_message(chat_id, message)
+        await bot.send_message(chat_id, message_for_user)
 
 
 # Отримання всіх нагадувань для користувача та повертаємо їх як список:

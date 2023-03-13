@@ -260,6 +260,9 @@ def edit_reminder(request, reminder_id):
 def del_reminder(request, reminder_id):
     current_reminder = Reminder.objects.filter(id=reminder_id)
     bday_id = current_reminder.first().bday.id
-    current_reminder.delete()
+    try:
+        current_reminder.delete()
+    except BaseException as error:
+        print(error.__class__, error, 'in del_reminder')
 
     return redirect('bday', bday_pk=bday_id)

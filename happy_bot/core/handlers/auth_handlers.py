@@ -2,17 +2,20 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from django.contrib.auth import authenticate
 
+from .send_media import get_picture
 from ..states.auth_state import AuthState
 from happy_bot.models import Profile, User
 from asgiref.sync import sync_to_async
 
 from happy_bot.core.handlers.basic import check_user
+from ...bd_bot import bot
 
 
 async def process_auth_command(message: Message, state: FSMContext):
     user_id, user_name = await check_user(message.from_user.id)
     if user_name:
-        await message.answer(f'<b>{user_name}</b>, ви вже зареєстровані в боті.')
+        await get_picture(message.from_user.id, bot, f'<b>{user_name}</b>, Ви вже зареєстровані в боті.', 'auth')
+        # await message.answer(f'<b>{user_name}</b>, ви вже зареєстровані в боті.')
         await state.clear()
         return
     await message.answer("Введіть Ваш логін:")
@@ -32,10 +35,10 @@ def get_user(username, password):
         user = authenticate(username=username, password=password)
     except User.DoesNotExist as error:
         print(error.__class__, error)
-    if not user:
-        users = User.objects.all()
-        for user in users:
-            print(user.id, user.username, user.password)
+    # if not user:
+    #     users = User.objects.all()
+    #     for user in users:
+    #         print(user.id, user.username, user.password)
     return user
 
 
@@ -55,11 +58,14 @@ async def process_password(message: Message, state: FSMContext):
         telegram_chat_id = str(message.from_user.id)
 
         await set_telegram_chat_id(user, telegram_chat_id)
-        await message.answer("Ви успішно авторизувалися в боті!")
+        await get_picture(message.from_user.id, bot, f'<b>{username}</b>, Ви успішно авторизувалися в боті!', 'auth')
+        # await message.answer("Ви успішно авторизувалися в боті!")
 
     else:
-        await message.answer("Користувача з таким логіном та паролем не знайдено. "
-                             "Зареєструйтеся на сайті для отримання подальших послуг.")
+        await get_picture(message.from_user.id, bot, "Користувача з таким логіном та паролем не знайдено."
+                                                     "Зареєструйтеся на сайті для отримання подальших послуг.", 'off')
+        # await message.answer("Користувача з таким логіном та паролем не знайдено. "
+                             # "Зареєструйтеся на сайті для отримання подальших послуг.")
 
     await state.clear()  # clear state after authorization check
 

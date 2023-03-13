@@ -13,6 +13,9 @@ from typing import NamedTuple
 import pytz
 from happy_bday.settings import TIME_ZONE
 
+from datetime import datetime
+from happy_bot.core.handlers.send_media import get_reminder_picture, get_birthday_photo
+
 
 class Info(NamedTuple):
     id: int
@@ -59,14 +62,25 @@ def get_reminders(user):
 
 # Надсилання нагадування користувачу
 async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
+    reminder_dtime = reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m о %H:%M")
     message = f'Нагадую про день народження:\n\n' \
               f'<b>{reminder.title.upper()}</b>\n' \
               f'<b>{reminder.birth_date.strftime("%d.%m.%Y")}</b>\n' \
               f'Виповнюється:  <b>{reminder.age}</b> років\n\n' \
               f' Дата нагадування:  ' \
-              f'{reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m о %H:%M")}\n' \
+              f'{reminder_dtime}\n' \
               f'(<i>{reminder.text}</i>)'
-    await bot.send_message(chat_id, message)
+    dtime_now = datetime.now().strftime("%d.%m о %H:%M")
+
+    print('\n\n', '*'*20, '\n\n')
+    print(f'{reminder_dtime=}')
+    print(f'{dtime_now=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    if reminder_dtime == dtime_now:
+        await get_reminder_picture(chat_id, bot, message)
+    else:
+        await bot.send_message(chat_id, message)
 
 
 # Отримання всіх нагадувань для користувача та повертаємо їх як список:
@@ -150,10 +164,13 @@ def get_bdays(user):
 
 
 async def send_birthday_date(bot: Bot, chat_id: int, birthday: BDinfo):
-    message = f'{birthday.photo_path}\n' \
-              f'<b>{birthday.title.upper()}</b>\n' \
+    message = f'<b>{birthday.title.upper()}</b>\n' \
               f'{birthday.content}\n' \
               f'<b>{birthday.birth_date.strftime("%d.%m.%Y")}</b>\n' \
               f'Виповнюється:  <b>{birthday.age}</b> років\n\n' \
 
-    await bot.send_message(chat_id, message)
+    print(f'{birthday.photo_path=}')
+    if birthday.photo_path:
+        await get_birthday_photo(chat_id, bot, message, birthday.photo_path)
+    else:
+        await bot.send_message(chat_id, message)

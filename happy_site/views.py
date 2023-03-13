@@ -227,6 +227,11 @@ class AddReminder(LoginRequiredMixin, CreateView):
             form.cleaned_data['time_of_day']
         ).replace(year=datetime.now().year) - timedelta(days=form.cleaned_data['days_before'])
 
+        print(f'{form.instance.date_time=}')
+        if form.instance.date_time.date() < datetime.now().date():
+            form.instance.date_time = form.instance.date_time.replace(year=datetime.now().year + 1)
+
+
         return super().form_valid(form)
 
     def get_success_url(self):

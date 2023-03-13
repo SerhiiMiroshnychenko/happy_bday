@@ -87,7 +87,7 @@ def get_reminders(user):
 
 # Надсилання нагадування користувачу
 async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
-    reminder_dtime = reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m о %H:%M")
+    reminder_dtime = reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m.%y о %H:%M")
     message = f'Нагадую про день народження:\n\n' \
               f'<b>{reminder.title.upper()}</b>\n' \
               f'<b>{reminder.birth_date.strftime("%d.%m.%Y")}</b>\n' \
@@ -95,7 +95,7 @@ async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
               f' Дата нагадування:  ' \
               f'{reminder_dtime}\n' \
               f'(<i>{reminder.text}</i>)'
-    dtime_now = datetime.now().strftime("%d.%m о %H:%M")
+    dtime_now = datetime.now().strftime("%d.%m.%y о %H:%M")
 
     print('\n\n', '*'*20, '\n\n')
     print(f'{reminder_dtime=}')

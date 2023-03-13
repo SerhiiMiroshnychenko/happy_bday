@@ -10,7 +10,7 @@ from happy_bot.core.handlers.basic import\
     get_glory_answer, get_message
 from happy_bot.core.handlers.auth_handlers import process_auth_command, process_username, process_password
 from happy_bot.core.handlers.basic_command_handlers import get_start, get_help, disabling_authentication
-from happy_bot.core.handlers.reminders import set_reminders, show_reminders
+from happy_bot.core.handlers.reminders import set_reminders, show_reminders, show_soon_birthdays
 
 # Middleware
 from happy_bot.core.middlewares.schedul_middleware import SchedulerMiddleware
@@ -73,6 +73,8 @@ dp.message.register(set_reminders, F.text == '/rem')
 dp.message.register(make_reminders, F.text == 'Оновити')
 dp.message.register(get_rem_bd, F.text == 'Нагадування')
 dp.message.register(get_rem_bd, F.text == 'Д.Народження')
+dp.message.register(show_soon_birthdays, F.text == 'Незабаром')
+
 dp.message.register(show_reminders, F.text == '/show')
 dp.message.register(disabling_authentication, F.text == '/off')
 

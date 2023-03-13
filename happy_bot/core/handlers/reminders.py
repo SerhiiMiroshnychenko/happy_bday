@@ -41,6 +41,13 @@ def get_user_for_user_id(user_id: int):
     user = None
     try:
         user = User.objects.get(id=user_id)
+
+        print('\n\n', '*' * 20, '\n\n')
+        print(f'{user_id=}')
+        print(f'{user=}')
+        print('\n\n', '^' * 20, '\n\n')
+
+
     except BaseException as e:
         print(e.__class__, e)
     return user
@@ -130,25 +137,76 @@ async def show_birthdays_for_id(id_chat: int, bot: Bot):
         await send_birthday_date(bot, id_chat, birthday)
 
 
-async def set_bdays(chat_id: int = None) -> list[BDinfo]:
+async def set_bdays(chat_id: int = None, version: str = None) -> list[BDinfo] or tuple[list[BDinfo], list[BDinfo]]:
     user_id, user_name = await check_user(chat_id)
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{chat_id=}')
+    print(f'{user_id=}')
+    print(f'{user_name=}')
+    print('\n\n', '^' * 20, '\n\n')
+
     user = await get_user_for_user_id(user_id)
-    bdays = await get_bdays(user)
 
-    information = []
-    for bday in bdays:
-        info = BDinfo(
-            id=bday[0],
-            title=bday[1],
-            content=bday[2],
-            photo_path=bday[3],
-            birth_date=bday[4],
-            age=bday[5])
-        information.append(info)
-        # await send_reminder_date(
-        #     bot, chat_id, info)
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{user=}')
+    print('\n\n', '^' * 20, '\n\n')
 
-    return information
+    if version != 'soon':
+        bdays = await get_bdays(user)
+        t_bdays, n_bdays = None, None
+
+        print('\n\n', '*' * 20, '\n\n')
+        print(f'{bdays=}')
+
+    else:
+        t_bdays, n_bdays = await get_soon_bdays(user)
+        bdays = None
+
+        print('\n\n', '*' * 20, '\n\n')
+        print(f'{t_bdays=}')
+        print(f'{n_bdays=}')
+
+    print('\n\n', '^' * 20, '\n\n')
+
+    if bdays:
+        information = []
+        for bday in bdays:
+            info = BDinfo(
+                id=bday[0],
+                title=bday[1],
+                content=bday[2],
+                photo_path=bday[3],
+                birth_date=bday[4],
+                age=bday[5])
+            information.append(info)
+
+        return information
+
+    else:
+        t_info = []
+        for bday in t_bdays:
+            info = BDinfo(
+                id=bday[0],
+                title=bday[1],
+                content=bday[2],
+                photo_path=bday[3],
+                birth_date=bday[4],
+                age=bday[5])
+            t_info.append(info)
+        n_info = []
+        for bday in n_bdays:
+            info = BDinfo(
+                id=bday[0],
+                title=bday[1],
+                content=bday[2],
+                photo_path=bday[3],
+                birth_date=bday[4],
+                age=bday[5])
+            n_info.append(info)
+
+        return t_info, n_info
+
 
 
 @sync_to_async
@@ -174,3 +232,106 @@ async def send_birthday_date(bot: Bot, chat_id: int, birthday: BDinfo):
         await get_birthday_photo(chat_id, bot, message, birthday.photo_path)
     else:
         await bot.send_message(chat_id, message)
+
+
+"""SOON BIRTHDAYS"""
+
+
+@sync_to_async
+def get_soon_bdays(user):
+    # Отримуємо сьогоднішню дату
+    today = datetime.now()
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{user=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    # Знаходимо сьогоднішні дні народження
+    today_birthdays = BDays.objects.filter(
+        date__month=today.month,
+        date__day=today.day,
+        user=user
+    ).order_by('date', 'title')
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{today_birthdays=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    # Знаходимо наступні дні народження
+    birthdays = BDays.objects.filter(user=user).order_by('date__month', 'date__day', 'title')
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{birthdays=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    next_day_month = None, None
+    for birthday in birthdays:
+        bday_month = birthday.date.month
+        bday_day = birthday.date.day
+        if (
+                bday_month == today.month
+                and bday_day > today.day
+                or bday_month != today.month
+                and bday_month > today.month
+        ):
+            next_day_month = birthday.date.day, birthday.date.month
+            break
+
+    next_birthdays = BDays.objects.filter(
+        date__month=next_day_month[1],
+        date__day=next_day_month[0],
+        user=user
+    ).order_by('date', 'title')
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{next_birthdays=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    today_bdays = []
+    for bday in today_birthdays:
+        info = bday.id, bday.title, bday.content, bday.photo, bday.date, bday.get_age()
+        today_bdays.append(info)
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{today_bdays=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    next_bdays = []
+    for bday in next_birthdays:
+        info = bday.id, bday.title, bday.content, bday.photo, bday.date, bday.get_age()
+        next_bdays.append(info)
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{next_bdays=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    return today_bdays, next_bdays
+
+
+async def show_soon_birthdays(message: Message, bot: Bot):
+
+    id_chat = message.from_user.id
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{id_chat=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    today_birthdays, next_birthdays = await set_bdays(id_chat, 'soon')
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{today_birthdays=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    print('\n\n', '*' * 20, '\n\n')
+    print(f'{next_birthdays=}')
+    print('\n\n', '^' * 20, '\n\n')
+
+    if today_birthdays:
+        await message.answer('Сьогодні святкуємо:')
+        for birthday in today_birthdays:
+            await send_birthday_date(bot, id_chat, birthday)
+    if next_birthdays:
+        await message.answer('Незабаром святкуємо:')
+        for birthday in next_birthdays:
+            await send_birthday_date(bot, id_chat, birthday)
+

@@ -15,7 +15,7 @@ def get_reply_keyboard():
     keyboard_builder.button(text='Нагадування')
     keyboard_builder.button(text='Д.Народження')
     keyboard_builder.button(text='Оновити')
-    keyboard_builder.button(text='Очистити')
+    keyboard_builder.button(text='Незабаром')
     keyboard_builder.button(text='Слава Україні!')
 
     # За допомогою методу adjust визначимо скільки кнопок буде в кожному ряду (перший 2, другий 2, третій 1)

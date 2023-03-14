@@ -24,6 +24,7 @@ import calendar
 
 from happy_bot.core.handlers.check_user import rem_id_to_bd_id, is_user_in_bot, check_user
 from happy_bot.bd_bot import bot
+from .signals import update_reminders_for_signal
 
 from .utils import *
 from .forms import *
@@ -262,6 +263,11 @@ def del_reminder(request, reminder_id):
     bday_id = current_reminder.first().bday.id
     try:
         current_reminder.delete()
+    except BaseException as error:
+        print(error.__class__, error, 'in del_reminder')
+    try:
+        print('IN VIEW:')
+        update_reminders_for_signal()
     except BaseException as error:
         print(error.__class__, error, 'in del_reminder')
 

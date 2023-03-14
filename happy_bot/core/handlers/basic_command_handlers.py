@@ -56,17 +56,15 @@ async def get_help(message: Message, apscheduler: AsyncIOScheduler):
 async def show_jobs():
     jobs = scheduler.get_jobs()
     rems = rem_scheduler.get_jobs()
-    print('\n'*5, '@'*80, '\n')
-    print('SCHEDULER\n')
+    print('@' * 80, '\nSCHEDULER')
     print(f'Всього: {len(jobs)} завдань.')
     for job in jobs:
         print(job)
-    print('\n', '@' * 80, '\n')
-    print('REM SCHEDULER\n')
+    print('@' * 80, '\nREM SCHEDULER')
     print(f'Всього: {len(rems)} нагадувань.')
     for rem in rems:
         print(rem)
-    print('\n', '@'*80, '\n'*5)
+    print('@' * 80)
 
 
 """OFF"""

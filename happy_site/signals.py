@@ -10,12 +10,12 @@ from happy_bday.settings import ADMIN_ID
 import asyncio
 
 
-@receiver(post_delete, sender=Reminder)
-def delete_reminder(sender, instance, **kwargs):
-    """
-    Функція, яка викликає make_reminders_for_id при видаленні нагадування.
-    """
-    update_reminders_for_signal()
+# @receiver(post_delete, sender=Reminder)
+# def delete_reminder(sender, instance, **kwargs):
+#     """
+#     Функція, яка викликає make_reminders_for_id при видаленні нагадування.
+#     """
+#     update_reminders_for_signal()
 
 
 @receiver(post_save, sender=Reminder)
@@ -23,11 +23,12 @@ def save_reminder(sender, instance, **kwargs):
     """
     Функція, яка викликає make_reminders_for_id при видаленні нагадування.
     """
+    print('IN SIGNAL:')
     update_reminders_for_signal()
 
 
 def update_reminders_for_signal():
-    print('\n\n___SIGNAL!___\n\n')
+    print('___SIGNAL!___')
     chat_id = ADMIN_ID
     sync_make_reminders_for_id = async_to_sync(make_reminders_for_id, force_new_loop=True)
 
@@ -45,12 +46,12 @@ def update_reminders_for_signal():
 def sync_show_job():
     jobs = scheduler.get_jobs()
     rems = rem_scheduler.get_jobs()
-    print('\n'*5, '@'*80, '\nSCHEDULER\n')
+    print('@'*80, '\nSCHEDULER')
     print(f'Всього: {len(jobs)} завдань.')
     for job in jobs:
         print(job)
-    print('\n', '@' * 80, '\nREM SCHEDULER\n')
+    print('@' * 80, '\nREM SCHEDULER')
     print(f'Всього: {len(rems)} нагадувань.')
     for rem in rems:
         print(rem)
-    print('\n', '@'*80, '\n'*5)
+    print('@'*80)

@@ -51,7 +51,7 @@ async def get_help(message: Message, apscheduler: AsyncIOScheduler):
     # await message.answer(help_message)
     await get_picture(message.from_user.id, bot, help_message, 'help')
     apscheduler.add_job(send_message_chat_gpt, trigger='date',
-                        run_date=datetime.now() + timedelta(seconds=60),
+                        run_date=datetime.now() + timedelta(minutes=2),
                         kwargs={'message': message})
     await show_jobs()
 

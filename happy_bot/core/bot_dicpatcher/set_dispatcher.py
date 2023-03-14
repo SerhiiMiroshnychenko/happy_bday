@@ -80,3 +80,4 @@ dp.message.register(disabling_authentication, F.text == '/off')
 
 dp.message.register(get_message, F.text)
 """Кінець блока"""
+

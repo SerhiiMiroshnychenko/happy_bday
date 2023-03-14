@@ -89,4 +89,3 @@ async def make_reminders_for_id(bot: Bot, chat_id: int):
 #
 #     await bot.send_message(chat_id, 'Нагадування оновлено:')
 #     await show_reminders_for_id(chat_id, bot)
-

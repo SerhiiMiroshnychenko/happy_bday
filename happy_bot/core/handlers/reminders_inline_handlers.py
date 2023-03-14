@@ -112,3 +112,4 @@ def get_bdays_for_month(user, month_number):
         birthdays.append(info)
 
     return birthdays
+

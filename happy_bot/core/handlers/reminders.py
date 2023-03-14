@@ -352,4 +352,3 @@ async def show_soon_birthdays(message: Message, bot: Bot):
         await message.answer('Незабаром святкуємо:')
         for birthday in next_birthdays:
             await send_birthday_date(bot, id_chat, birthday)
-

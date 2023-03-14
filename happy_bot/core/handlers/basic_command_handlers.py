@@ -40,7 +40,7 @@ async def get_start(message: Message):
 
     await get_picture(message.from_user.id, bot, message_for_user, 'start')
 
-    # await message.answer(message_for_user, reply_markup=get_reply_keyboard())
+    await message.answer('Оберіть подальшу дію.', reply_markup=get_reply_keyboard())
 
 
 """HELP"""
@@ -77,4 +77,3 @@ async def disabling_authentication(message: Message):
         #                      f' Для відновлення використовуйте команду /auth.')
     else:
         await message.answer(f'{message.from_user.full_name},Ви ще не зареєстровані в боті. Дивиться команду /halp.')
-

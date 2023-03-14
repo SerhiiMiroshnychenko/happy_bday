@@ -12,6 +12,7 @@ from happy_bot.core.bot_scheduler.schedule_block import scheduler
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from happy_site.models import Reminder
+from datetime import datetime
 
 
 async def rem_unpack(reminders, chat_id, bot):
@@ -41,11 +42,15 @@ async def make_reminders_for_id(bot: Bot, chat_id: int):
 
     await rem_unpack(reminders, chat_id, bot)
 
-    print('НАГАДУВАННЯ ОНОВЛЕНО.')
+    print(f'НАГАДУВАННЯ ОНОВЛЕНО {datetime.now()}')
     # await bot.send_message(chat_id, 'Нагадування оновлено.')
 
     # await show_reminders_for_id(chat_id, bot)
 
+
+async def update_rem_interval(message: Message, bot: Bot):
+    print(f'UPDATE {datetime.now()}')
+    await make_reminders_for_id(bot, message.from_user.id)
 
 # @async_to_sync
 # async def make_reminders_from_view(bot: Bot, chat_id: int):

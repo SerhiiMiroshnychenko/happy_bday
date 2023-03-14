@@ -21,5 +21,8 @@ scheduler.add_job(schedul_task.send_message_date,
                   trigger='date', run_date=schedul_task.job_date,
                   kwargs={'bot': bot})
 
+
+
+
 """Кінець блока планувальника"""
 

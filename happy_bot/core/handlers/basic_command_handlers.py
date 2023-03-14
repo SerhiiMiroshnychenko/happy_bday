@@ -4,6 +4,7 @@ from aiogram import Bot
 from aiogram.types import Message
 
 from happy_bot.bd_bot import bot
+from happy_bot.core.bot_scheduler.add_reminders import update_rem_interval
 from happy_bot.core.bot_scheduler.schedule_block import scheduler, rem_scheduler
 from happy_bot.core.handlers.send_media import get_picture
 from happy_bot.models import Profile
@@ -18,11 +19,10 @@ from happy_bot.core.keyboards.reply import get_reply_keyboard
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from happy_bot.core.handlers.schedul_task import send_message_chat_gpt
 
-
 """START"""
 
 
-async def get_start(message: Message):
+async def get_start(message: Message, apscheduler: AsyncIOScheduler):
     """Обробка натискання користувача на кнопку старт"""
 
     user_id, user_name = await check_user(message.from_user.id)
@@ -39,6 +39,9 @@ async def get_start(message: Message):
     await get_picture(message.from_user.id, bot, message_for_user, 'start')
 
     await message.answer('Оберіть подальшу дію.', reply_markup=get_reply_keyboard())
+    apscheduler.add_job(update_rem_interval, trigger='interval',
+                        seconds=30,
+                        kwargs={'bot': bot, 'message': message})
 
 
 """HELP"""

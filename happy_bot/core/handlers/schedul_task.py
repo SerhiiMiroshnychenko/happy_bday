@@ -4,6 +4,7 @@ from aiogram.types import Message
 from happy_bday.settings import ADMIN_ID
 from datetime import datetime
 
+
 now = datetime.now()
 
 # Задаємо дату, коли потрібно викликати функцію

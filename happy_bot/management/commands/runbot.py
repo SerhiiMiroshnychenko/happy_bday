@@ -7,7 +7,7 @@ import platform
 from happy_bot.core.bot_dicpatcher.set_dispatcher import dp
 from happy_bot.bd_bot import bot
 
-from happy_bot.core.bot_scheduler.schedule_block import scheduler, rem_scheduler
+from happy_bot.core.bot_scheduler.schedule_block import scheduler, reminders_scheduler
 
 
 async def start():
@@ -17,7 +17,7 @@ async def start():
                         )
 
     scheduler.start()
-    rem_scheduler.start()
+    reminders_scheduler.start()
 
     try:
         await dp.start_polling(bot)

@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 """Блок планувальника"""
 scheduler = AsyncIOScheduler(timezone=TIME_ZONE)
-rem_scheduler = AsyncIOScheduler(timezone=TIME_ZONE)
+reminders_scheduler = AsyncIOScheduler(timezone=TIME_ZONE)
 
 scheduler.add_job(schedul_task.send_message_time,
                   trigger='date', run_date=datetime.now() + timedelta(seconds=10),

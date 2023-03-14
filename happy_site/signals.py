@@ -2,9 +2,9 @@ from asgiref.sync import async_to_sync
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
-from happy_bot.core.bot_scheduler.schedule_block import scheduler, rem_scheduler
+from happy_bot.core.bot_scheduler.schedule_block import scheduler, reminders_scheduler
 from happy_site.models import Reminder
-from happy_bot.core.bot_scheduler.add_reminders import make_reminders_for_id
+from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_id
 from happy_bot.bd_bot import bot
 from happy_bday.settings import ADMIN_ID
 import asyncio
@@ -30,7 +30,7 @@ def save_reminder(sender, instance, **kwargs):
 def update_reminders_for_signal():
     print('___SIGNAL!___')
     chat_id = ADMIN_ID
-    sync_make_reminders_for_id = async_to_sync(make_reminders_for_id, force_new_loop=True)
+    sync_make_reminders_for_id = async_to_sync(update_reminders_for_id, force_new_loop=True)
 
     try:
         sync_make_reminders_for_id(bot, chat_id)
@@ -45,7 +45,7 @@ def update_reminders_for_signal():
 
 def sync_show_job():
     jobs = scheduler.get_jobs()
-    rems = rem_scheduler.get_jobs()
+    rems = reminders_scheduler.get_jobs()
     print('@'*80, '\nSCHEDULER')
     print(f'Всього: {len(jobs)} завдань.')
     for job in jobs:

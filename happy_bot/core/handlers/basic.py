@@ -13,7 +13,7 @@ from happy_bot.models import Profile
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from happy_bot.core.handlers.schedul_task import send_message_glory
 from datetime import datetime, timedelta
-from happy_bot.core.bot_scheduler.add_reminders import make_reminders_for_id
+from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_id
 
 from happy_bot.core.handlers.check_user import check_user
 
@@ -25,7 +25,7 @@ async def start_bot(bot: Bot):
     users = await get_users()
     if users:
         for user in users:
-            await make_reminders_for_id(bot=bot, chat_id=user.telegram_chat_id)
+            await update_reminders_for_id(bot=bot, chat_id=user.telegram_chat_id)
 
 
 @sync_to_async

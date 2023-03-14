@@ -1,9 +1,9 @@
 """DISPATCHER"""
-# Базові імпорти
 
 # Імпорти Aiogram
 from aiogram import Dispatcher, F
 from aiogram.filters import CommandStart, Command
+
 # Внутрішні імпорти
 from happy_bot.core.handlers.basic import start_bot, stop_bot, get_glory, get_glory_answer, get_message
 from happy_bot.core.handlers.basic_keyboard_handlers import get_rem_bd, show_month_ver, ask_name, process_name
@@ -15,7 +15,7 @@ from happy_bot.core.states.auth_state import AuthState
 from happy_bot.core.states.rem_name_state import RemNameState
 from happy_bot.core.utils.callbackdata import Search
 from happy_bot.core.middlewares.schedul_middleware import SchedulerMiddleware
-from happy_bot.core.bot_scheduler.add_reminders import make_reminders
+from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_message
 from happy_bot.core.bot_scheduler.schedule_block import scheduler
 
 dp = Dispatcher()
@@ -36,7 +36,7 @@ dp.message.register(disabling_authentication, Command('off'))
 # Основна клавіатура
 dp.message.register(get_rem_bd, F.text == 'Нагадування')
 dp.message.register(get_rem_bd, F.text == 'Д.Народження')
-dp.message.register(make_reminders, F.text == 'Оновити')
+dp.message.register(update_reminders_for_message, F.text == 'Оновити')
 dp.message.register(show_soon_birthdays, F.text == 'Незабаром')
 
 # Реєструємо реакції на callback_query

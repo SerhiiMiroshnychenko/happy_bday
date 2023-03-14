@@ -4,8 +4,8 @@ from aiogram import Bot
 from aiogram.types import Message
 
 from happy_bot.bd_bot import bot
-from happy_bot.core.bot_scheduler.add_reminders import update_rem_interval
-from happy_bot.core.bot_scheduler.schedule_block import scheduler, rem_scheduler
+from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_message
+from happy_bot.core.bot_scheduler.schedule_block import scheduler, reminders_scheduler
 from happy_bot.core.handlers.send_media import get_picture
 from happy_bot.models import Profile
 
@@ -39,7 +39,7 @@ async def get_start(message: Message, apscheduler: AsyncIOScheduler):
     await get_picture(message.from_user.id, bot, message_for_user, 'start')
 
     await message.answer('Оберіть подальшу дію.', reply_markup=get_reply_keyboard())
-    apscheduler.add_job(update_rem_interval, trigger='interval',
+    apscheduler.add_job(update_reminders_for_message, trigger='interval',
                         seconds=30,
                         kwargs={'bot': bot, 'message': message})
 
@@ -58,7 +58,7 @@ async def get_help(message: Message, apscheduler: AsyncIOScheduler):
 
 async def show_jobs():
     jobs = scheduler.get_jobs()
-    rems = rem_scheduler.get_jobs()
+    rems = reminders_scheduler.get_jobs()
     print('@' * 80, '\nSCHEDULER')
     print(f'Всього: {len(jobs)} завдань.')
     for job in jobs:

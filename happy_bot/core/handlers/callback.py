@@ -7,23 +7,11 @@ from ..utils.callbackdata import MacInfo, Search
 from ...bd_bot import bot
 
 
-async def select_macbook(call: CallbackQuery, bot: Bot, callback_data: MacInfo):
-    model = callback_data.model
-    size = callback_data.size
-    chip = callback_data.chip
-    year = callback_data.year
-    answer_ = f'Tи обрав Aplle Macbook {model} з діагоналлю {size} дюймів, ' \
-              f'на чіпі {chip} {year} року.'
-    await call.message.answer(answer_)
-    await call.answer()
-
-
 async def select_answer(call: CallbackQuery, bot: Bot):
 
     answer_ = call.data
     await call.message.answer(answer_)
     await call.answer()
-
 
 async def select_rem_bd(call: CallbackQuery, bot: Bot, callback_data: Search):
     chat_id = callback_data.user_id

@@ -1,6 +1,5 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from happy_bot.core.utils.callbackdata import MacInfo, Search
+from happy_bot.core.utils.callbackdata import Search
 
 
 def get_ukr_keyboard():
@@ -12,19 +11,6 @@ def get_ukr_keyboard():
     keyboard_builder.button(text='Супротив', url='https://t.me/mrplsprotyv')
 
     keyboard_builder.adjust(1, 1, 1, 2)
-    return keyboard_builder.as_markup()
-
-
-def get_macbook_keyboard():
-    keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text='Macbook Air 13" M1 2020',
-                            callback_data=MacInfo(model='air', size=13, chip='m1', year=2020))
-    keyboard_builder.button(text='Macbook Pro 14" M1 Pro 2021',
-                            callback_data=MacInfo(model='pro', size=14, chip='m1', year=2021))
-    keyboard_builder.button(text='Apple MacBook Pro 16" 2019',
-                            callback_data=MacInfo(model='pro', size=16, chip='i7', year=2019))
-
-    keyboard_builder.adjust(1, 1, 1)
     return keyboard_builder.as_markup()
 
 

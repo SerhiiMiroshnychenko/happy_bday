@@ -93,7 +93,7 @@ async def get_message(message: Message, bot: Bot):
     """
     json_message = message.dict()
     await write_file(json_message)
-    await message.reply(f'Тобі також: "<i>{message.text}</i>", <b>{message.from_user.full_name}</b>!')
+    await message.reply(f'Ви надіслали мені: "<i>{message.text}</i>".')
 
 
 

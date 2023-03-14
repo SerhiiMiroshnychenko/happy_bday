@@ -1,6 +1,8 @@
 from asgiref.sync import async_to_sync
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+
+from happy_bot.core.bot_scheduler.schedule_block import scheduler, rem_scheduler
 from happy_site.models import Reminder
 from happy_bot.core.bot_scheduler.add_reminders import make_reminders_for_id
 from happy_bot.bd_bot import bot
@@ -13,17 +15,42 @@ def delete_reminder(sender, instance, **kwargs):
     """
     Функція, яка викликає make_reminders_for_id при видаленні нагадування.
     """
+    update_reminders_for_signal()
+
+
+@receiver(post_save, sender=Reminder)
+def save_reminder(sender, instance, **kwargs):
+    """
+    Функція, яка викликає make_reminders_for_id при видаленні нагадування.
+    """
+    update_reminders_for_signal()
+
+
+def update_reminders_for_signal():
     print('\n\n___SIGNAL!___\n\n')
-    print(f'{instance=}')
     chat_id = ADMIN_ID
-    new_func = async_to_sync(make_reminders_for_id, force_new_loop=True)
-
-
+    sync_make_reminders_for_id = async_to_sync(make_reminders_for_id, force_new_loop=True)
 
     try:
-        new_func(bot, chat_id)
+        sync_make_reminders_for_id(bot, chat_id)
     except BaseException as error:
-        print(error.__class__, error, 'in new_func')
+        print(error.__class__, error, 'sync_make_reminders_for_id')
+
+    try:
+        sync_show_job()
+    except BaseException as error:
+        print(error.__class__, error, 'sync_show_jobs')
 
 
-
+def sync_show_job():
+    jobs = scheduler.get_jobs()
+    rems = rem_scheduler.get_jobs()
+    print('\n'*5, '@'*80, '\nSCHEDULER\n')
+    print(f'Всього: {len(jobs)} завдань.')
+    for job in jobs:
+        print(job)
+    print('\n', '@' * 80, '\nREM SCHEDULER\n')
+    print(f'Всього: {len(rems)} нагадувань.')
+    for rem in rems:
+        print(rem)
+    print('\n', '@'*80, '\n'*5)

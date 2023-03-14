@@ -4,6 +4,7 @@ from aiogram import Bot
 from aiogram.types import Message
 
 from happy_bot.bd_bot import bot
+from happy_bot.core.bot_scheduler.schedule_block import scheduler, rem_scheduler
 from happy_bot.core.handlers.send_media import get_picture
 from happy_bot.models import Profile
 
@@ -25,18 +26,15 @@ async def get_start(message: Message):
     """Обробка натискання користувача на кнопку старт"""
 
     user_id, user_name = await check_user(message.from_user.id)
-    print(f'{user_name=}')
-    print(f'{user_id=}')
 
-    start_message_for_auth = f'\U0001F916\n\nВітаю, <b>{user_name} ({message.from_user.full_name})</b>,' \
+    start_message_for_auth = f'Вітаю, <b>{user_name} ({message.from_user.full_name})</b>,' \
                              f' чим можу допомогти?'
 
-    start_message_for_not_auth = f'\U0001F916Вітаю, <b>{message.from_user.full_name}</b>, ' \
+    start_message_for_not_auth = f'Вітаю, <b>{message.from_user.full_name}</b>, ' \
                                  f'я бот сайту <b>HAPPY B-DAYS</b>.\n' \
                                  f'Для ознайомлення з моїми можливостями оберіть команду "<b>/help</b>".'
 
     message_for_user = start_message_for_auth if user_id else start_message_for_not_auth
-    print(f'{message_for_user=}')
 
     await get_picture(message.from_user.id, bot, message_for_user, 'start')
 
@@ -52,6 +50,23 @@ async def get_help(message: Message, apscheduler: AsyncIOScheduler):
     apscheduler.add_job(send_message_chat_gpt, trigger='date',
                         run_date=datetime.now() + timedelta(seconds=60),
                         kwargs={'message': message})
+    await show_jobs()
+
+
+async def show_jobs():
+    jobs = scheduler.get_jobs()
+    rems = rem_scheduler.get_jobs()
+    print('\n'*5, '@'*80, '\n')
+    print('SCHEDULER\n')
+    print(f'Всього: {len(jobs)} завдань.')
+    for job in jobs:
+        print(job)
+    print('\n', '@' * 80, '\n')
+    print('REM SCHEDULER\n')
+    print(f'Всього: {len(rems)} нагадувань.')
+    for rem in rems:
+        print(rem)
+    print('\n', '@'*80, '\n'*5)
 
 
 """OFF"""
@@ -59,7 +74,6 @@ async def get_help(message: Message, apscheduler: AsyncIOScheduler):
 
 @sync_to_async
 def profile_delete(id_user):
-    print(f'{id_user=}')
     try:
         Profile.objects.get(telegram_chat_id=id_user).delete()
         print('\n\n ___ПРОФІЛЬ ВИДАЛЕНО___ \n\n')

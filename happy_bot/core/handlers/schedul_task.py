@@ -29,22 +29,6 @@ async def send_message_date(bot: Bot):
     await bot.send_message(ADMIN_ID, f'Це повідомлення отримано по заданій даті:'
                                      f'{job_date}.')
 
-# @receiver(post_save, sender=Message)
-# def send_new_message_notification(sender, **kwargs):
-#     message = kwargs['instance']
-#     partner = message.thread.participants.exclude(id=message.sender.id)[0]
-#     if not message.notification:
-#         send_new_message_push_notification(sender_id=message.sender.id,
-#                                            recipient_id=partner.id,
-#                                            content=message.text,
-#                                            badge=unread(partner),
-#                                            data={'id': message.id,
-#                                                  'text': message.text,
-#                                                  'sender': message.sender.id,
-#                                                  'chat_id': message.thread.id})
-#         message.notification = True
-#         message.save()
-
 
 async def send_message_glory(bot: Bot, chat_id: int):
     await bot.send_message(chat_id, 'Слава Нації!')

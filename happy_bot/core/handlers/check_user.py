@@ -18,18 +18,8 @@ def check_user(telegram_id) -> tuple:
     try:
         user = Profile.objects.filter(telegram_chat_id=telegram_id)
 
-        print('\n\n', '*' * 20, '\n\n')
-        print(f'{user_id=}')
-        print(f'{user_name=}')
-        print('\n\n', '^' * 20, '\n\n')
-
         user_name = user.first().user.username
         user_id = user.first().user.id
-
-        print('\n\n', '*' * 20, '\n\n')
-        print(f'{user_id=}')
-        print(f'{user_name=}')
-        print('\n\n', '^' * 20, '\n\n')
 
     except BaseException as e:
         print(e.__class__, e)

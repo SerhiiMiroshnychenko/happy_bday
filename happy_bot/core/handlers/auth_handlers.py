@@ -35,10 +35,6 @@ def get_user(username, password):
         user = authenticate(username=username, password=password)
     except User.DoesNotExist as error:
         print(error.__class__, error)
-    # if not user:
-    #     users = User.objects.all()
-    #     for user in users:
-    #         print(user.id, user.username, user.password)
     return user
 
 

@@ -17,13 +17,11 @@ async def get_rem_bd(message: Message):
 
 
 async def show_month_ver(call: CallbackQuery, bot: Bot, callback_data: Search):
-    print('\n\n\n_____OK-1 from show_month_ver______\n\n\n')
     await call.message.answer('\U0001F916\n\nОберіть місяць:',
                                reply_markup=get_months_keyboard(
                                    callback_data.user_id,
                                    callback_data.search_object
                                ))
-    print('\n\n\n_____OK-2 from show_month_ver______\n\n\n')
 
 
 async def ask_name(call: CallbackQuery, callback_data: Search, state: FSMContext):
@@ -35,21 +33,15 @@ async def ask_name(call: CallbackQuery, callback_data: Search, state: FSMContext
 async def process_name(message: Message, state: FSMContext):
     await message.answer("\U0001F916\n\nВеду пошук...")
     await state.update_data(name=message.text)
-    print(f'\n\n____{message.text=}____\n\n')
     data = await state.get_data()
     name = data['name']
     f_object = data['search_object']
-    print(f'{name=}')
-    print(f'{type(name)=}')
-    print(f'{f_object=}')
 
     if type(name) == str and f_object == 'Нагадування':
-        print('\n\n____STR in process_name____\n\n')
         await show_rems_for_name(message.from_user.id, name, bot)
     elif type(name) == str and f_object == 'Д.Народження':
         await show_bdays_for_name(message.from_user.id, name, bot)
     else:
-        print('\n\n____no STR in process_name____\n\n')
         await message.answer("\U0001F916\n\nІменинника не знайдено...")
 
     await state.clear()

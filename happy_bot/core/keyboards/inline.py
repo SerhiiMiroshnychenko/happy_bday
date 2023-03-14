@@ -17,9 +17,6 @@ def get_ukr_keyboard():
 
 def get_macbook_keyboard():
     keyboard_builder = InlineKeyboardBuilder()
-    # keyboard_builder.button(text='Macbook Air 13" M1 2020', callback_data='apple_air_13_m1_2020')
-    # keyboard_builder.button(text='Macbook Pro 14" M1 Pro 2021', callback_data='apple_pro_14_m1_2021')
-    # keyboard_builder.button(text='Apple MacBook Pro 16" 2019', callback_data='apple_pro_16_i7_2019')
     keyboard_builder.button(text='Macbook Air 13" M1 2020',
                             callback_data=MacInfo(model='air', size=13, chip='m1', year=2020))
     keyboard_builder.button(text='Macbook Pro 14" M1 Pro 2021',
@@ -33,10 +30,6 @@ def get_macbook_keyboard():
 
 def get_rem_bd_keyboard(user_id: int, f_object: str):
     keyboard_builder = InlineKeyboardBuilder()
-
-    # keyboard_builder.button(text='За місяцем', callback_data='show_month_ver')
-    # keyboard_builder.button(text='За іменинником', callback_data='ask_name')
-    # keyboard_builder.button(text='Показати всі', callback_data=f'show_reminders_{user_id}')
 
     keyboard_builder.button(text='За місяцем',
                             callback_data=Search(
@@ -76,11 +69,8 @@ month_names = {
 
 
 def get_months_keyboard(user_id: int, f_object: str):
-    print('\n\n\n_____OK from get_months_keyboard______\n\n\n')
     keyboard_builder = InlineKeyboardBuilder()
-    print(month_names.items())
     for number, month in month_names.items():
-        print(number, month)
         keyboard_builder.button(text=month, callback_data=f'showmonths_{user_id}_{number}_{f_object}')
 
     keyboard_builder.adjust(2, 3, 3, 3, 1)

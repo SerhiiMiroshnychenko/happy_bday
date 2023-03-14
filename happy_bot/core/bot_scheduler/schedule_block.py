@@ -7,5 +7,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from happy_bday.settings import TIME_ZONE
 
 
+# Планувальник для загальних функцій в боті
 scheduler = AsyncIOScheduler(timezone=TIME_ZONE)
+
+# Планувальних для нагадувань
 reminders_scheduler = AsyncIOScheduler(timezone=TIME_ZONE)

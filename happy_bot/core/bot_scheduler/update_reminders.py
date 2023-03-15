@@ -38,6 +38,7 @@ async def update_reminders_for_message(message: Message, bot: Bot) -> None:
     chat_id = message.from_user.id
     print(f'UPDATE {datetime.now()}')
     await update_reminders_for_id(bot, chat_id)
+    await message.answer('Нагадування оновлено.')
 
 
 async def reminder_unpack(reminders: list[Info], chat_id: int, bot: Bot) -> None:

@@ -65,7 +65,7 @@ async def send_rem_date(bot: Bot, chat_id: int, num: int, reminder: Info):
     await bot.send_message(chat_id, message)
 
 
-async def show_rb_for_month(id_chat: int, month_number: int, s_object: str, bot: Bot):
+async def show_date_for_month(id_chat: int, month_number: int, s_object: str, bot: Bot):
     await bot.send_message(id_chat, f"\U0001F916\n\n{s_object} за <b>{month_names[month_number].upper()}</b>:")
     objects = None
     match s_object:

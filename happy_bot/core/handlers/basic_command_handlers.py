@@ -11,7 +11,7 @@ from happy_bot.models import Profile
 
 
 from asgiref.sync import sync_to_async
-from happy_bot.core.handlers.basic import check_user
+from happy_bot.core.handlers.check_user import check_user
 from happy_bot.core.messages.bese_command_messages import help_message
 
 from happy_bot.core.keyboards.reply import get_reply_keyboard

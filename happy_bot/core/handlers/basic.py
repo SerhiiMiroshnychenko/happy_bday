@@ -1,35 +1,60 @@
-import json
+"""БАЗОВІ ЗАГАЛЬНІ HANDLERS"""
 
-from aiogram import Bot
-from aiogram.types import Message
+# Базові імпорти
+import json
+from datetime import datetime, timedelta
+
+# Перетворення sync та async
 from asgiref.sync import sync_to_async
 
-from happy_bday.settings import ADMIN_ID
-from happy_bot.core.keyboards.inline import get_ukr_keyboard
-from happy_bot.core.utils.commands import set_commands
-
-from happy_bot.models import Profile
-
+# Планувальник
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+# Імпорти Aiogram
+from aiogram import Bot
+from aiogram.types import Message
+
+# Імпорти Django
+from django.db.models.query import QuerySet
+
+# Імпорт з пакета налаштувань
+from happy_bday.settings import ADMIN_ID
+
+# Внутрішні імпорти
+from happy_bot.models import Profile
+from happy_bot.bot_exceptions import BotException
+from happy_bot.core.utils.commands import set_commands
+from happy_bot.core.keyboards.inline import get_ukr_keyboard
 from happy_bot.core.handlers.schedul_task import send_message_glory
-from datetime import datetime, timedelta
 from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_id
 
-from happy_bot.core.handlers.check_user import check_user
 
+async def start_bot(bot: Bot) -> None:
+    """
+    Обробник початку роботи бота.
+    Задає основні команди.
+    Надсилає відповідну інформацію адміну.
+    Оновлює нагадування для всіх користувачів.
 
-async def start_bot(bot: Bot):
+    :param bot: Bot
+    :return: None
+    """
+
     await set_commands(bot)
     text = 'Бот запушено.'
     await bot.send_message(ADMIN_ID, text=text)
-    users = await get_users()
-    if users:
+    if users := await get_users():
         for user in users:
             await update_reminders_for_id(bot=bot, chat_id=user.telegram_chat_id)
 
 
 @sync_to_async
-def get_users():
+def get_users() -> QuerySet or None:
+    """
+    Функція повертає користувачів зареєстрованих в боті.
+
+    :return: QuerySet or None
+    """
 
     users = None
     try:
@@ -37,40 +62,33 @@ def get_users():
         for user in users:
             print(f'{user=}')
             print('Chat id:', user.telegram_chat_id)
-    except BaseException as e:
+    except BotException as e:
         print(e.__class__, e)
-
     return users
 
 
-async def stop_bot(bot: Bot):
-    text = 'Бот зупинено.'
+async def stop_bot(bot: Bot) -> None:
+    """
+    Обробник закінчення роботи бота.
+    Надсилає відповідну інформацію адміну.
 
+    :param bot: Bot
+    :return: None
+    """
+
+    text = 'Бот зупинено.'
     await bot.send_message(ADMIN_ID, text=text)
 
 
-async def write_file(content):
-    with open('happy_bot/message_arg.json', 'w') as f:
-        json.dump(content, f, indent=4, default=str)
-
-
-async def get_photo(message: Message, bot: Bot):
+async def get_glory(message: Message, bot: Bot, apscheduler: AsyncIOScheduler) -> None:
     """
-    Реакція на надсилання користувачем картинки
-    та її збереження
-    """
-    await message.answer('Відмінно, Ти відправив фото. Я збережу його.')
-    file_ = await bot.get_file(message.photo[-1].file_id)  # Зберігаємо об'єкт "file"
-    # в атрибуті "photo" ми маємо три варіанти картинки різного розміру
-    # отримаємо останній => найбільшого розміру
-
-    await bot.download_file(file_.file_path, 'download_media/photo')  # Завантажуємо файл з указанням його ім'я
-    # та (за необхідності) шляху куди файл зберігати
+    The get_glory function is a reaction to the message with text "Слава Україні".
 
 
-async def get_glory(message: Message, bot: Bot, apscheduler: AsyncIOScheduler):
-    """
-    Реакція на повідомлення з текстом "Слава Україні"
+    :param message: Message: Get the message object
+    :param bot: Bot: Send messages to the user
+    :param apscheduler: AsyncIOScheduler: Schedule a job
+    :return: None; Send the answer to the message with text "Слава Україні"
     """
 
     await message.answer('Героям Слава!')
@@ -79,21 +97,40 @@ async def get_glory(message: Message, bot: Bot, apscheduler: AsyncIOScheduler):
                         kwargs={'bot': bot, 'chat_id': message.from_user.id})
 
 
-async def get_glory_answer(message: Message, bot: Bot):
+async def get_glory_answer(message: Message) -> None:
     """
-    Реакція на повідомлення з текстом "Смерть ворогам"
+    The get_glory_answer function.
+    Реакція на повідомлення з текстом "Смерть ворогам".
+
+    :param message: Message: Get the message object, which contains information about the sender.
+    :return: None; Send the string "ПЕРЕМОЗІ БУТИ"
     """
 
     await message.answer('<b>ПЕРЕМОЗІ БУТИ</b>!', reply_markup=get_ukr_keyboard())
 
 
-async def get_message(message: Message, bot: Bot):
+async def get_message(message: Message) -> None:
     """
-    Реакція на повідомлення
+    The get_message function is a coroutine that takes in a Message object and
+        returns None. It writes the message to file, then replies with the same text.
+
+    :param message: Message: Get the message that was sent to the bot
+    :return: None
     """
+
     json_message = message.dict()
     await write_file(json_message)
     await message.reply(f'Ви надіслали мені: "<i>{message.text}</i>".')
 
 
+async def write_file(content: dict) -> None:
+    """
+    The write_file function takes in a dictionary and writes it to the message_arg.json file.
+
+
+    :param content: dict: Pass in the dictionary that is created from the message
+    :return: None
+    """
+    with open('happy_bot/message_arg.json', 'w') as f:
+        json.dump(content, f, indent=4, default=str)
 

@@ -21,7 +21,7 @@ from happy_bot.core.handlers.send_media import get_picture
 from happy_bot.core.keyboards.reply import get_reply_keyboard
 from happy_bot.core.messages.bese_command_messages import help_message
 from happy_bot.core.handlers.schedul_task import send_message_chat_gpt
-from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_message
+from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_message, update_reminders_for_id
 from happy_site.signals import sync_show_job
 
 """START"""
@@ -48,9 +48,9 @@ async def get_start(message: Message, apscheduler: AsyncIOScheduler) -> None:
     await get_picture(message.from_user.id, bot, message_for_user, 'start')
 
     await message.answer('Оберіть подальшу дію.', reply_markup=get_reply_keyboard())
-    apscheduler.add_job(update_reminders_for_message, trigger='interval',
+    apscheduler.add_job(update_reminders_for_id, trigger='interval',
                         seconds=30,
-                        kwargs={'bot': bot, 'message': message})
+                        kwargs={'bot': bot, 'chat_id': message.from_user.id})
 
 
 """HELP"""

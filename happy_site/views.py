@@ -22,7 +22,6 @@ from django.db.models import Q
 from happy_bday.settings import TIME_ZONE
 import calendar
 
-from happy_bot.core.handlers.check_user import rem_id_to_bd_id, is_user_in_bot, check_user
 from happy_bot.bd_bot import bot
 from .signals import update_reminders_for_signal
 

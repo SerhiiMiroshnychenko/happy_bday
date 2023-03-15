@@ -1,6 +1,3 @@
 """Кастомні виключення для бота"""
 
-
-class BotException(Exception):
-    """Виключення, що виникли при виконанні логіки бота"""
-    pass
+BotException = Exception

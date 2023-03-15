@@ -1,57 +1,48 @@
-from asgiref.sync import sync_to_async
-from django.contrib.auth.models import User
-from happy_site.models import BDays, Reminder
+"""ФУНКЦІЇ ПЕРЕВІРКИ ТА ОТРИМАННЯ ПРОФІЛЮ КОРИСТУВАЧА"""
 
+# Перетворення sync та async
+from asgiref.sync import sync_to_async
+
+# Імпорти Django
+from django.contrib.auth.models import User
+
+# Внутрішні імпорти
 from happy_bot.models import Profile
 
 
 @sync_to_async
-def check_user(telegram_id) -> tuple:
+def check_user(telegram_id: int) -> tuple:
     """
-    Перевірка чи існує користувач в базі даних сайту
-    та отримання його id та username.
-    :param telegram_id:
-    :return:
+    The check_user function checks if a user exists in the database and returns his id and username.
+
+
+    :param telegram_id: int: Get the user id from the database
+    :return: A tuple of two values: user_id, user_name
     """
     user_name = None
     user_id = None
     try:
         user = Profile.objects.filter(telegram_chat_id=telegram_id)
-
         user_name = user.first().user.username
         user_id = user.first().user.id
-
-    except BaseException as e:
+    except AttributeError as e:
         print(e.__class__, e)
     return user_id, user_name
 
 
-def is_user_in_bot(bday_id):
-
-    user_id = BDays.objects.get(id=bday_id).user_id
-    try:
-        return Profile.objects.get(user_id=user_id).telegram_chat_id
-    except BaseException as e:
-        print(e.__class__, e)
-
-
-def rem_id_to_bd_id(rem_id):
-    return Reminder.objects.get(id=rem_id).bday_id
-
-
 # Отримуємо об'єкт User по його id
 @sync_to_async
-def get_user_for_user_id(user_id: int):
+def get_user_for_user_id(user_id: int) -> User or None:
+    """
+    The get_user_for_user_id function takes in a user_id and returns the User object associated with that id.
+    If no such User exists, it returns None.
+
+    :param user_id: int: Specify the type of data that is expected to be passed into the function
+    :return: A User object or None
+    """
     user = None
     try:
         user = User.objects.get(id=user_id)
-
-    except BaseException as e:
+    except User.DoesNotExist as e:
         print(e.__class__, e)
     return user
-
-
-
-
-
-

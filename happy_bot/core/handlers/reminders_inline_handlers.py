@@ -71,12 +71,14 @@ async def show_date_for_month(id_chat: int, month_number: int, s_object: str, bo
     match s_object:
         case 'Нагадування':
             objects = await set_rems(id_chat, month_number)
-            for num, rem in enumerate(objects):
-                await send_rem_date(bot, id_chat, num, rem)
+            if objects:
+                for num, rem in enumerate(objects):
+                    await send_rem_date(bot, id_chat, num, rem)
         case 'Д.Народження':
             objects = await set_bdays(id_chat, month_number)
-            for bday in objects:
-                await send_birthday_date(bot, id_chat, bday)
+            if objects:
+                for bday in objects:
+                    await send_birthday_date(bot, id_chat, bday)
     if not objects:
         await bot.send_message(id_chat,
                                f'\U0001F916\n\nНемає жодного {s_object.upper()} для обраного місяця...')

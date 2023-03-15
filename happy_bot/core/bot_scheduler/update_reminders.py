@@ -52,11 +52,14 @@ async def reminder_unpack(reminders: list[Info], chat_id: int, bot: Bot) -> None
     """
 
     reminders_scheduler.remove_all_jobs()
-    for reminder in reminders:
-        # Задаємо дату, коли потрібно викликати функцію.
-        job_date = reminder.rem_time
-        job_id = str(reminder.id)
-        reminders_scheduler.add_job(send_reminder_date,
-                                    trigger='date', run_date=job_date,
-                                    kwargs={'bot': bot, 'chat_id': chat_id,
-                                            'reminder': reminder}, id=job_id)
+    if reminders:
+        for reminder in reminders:
+            # Задаємо дату, коли потрібно викликати функцію.
+            job_date = reminder.rem_time
+            job_id = str(reminder.id)
+            reminders_scheduler.add_job(send_reminder_date,
+                                        trigger='date', run_date=job_date,
+                                        kwargs={'bot': bot, 'chat_id': chat_id,
+                                                'reminder': reminder}, id=job_id)
+    else:
+        return None

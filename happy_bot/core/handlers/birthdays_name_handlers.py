@@ -61,7 +61,7 @@ async def set_bdays_name(chat_id: int, name: str) -> list[BDinfo]:
     return await make_bdays_list(birthdays)
 
 
-async def make_bdays_list(bdays: list[tuple]) -> list[BDinfo]:
+async def make_bdays_list(bdays: list[tuple]) -> list[BDinfo] or None:
     """
     The make_bdays_list function takes a list of tuples and returns a list of BDinfo objects.
         The function is used to convert the results from the database into an object that can be easily manipulated.
@@ -70,6 +70,9 @@ async def make_bdays_list(bdays: list[tuple]) -> list[BDinfo]:
     :return: A list of BDinfo objects
     """
     information = []
+    if not bdays:
+        return None
+
     for bday in bdays:
         info = BDinfo(
             id=bday[0],
@@ -79,7 +82,6 @@ async def make_bdays_list(bdays: list[tuple]) -> list[BDinfo]:
             birth_date=bday[4],
             age=bday[5])
         information.append(info)
-
     return information
 
 

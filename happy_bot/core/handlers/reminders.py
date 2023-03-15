@@ -2,8 +2,6 @@ from aiogram import Bot
 from aiogram.types import Message, CallbackQuery
 from asgiref.sync import sync_to_async
 
-
-
 from happy_bot.core.handlers.birthdays_name_handlers import make_bdays_list
 from happy_bot.core.handlers.send_bday_date import send_birthday_date
 from happy_bot.core.utils.callbackdata import Search
@@ -12,16 +10,11 @@ from happy_bot.models import User
 from happy_site.models import Reminder, BDays
 from happy_bot.core.handlers.check_user import check_user, get_user_for_user_id
 
-
 import pytz
 from happy_bday.settings import TIME_ZONE
 
 from datetime import datetime
 from happy_bot.core.handlers.send_media import get_picture, get_birthday_photo
-
-
-
-
 
 
 # Запит в базу даних за нагадуваннями для користувача
@@ -49,12 +42,12 @@ def get_reminders(user):
 async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
     reminder_dtime = reminder.rem_time.astimezone(tz=pytz.timezone(TIME_ZONE)).strftime("%d.%m.%y о %H:%M")
     message_for_user = f'Нагадую про день народження:\n\n' \
-              f'<b>{reminder.title.upper()}</b>\n' \
-              f'<b>{reminder.birth_date.strftime("%d.%m.%Y")}</b>\n' \
-              f'Виповнюється:  <b>{reminder.age}</b> років\n\n' \
-              f' Дата нагадування:  ' \
-              f'{reminder_dtime}\n' \
-              f'(<i>{reminder.text}</i>)'
+                       f'<b>{reminder.title.upper()}</b>\n' \
+                       f'<b>{reminder.birth_date.strftime("%d.%m.%Y")}</b>\n' \
+                       f'Виповнюється:  <b>{reminder.age}</b> років\n\n' \
+                       f' Дата нагадування:  ' \
+                       f'{reminder_dtime}\n' \
+                       f'(<i>{reminder.text}</i>)'
     dtime_now = datetime.now().strftime("%d.%m.%y о %H:%M")
 
     if reminder_dtime == dtime_now:
@@ -64,11 +57,17 @@ async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info):
 
 
 # Отримання всіх нагадувань для користувача та повертаємо їх як список:
-async def set_reminders(chat_id: int = None) -> list[Info]:
+async def set_reminders(chat_id: int = None) -> list[Info] or None:
     user_id, user_name = await check_user(chat_id)
-    user = await get_user_for_user_id(user_id)
-    reminders = await get_reminders(user)
+    reminders = []
+    if not user_id:
+        return None
 
+    try:
+        user = await get_user_for_user_id(user_id)
+        reminders = await get_reminders(user)
+    except Exception as error:
+        print(error.__class__, error)
     return [
         Info(
             id=reminder[0],
@@ -90,9 +89,11 @@ async def show_reminders(message: Message, bot: Bot):
 
 
 async def show_reminders_for_id(id_chat: int, bot: Bot):
-    reminders = await set_reminders(id_chat)
-    for reminder in reminders:
-        await send_reminder_date(bot, id_chat, reminder)
+    if reminders := await set_reminders(id_chat):
+        for reminder in reminders:
+            await send_reminder_date(bot, id_chat, reminder)
+    else:
+        return None
 
 
 """BIRTHDAYS"""
@@ -126,14 +127,13 @@ async def set_bdays(chat_id: int = None, version: str = None) -> list[BDinfo] or
     return t_info, n_info
 
 
-
 @sync_to_async
 def get_bdays(user):
     bdays = BDays.objects.filter(user_id=user)
 
     birthdays = []
     for bday in bdays:
-        info = bday.id, bday.title, bday.content, bday.photo,  bday.date, bday.get_age()
+        info = bday.id, bday.title, bday.content, bday.photo, bday.date, bday.get_age()
         birthdays.append(info)
 
     return birthdays
@@ -190,7 +190,6 @@ def get_soon_bdays(user):
 
 
 async def show_soon_birthdays(message: Message, bot: Bot):
-
     id_chat = message.from_user.id
 
     today_birthdays, next_birthdays = await set_bdays(id_chat, 'soon')

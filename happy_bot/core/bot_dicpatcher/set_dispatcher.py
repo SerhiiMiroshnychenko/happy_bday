@@ -6,7 +6,7 @@ from aiogram.filters import CommandStart, Command
 
 # Внутрішні імпорти
 from happy_bot.core.handlers.basic import start_bot, stop_bot, get_glory, get_glory_answer, get_message
-from happy_bot.core.handlers.basic_keyboard_handlers import get_rem_bd, show_month_ver, ask_name, process_name
+from happy_bot.core.handlers.basic_keyboard_handlers import get_reminders_birthdays, show_month_ver, ask_name, process_name
 from happy_bot.core.handlers.auth_handlers import process_auth_command, process_username, process_password
 from happy_bot.core.handlers.basic_command_handlers import get_start, get_help, disabling_authentication
 from happy_bot.core.handlers.reminders import show_soon_birthdays
@@ -34,8 +34,8 @@ dp.message.register(process_auth_command, Command('auth'))
 dp.message.register(disabling_authentication, Command('off'))
 
 # Основна клавіатура
-dp.message.register(get_rem_bd, F.text == 'Нагадування')
-dp.message.register(get_rem_bd, F.text == 'Д.Народження')
+dp.message.register(get_reminders_birthdays, F.text == 'Нагадування')
+dp.message.register(get_reminders_birthdays, F.text == 'Д.Народження')
 dp.message.register(update_reminders_for_message, F.text == 'Оновити')
 dp.message.register(show_soon_birthdays, F.text == 'Незабаром')
 

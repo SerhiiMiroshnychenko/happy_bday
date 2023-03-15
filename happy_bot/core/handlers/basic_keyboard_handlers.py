@@ -16,7 +16,7 @@ async def get_rem_bd(message: Message):
                          reply_markup=get_rem_bd_keyboard(message.from_user.id, message.text))
 
 
-async def show_month_ver(call: CallbackQuery, bot: Bot, callback_data: Search):
+async def show_month_ver(call: CallbackQuery,callback_data: Search):
     await call.message.answer('\U0001F916\n\nОберіть місяць:',
                                reply_markup=get_months_keyboard(
                                    callback_data.user_id,

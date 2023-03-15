@@ -2,14 +2,17 @@ from aiogram import Bot
 from aiogram.types import Message, CallbackQuery
 from asgiref.sync import sync_to_async
 
-from datetime import datetime, date
 
+
+from happy_bot.core.handlers.birthdays_name_handlers import make_bdays_list
+from happy_bot.core.handlers.send_bday_date import send_birthday_date
 from happy_bot.core.utils.callbackdata import Search
+from happy_bot.core.utils.named_tuple_classes import Info, BDinfo
 from happy_bot.models import User
 from happy_site.models import Reminder, BDays
-from happy_bot.core.handlers.check_user import check_user
+from happy_bot.core.handlers.check_user import check_user, get_user_for_user_id
 
-from typing import NamedTuple
+
 import pytz
 from happy_bday.settings import TIME_ZONE
 
@@ -17,34 +20,8 @@ from datetime import datetime
 from happy_bot.core.handlers.send_media import get_picture, get_birthday_photo
 
 
-class Info(NamedTuple):
-    id: int
-    title: str
-    birth_date: date
-    age: int
-    text: str
-    rem_time: datetime
 
 
-class BDinfo(NamedTuple):
-    id: int
-    title: str
-    content: str
-    photo_path: str
-    birth_date: date
-    age: int
-
-
-# Отримуємо об'єкт User по його id
-@sync_to_async
-def get_user_for_user_id(user_id: int):
-    user = None
-    try:
-        user = User.objects.get(id=user_id)
-
-    except BaseException as e:
-        print(e.__class__, e)
-    return user
 
 
 # Запит в базу даних за нагадуваннями для користувача
@@ -92,21 +69,17 @@ async def set_reminders(chat_id: int = None) -> list[Info]:
     user = await get_user_for_user_id(user_id)
     reminders = await get_reminders(user)
 
-    information = []
-    for reminder in reminders:
-        info = Info(
+    return [
+        Info(
             id=reminder[0],
             title=reminder[1],
             birth_date=reminder[2],
             age=reminder[3],
             text=reminder[4],
-            rem_time=reminder[5]
+            rem_time=reminder[5],
         )
-        information.append(info)
-        # await send_reminder_date(
-        #     bot, chat_id, info)
-
-    return information
+        for reminder in reminders
+    ]
 
 
 async def show_reminders(message: Message, bot: Bot):
@@ -145,42 +118,12 @@ async def set_bdays(chat_id: int = None, version: str = None) -> list[BDinfo] or
         bdays = None
 
     if bdays:
-        information = []
-        for bday in bdays:
-            info = BDinfo(
-                id=bday[0],
-                title=bday[1],
-                content=bday[2],
-                photo_path=bday[3],
-                birth_date=bday[4],
-                age=bday[5])
-            information.append(info)
+        return await make_bdays_list(bdays)
 
-        return information
+    t_info = await make_bdays_list(t_bdays)
+    n_info = await make_bdays_list(n_bdays)
 
-    else:
-        t_info = []
-        for bday in t_bdays:
-            info = BDinfo(
-                id=bday[0],
-                title=bday[1],
-                content=bday[2],
-                photo_path=bday[3],
-                birth_date=bday[4],
-                age=bday[5])
-            t_info.append(info)
-        n_info = []
-        for bday in n_bdays:
-            info = BDinfo(
-                id=bday[0],
-                title=bday[1],
-                content=bday[2],
-                photo_path=bday[3],
-                birth_date=bday[4],
-                age=bday[5])
-            n_info.append(info)
-
-        return t_info, n_info
+    return t_info, n_info
 
 
 
@@ -194,18 +137,6 @@ def get_bdays(user):
         birthdays.append(info)
 
     return birthdays
-
-
-async def send_birthday_date(bot: Bot, chat_id: int, birthday: BDinfo):
-    message = f'<b>{birthday.title.upper()}</b>\n' \
-              f'{birthday.content}\n' \
-              f'<b>{birthday.birth_date.strftime("%d.%m.%Y")}</b>\n' \
-              f'Виповнюється:  <b>{birthday.age}</b> років\n\n' \
-
-    if birthday.photo_path:
-        await get_birthday_photo(chat_id, bot, message, birthday.photo_path)
-    else:
-        await bot.send_message(chat_id, message)
 
 
 """SOON BIRTHDAYS"""

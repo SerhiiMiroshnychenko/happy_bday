@@ -39,6 +39,19 @@ def rem_id_to_bd_id(rem_id):
     return Reminder.objects.get(id=rem_id).bday_id
 
 
+# Отримуємо об'єкт User по його id
+@sync_to_async
+def get_user_for_user_id(user_id: int):
+    user = None
+    try:
+        user = User.objects.get(id=user_id)
+
+    except BaseException as e:
+        print(e.__class__, e)
+    return user
+
+
+
 
 
 

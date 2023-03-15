@@ -3,6 +3,7 @@ from aiogram import Bot
 from asgiref.sync import sync_to_async
 
 from happy_bday.settings import TIME_ZONE
+from happy_bot.core.handlers.birthdays_name_handlers import make_bdays_list, make_bdays_list_for_filtering
 from happy_bot.core.handlers.check_user import check_user
 from happy_bot.core.handlers.reminders import send_reminder_date, get_user_for_user_id, Info, BDinfo, send_birthday_date
 from happy_bot.core.keyboards.inline import month_names
@@ -86,30 +87,11 @@ async def set_bdays(chat_id: int, month_number: int) -> list[BDinfo]:
     user = await get_user_for_user_id(user_id)
     bdays = await get_bdays_for_month(user, month_number)
 
-    information = []
-    for bday in bdays:
-        info = BDinfo(
-            id=bday[0],
-            title=bday[1],
-            content=bday[2],
-            photo_path=bday[3],
-            birth_date=bday[4],
-            age=bday[5])
-        information.append(info)
-        # await send_reminder_date(
-        #     bot, chat_id, info)
-
-    return information
+    return await make_bdays_list(bdays)
 
 
 @sync_to_async
 def get_bdays_for_month(user, month_number):
     bdays = BDays.objects.filter(user_id=user, date__month=month_number)
-
-    birthdays = []
-    for bday in bdays:
-        info = bday.id, bday.title, bday.content, bday.photo,  bday.date, bday.get_age()
-        birthdays.append(info)
-
-    return birthdays
+    return make_bdays_list_for_filtering(bdays)
 

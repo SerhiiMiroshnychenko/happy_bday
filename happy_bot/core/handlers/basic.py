@@ -41,7 +41,7 @@ async def start_bot(bot: Bot) -> None:
     """
 
     await set_commands(bot)
-    text = 'Бот запушено.'
+    text = 'Бот запущено.'
     await bot.send_message(ADMIN_ID, text=text)
     if users := await get_users():
         for user in users:

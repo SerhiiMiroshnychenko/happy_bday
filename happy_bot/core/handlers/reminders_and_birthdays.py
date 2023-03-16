@@ -27,6 +27,7 @@ from happy_bot.core.handlers.send_media import get_picture
 from happy_bot.core.utils.named_tuple_classes import Info, BDinfo
 from happy_bot.core.handlers.send_bday_date import send_birthday_date
 from happy_bot.core.handlers.birthdays_name_handlers import make_bdays_list
+from happy_bot.core.handlers.data_inline_handlers import make_reminders_information
 from happy_bot.core.handlers.check_user import check_user, get_user_for_user_id, remind_about_auth
 
 """REMINDERS"""
@@ -104,17 +105,7 @@ async def set_reminders(chat_id: int = None) -> list[Info] or None:
         reminders = await get_reminders(user)
     except BotException as error:
         print(error.__class__, error)
-    return [
-        Info(
-            id=reminder[0],
-            title=reminder[1],
-            birth_date=reminder[2],
-            age=reminder[3],
-            text=reminder[4],
-            rem_time=reminder[5],
-        )
-        for reminder in reminders
-    ]
+    return await make_reminders_information(reminders)
 
 
 async def show_reminders_for_message(message: Message, bot: Bot) -> None:
@@ -171,7 +162,9 @@ async def set_bdays(chat_id: int = None, version: str = None) -> list[BDinfo] or
     The set_bdays function is used to get the birthdays of all users in a chat.
         It can be called with no arguments, or with one argument: version.
         If version is not specified, it will return a list of BDinfo objects for each user in the chat.
-        If version == 'soon', it will return two lists: one containing BDinfo objects for users whose birthday has passed this year, and another containing BDinfo objects for users whose birthday has not yet passed this year.
+        If version == 'soon', it will return two lists: one containing BDinfo objects for users whose birthday
+        has passed this year, and another containing BDinfo objects for users whose birthday has not yet passed
+        this year.
 
     :param chat_id: int: Get the user_id of the user who sent the message
     :param version: str: Determine whether the user wants to see all birthdays or only those that are soon

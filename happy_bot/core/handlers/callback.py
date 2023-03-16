@@ -8,7 +8,7 @@ from aiogram.types import CallbackQuery
 from happy_bot.bd_bot import bot
 from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 from happy_bot.core.utils.callbackdata import Search
-from happy_bot.core.handlers.reminders_inline_handlers import show_date_for_month
+from happy_bot.core.handlers.data_inline_handlers import show_data_for_month
 from happy_bot.core.handlers.reminders_and_birthdays\
     import show_reminders_for_id, set_reminders, send_reminder_date, show_birthdays_for_id
 
@@ -79,6 +79,6 @@ async def select_months(callback_query: CallbackQuery) -> None:
         month_number = int(callback_query.data.split('_')[2])
         f_object = callback_query.data.split('_')[-1]
 
-        await show_date_for_month(user_id, month_number, f_object, bot)
+        await show_data_for_month(user_id, month_number, f_object, bot)
     else:
         await remind_about_auth(callback_query.from_user.id)

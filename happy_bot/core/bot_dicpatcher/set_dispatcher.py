@@ -66,4 +66,3 @@ dp.message.register(get_glory_answer, F.text == 'смерть ворогам!')
 # Відповідь на повідомлення
 dp.message.register(get_message)
 """Кінець блока"""
-

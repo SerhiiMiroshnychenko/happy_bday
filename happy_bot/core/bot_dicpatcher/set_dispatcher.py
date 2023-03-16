@@ -15,7 +15,7 @@ from happy_bot.core.handlers.callback import select_reminder_birthday, select_mo
 from happy_bot.core.states.auth_state import AuthState
 from happy_bot.core.states.rem_name_state import RemNameState
 from happy_bot.core.utils.callbackdata import Search
-from happy_bot.core.middlewares.schedul_middleware import SchedulerMiddleware
+from happy_bot.core.middlewares.schedule_middleware import SchedulerMiddleware
 from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_message
 from happy_bot.core.bot_scheduler.schedule_block import scheduler
 

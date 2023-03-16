@@ -9,7 +9,7 @@ from aiogram.fsm.context import FSMContext
 from happy_bot.bd_bot import bot
 from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 from happy_bot.core.utils.callbackdata import Search
-from happy_bot.core.states.rem_name_state import RemNameState
+from happy_bot.core.states.search_name_state import SearchNameState
 from happy_bot.core.handlers.reminders_name_handlers import show_reminders_for_name
 from happy_bot.core.handlers.birthdays_name_handlers import show_bdays_for_name
 from happy_bot.core.keyboards.inline import get_reminders_birthdays_keyboard, get_months_keyboard
@@ -68,7 +68,7 @@ async def ask_name(call: CallbackQuery, callback_data: Search, state: FSMContext
     if (await check_user(call.from_user.id))[0]:
         await state.update_data(search_object=callback_data.search_object)
         await call.message.answer("\U0001F916\n\nВведіть ім'я чи прізвище іменинника:")
-        await state.set_state(RemNameState.waiting_for_name)
+        await state.set_state(SearchNameState.waiting_for_name)
     else:
         await state.clear()
         await remind_about_auth(call.from_user.id)

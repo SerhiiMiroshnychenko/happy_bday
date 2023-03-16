@@ -13,7 +13,7 @@ from happy_bot.core.handlers.basic_command_handlers import get_start, get_help, 
 from happy_bot.core.handlers.reminders_and_birthdays import show_soon_birthdays
 from happy_bot.core.handlers.callback import select_reminder_birthday, select_months, select_answer
 from happy_bot.core.states.auth_state import AuthState
-from happy_bot.core.states.rem_name_state import RemNameState
+from happy_bot.core.states.search_name_state import SearchNameState
 from happy_bot.core.utils.callbackdata import Search
 from happy_bot.core.middlewares.schedule_middleware import SchedulerMiddleware
 from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_message
@@ -49,7 +49,7 @@ dp.callback_query.register(ask_name, F.data == 'ask_name')
 dp.callback_query.register(select_answer, F.data.startswith(' ...'))
 
 # States
-dp.message.register(process_name, RemNameState.waiting_for_name)
+dp.message.register(process_name, SearchNameState.waiting_for_name)
 dp.message.register(process_username, AuthState.waiting_for_username)
 dp.message.register(process_password, AuthState.waiting_for_password)
 

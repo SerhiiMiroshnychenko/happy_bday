@@ -120,7 +120,7 @@ async def get_message(message: Message) -> None:
 
     json_message = message.dict()
     await write_file(json_message)
-    await message.reply(f'Ви надіслали мені: "<i>{message.text}</i>".')
+    await message.reply(f'Ви надіслали мені: " <b>{message.text}</b> ".')
 
 
 async def write_file(content: dict) -> None:
@@ -134,3 +134,34 @@ async def write_file(content: dict) -> None:
     with open('happy_bot/message_arg.json', 'w') as f:
         json.dump(content, f, indent=4, default=str)
 
+
+async def get_all(message: Message) -> None:
+    """
+    Реакція на надсилання користувачем різних типів повідомлень
+    """
+    message_types = []
+    if message.photo:
+        message_types.append('фото')
+    if message.video:
+        message_types.append('відео')
+    if message.audio:
+        message_types.append('аудіо')
+    if message.sticker:
+        message_types.append('стікер')
+    if message.document:
+        message_types.append('документ')
+    if message.contact:
+        message_types.append('контакт')
+    if message.location:
+        message_types.append('локацію')
+    if message.voice:
+        message_types.append('голосове повідомлення')
+    if message.animation:
+        message_types.append('анімацію')
+    if not message_types:
+        message_types.append('повідомлення')
+
+    message_to_user = 'Ви відправили мені:'
+    await message.answer(message_to_user)
+    for message_type in message_types:
+        await message.answer(f' - {message_type}')

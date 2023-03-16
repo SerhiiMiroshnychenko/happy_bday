@@ -5,8 +5,9 @@ from aiogram import Dispatcher, F
 from aiogram.filters import CommandStart, Command
 
 # Внутрішні імпорти
-from happy_bot.core.handlers.basic import start_bot, stop_bot, get_glory, get_glory_answer, get_message
-from happy_bot.core.handlers.basic_keyboard_handlers import get_reminders_birthdays, show_month_ver, ask_name, process_name
+from happy_bot.core.handlers.basic import start_bot, stop_bot, get_glory, get_glory_answer, get_message, get_all
+from happy_bot.core.handlers.basic_keyboard_handlers\
+    import get_reminders_birthdays, show_month_ver, ask_name, process_name
 from happy_bot.core.handlers.auth_handlers import process_auth_command, process_username, process_password
 from happy_bot.core.handlers.basic_command_handlers import get_start, get_help, disabling_authentication
 from happy_bot.core.handlers.reminders import show_soon_birthdays
@@ -64,5 +65,6 @@ dp.message.register(get_glory_answer, F.text == 'смерть ворогам!')
 
 # Відповідь на повідомлення
 dp.message.register(get_message, F.text)
+dp.message.register(get_all)
 """Кінець блока"""
 

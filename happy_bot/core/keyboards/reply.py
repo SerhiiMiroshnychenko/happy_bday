@@ -1,14 +1,18 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, KeyboardButtonPollType
+"""ФОРМУВАННЯ REPLY КЛАВІАТУРИ"""
+from aiogram.types import ReplyKeyboardMarkup
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
-# ReplyKeyboardMarkup - для створення клавіатури
-# KeyboardButton - для створення кнопки
-# KeyboardButtonPollType - для створення опитувань чи вікторин
 
-
-def get_reply_keyboard():
+# Функція для формування текстової клавіатури
+def get_reply_keyboard() -> ReplyKeyboardMarkup:
     """
-    Функція для формування текстової клавіатури
+    The get_reply_keyboard function creates a ReplyKeyboardMarkup object with the following buttons:
+        - Нагадування
+        - Д.Народження
+        - Оновити
+        - Незабаром
+
+    :return: The ReplyKeyboardMarkup object
     """
     keyboard_builder = ReplyKeyboardBuilder()
 

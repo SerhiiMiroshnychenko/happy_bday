@@ -9,7 +9,7 @@ from aiogram.types import Message
 
 from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 # Внутрішні імпорти
-from happy_bot.core.handlers.reminders_and_birthdays import set_reminders, send_reminder_date, Info
+from happy_bot.core.handlers.reminders_and_birthdays import set_reminders, send_reminder_date, RInfo
 from happy_bot.core.bot_scheduler.schedule_block import reminders_scheduler
 
 
@@ -45,7 +45,7 @@ async def update_reminders_for_message(message: Message, bot: Bot) -> None:
         await remind_about_auth(chat_id)
 
 
-async def reminder_unpack(reminders: list[Info], chat_id: int, bot: Bot) -> None:
+async def reminder_unpack(reminders: list[RInfo], chat_id: int, bot: Bot) -> None:
     """
     Додає оновленні нагадування в reminders_scheduler як jobs.
 

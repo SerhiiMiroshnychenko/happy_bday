@@ -24,7 +24,7 @@ from happy_site.models import Reminder, BDays
 
 # Внутрішні імпорти
 from happy_bot.core.handlers.send_media import get_picture
-from happy_bot.core.utils.named_tuple_classes import Info, BDinfo
+from happy_bot.core.utils.named_tuple_classes import RInfo, BDinfo
 from happy_bot.core.handlers.send_bday_date import send_birthday_date
 from happy_bot.core.handlers.birthdays_name_handlers import make_bdays_list
 from happy_bot.core.handlers.data_inline_handlers import make_reminders_information
@@ -60,7 +60,7 @@ def get_reminders(id_user: int) -> list[tuple]:
 
 
 # Надсилання нагадування користувачу
-async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info) -> None:
+async def send_reminder_date(bot: Bot, chat_id: int, reminder: RInfo) -> None:
     """
     The send_reminder_date function sends a reminder to the user about the date of birth.
 
@@ -87,7 +87,7 @@ async def send_reminder_date(bot: Bot, chat_id: int, reminder: Info) -> None:
 
 
 # Отримання всіх нагадувань для користувача та повертаємо їх як список:
-async def set_reminders(chat_id: int = None) -> list[Info] or None:
+async def set_reminders(chat_id: int = None) -> list[RInfo] or None:
     """
     The set_reminders function is used to get all reminders for a user.
         Args:

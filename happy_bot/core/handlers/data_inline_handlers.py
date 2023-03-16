@@ -20,13 +20,13 @@ from happy_site.models import Reminder, BDays
 
 # Внутрішні імпорти
 from happy_bot.core.keyboards.inline import month_names
-from happy_bot.core.utils.named_tuple_classes import Info, BDinfo
+from happy_bot.core.utils.named_tuple_classes import RInfo, BDinfo
 from happy_bot.core.handlers.send_bday_date import send_birthday_date
 from happy_bot.core.handlers.check_user import check_user, get_user_for_user_id
 from happy_bot.core.handlers.birthdays_name_handlers import make_bdays_list, make_bdays_list_for_filtering
 
 
-async def set_reminders(chat_id: int, month_number: int) -> list[Info]:
+async def set_reminders(chat_id: int, month_number: int) -> list[RInfo]:
     """
     The set_reminders function is used to get all reminders for a given month.
         It takes in the chat_id of the user and the month number parameters,
@@ -43,7 +43,7 @@ async def set_reminders(chat_id: int, month_number: int) -> list[Info]:
     return await make_reminders_information(reminders)
 
 
-async def make_reminders_information(reminders: list[tuple]) -> list[Info]:
+async def make_reminders_information(reminders: list[tuple]) -> list[RInfo]:
     """
     The make_reminders_information function takes a list of tuples and returns a list of Info objects.
     The function is used to convert the reminders from the database into Info objects that can be sent to the client.
@@ -51,12 +51,12 @@ async def make_reminders_information(reminders: list[tuple]) -> list[Info]:
     :param reminders: list[tuple]: Pass the list of tuples that is returned from the get_reminders function
     :return: A list of info objects
     """
-    return [Info(id=reminder[0],
-                 title=reminder[1],
-                 birth_date=reminder[2],
-                 age=reminder[3],
-                 text=reminder[4],
-                 rem_time=reminder[5])
+    return [RInfo(id=reminder[0],
+                  title=reminder[1],
+                  birth_date=reminder[2],
+                  age=reminder[3],
+                  text=reminder[4],
+                  rem_time=reminder[5])
             for reminder in reminders]
 
 
@@ -87,7 +87,7 @@ def get_reminders_for_param(user: User, param: int or str) -> list[tuple]:
     return reminders
 
 
-async def send_reminders_data(bot: Bot, chat_id: int, num: int, reminder: Info) -> None:
+async def send_reminders_data(bot: Bot, chat_id: int, num: int, reminder: RInfo) -> None:
     """
     The send_reminders_data function sends a message to the user with information about the reminder.
         Args:

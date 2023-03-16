@@ -1,9 +1,12 @@
+"""NAMED TUPLE CLASSES FOR DISPLAYING INFORMATION"""
 from typing import NamedTuple
-
 from datetime import datetime, date
 
 
-class Info(NamedTuple):
+class RInfo(NamedTuple):
+    """
+    Information about reminders
+    """
     id: int
     title: str
     birth_date: date
@@ -13,6 +16,9 @@ class Info(NamedTuple):
 
 
 class BDinfo(NamedTuple):
+    """
+    Information about birthdays
+    """
     id: int
     title: str
     content: str

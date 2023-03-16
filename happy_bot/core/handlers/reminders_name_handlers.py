@@ -7,7 +7,7 @@ from aiogram import Bot
 from happy_bot.core.handlers.check_user import check_user
 from happy_bot.core.handlers.data_inline_handlers \
     import make_reminders_information, get_reminders_for_param, send_reminders_data
-from happy_bot.core.handlers.reminders_and_birthdays import get_user_for_user_id, Info
+from happy_bot.core.handlers.reminders_and_birthdays import get_user_for_user_id, RInfo
 
 
 async def show_reminders_for_name(id_chat: int, name: str, bot: Bot) -> None:
@@ -29,7 +29,7 @@ async def show_reminders_for_name(id_chat: int, name: str, bot: Bot) -> None:
             await send_reminders_data(bot, id_chat, num, reminder)
 
 
-async def set_reminders_by_name(chat_id: int, name: str) -> list[Info]:
+async def set_reminders_by_name(chat_id: int, name: str) -> list[RInfo]:
     """
     The set_reminders_by_name function is used to get a list of reminders for a user by name.
         Args:

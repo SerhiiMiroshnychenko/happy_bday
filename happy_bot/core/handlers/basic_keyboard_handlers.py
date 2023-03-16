@@ -10,7 +10,7 @@ from happy_bot.bd_bot import bot
 from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 from happy_bot.core.utils.callbackdata import Search
 from happy_bot.core.states.rem_name_state import RemNameState
-from happy_bot.core.handlers.reminders_name_handlers import show_rems_for_name
+from happy_bot.core.handlers.reminders_name_handlers import show_reminders_for_name
 from happy_bot.core.handlers.birthdays_name_handlers import show_bdays_for_name
 from happy_bot.core.keyboards.inline import get_rem_bd_keyboard, get_months_keyboard
 
@@ -91,7 +91,7 @@ async def process_name(message: Message, state: FSMContext) -> None:
     f_object = data['search_object']
 
     if type(name) == str and f_object == 'Нагадування':
-        await show_rems_for_name(message.from_user.id, name, bot)
+        await show_reminders_for_name(message.from_user.id, name, bot)
     elif type(name) == str and f_object == 'Д.Народження':
         await show_bdays_for_name(message.from_user.id, name, bot)
     else:

@@ -1,3 +1,4 @@
+"""THE BOT INITIALIZATION"""
 from aiogram import Bot
 from happy_bday.settings import TELEGRAM_BOT_TOKEN
 

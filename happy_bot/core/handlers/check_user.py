@@ -59,5 +59,4 @@ async def remind_about_auth(user_id: int) -> None:
     """
     message_to_user = 'Нагадую, що Ви ще не зареєстровані.' \
                       ' Для доступу до всіх функцій пройдіть реєстрацію на сайті та в боті.'
-    print(f'$$$$$$$$$$$$$$$$$   {message_to_user=}')
     await bot.send_message(user_id, message_to_user)

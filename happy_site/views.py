@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.decorators import method_decorator
 
+from happy_bot.core.handlers.reminders_and_birthdays import get_next_day_month
 from .forms import AddBDayForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
@@ -141,18 +142,7 @@ class NextBDay(TemplateView):
             # Знаходимо наступні дні народження
             birthdays = BDays.objects.filter(user=self.request.user).order_by('date__month', 'date__day', 'title')
 
-            next_day_month = None, None
-            for birthday in birthdays:
-                bday_month = birthday.date.month
-                bday_day = birthday.date.day
-                if (
-                    bday_month == today.month
-                    and bday_day > today.day
-                    or bday_month != today.month
-                    and bday_month > today.month
-                ):
-                    next_day_month = birthday.date.day, birthday.date.month
-                    break
+            next_day_month = get_next_day_month(today, birthdays)
 
             next_birthdays = BDays.objects.filter(
                 date__month=next_day_month[1],

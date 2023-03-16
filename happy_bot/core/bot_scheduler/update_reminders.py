@@ -9,7 +9,7 @@ from aiogram.types import Message
 
 from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 # Внутрішні імпорти
-from happy_bot.core.handlers.reminders import set_reminders, send_reminder_date, Info
+from happy_bot.core.handlers.reminders_and_birthdays import set_reminders, send_reminder_date, Info
 from happy_bot.core.bot_scheduler.schedule_block import reminders_scheduler
 
 

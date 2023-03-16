@@ -10,7 +10,7 @@ from happy_bot.core.handlers.basic_keyboard_handlers\
     import get_reminders_birthdays, show_month_ver, ask_name, process_name
 from happy_bot.core.handlers.auth_handlers import process_auth_command, process_username, process_password
 from happy_bot.core.handlers.basic_command_handlers import get_start, get_help, disabling_authentication
-from happy_bot.core.handlers.reminders import show_soon_birthdays
+from happy_bot.core.handlers.reminders_and_birthdays import show_soon_birthdays
 from happy_bot.core.handlers.callback import select_reminder_birthday, select_months, select_answer
 from happy_bot.core.states.auth_state import AuthState
 from happy_bot.core.states.rem_name_state import RemNameState

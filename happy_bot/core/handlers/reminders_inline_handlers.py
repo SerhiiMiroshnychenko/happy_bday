@@ -5,7 +5,7 @@ from asgiref.sync import sync_to_async
 from happy_bday.settings import TIME_ZONE
 from happy_bot.core.handlers.birthdays_name_handlers import make_bdays_list, make_bdays_list_for_filtering
 from happy_bot.core.handlers.check_user import check_user
-from happy_bot.core.handlers.reminders import send_reminder_date, get_user_for_user_id, Info, BDinfo, send_birthday_date
+from happy_bot.core.handlers.reminders_and_birthdays import send_reminder_date, get_user_for_user_id, Info, BDinfo, send_birthday_date
 from happy_bot.core.keyboards.inline import month_names
 from happy_site.models import Reminder, BDays
 

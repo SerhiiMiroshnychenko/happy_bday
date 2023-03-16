@@ -7,6 +7,7 @@ from datetime import datetime
 from aiogram import Bot
 from aiogram.types import Message
 
+from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 # Внутрішні імпорти
 from happy_bot.core.handlers.reminders import set_reminders, send_reminder_date, Info
 from happy_bot.core.bot_scheduler.schedule_block import reminders_scheduler
@@ -36,9 +37,12 @@ async def update_reminders_for_message(message: Message, bot: Bot) -> None:
     """
 
     chat_id = message.from_user.id
-    print(f'UPDATE {datetime.now()}')
-    await update_reminders_for_id(bot, chat_id)
-    await message.answer('Нагадування оновлено.')
+    if (await check_user(chat_id))[0]:
+        print(f'UPDATE {datetime.now()}')
+        await update_reminders_for_id(bot, chat_id)
+        await message.answer('Нагадування оновлено.')
+    else:
+        await remind_about_auth(chat_id)
 
 
 async def reminder_unpack(reminders: list[Info], chat_id: int, bot: Bot) -> None:

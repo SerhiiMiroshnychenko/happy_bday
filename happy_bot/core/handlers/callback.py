@@ -6,6 +6,7 @@ from aiogram.types import CallbackQuery
 
 # Внутрішні імпорти
 from happy_bot.bd_bot import bot
+from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 from happy_bot.core.utils.callbackdata import Search
 from happy_bot.core.handlers.reminders_inline_handlers import show_date_for_month
 from happy_bot.core.handlers.reminders\
@@ -36,14 +37,17 @@ async def select_reminder_birthday(call: CallbackQuery, callback_data: Search) -
     :param callback_data: Search: Get the user_id and search_object from the callback data
     :return: The user's reminders or birthdays
     """
-    chat_id = callback_data.user_id
-    find_object = callback_data.search_object
-    await call.message.answer(f'\U0001F916\n\nВСІ {find_object.upper()}:')
-    match find_object:
-        case 'Нагадування':
-            await show_reminders_for_id(chat_id, bot)
-        case 'Д.Народження':
-            await show_birthdays_for_id(chat_id, bot)
+    if (await check_user(call.from_user.id))[0]:
+        chat_id = callback_data.user_id
+        find_object = callback_data.search_object
+        await call.message.answer(f'\U0001F916\n\nВСІ {find_object.upper()}:')
+        match find_object:
+            case 'Нагадування':
+                await show_reminders_for_id(chat_id, bot)
+            case 'Д.Народження':
+                await show_birthdays_for_id(chat_id, bot)
+    else:
+        await remind_about_auth(call.from_user.id)
 
 
 async def show_reminders_birthday(bot_: Bot, callback_data: Search) -> None:
@@ -70,8 +74,11 @@ async def select_months(callback_query: CallbackQuery) -> None:
     :param callback_query: CallbackQuery: Get the data from the callback query
     :return: A list of dates for a specific month
     """
-    user_id = int(callback_query.data.split('_')[1])
-    month_number = int(callback_query.data.split('_')[2])
-    f_object = callback_query.data.split('_')[-1]
+    if (await check_user(callback_query.from_user.id))[0]:
+        user_id = int(callback_query.data.split('_')[1])
+        month_number = int(callback_query.data.split('_')[2])
+        f_object = callback_query.data.split('_')[-1]
 
-    await show_date_for_month(user_id, month_number, f_object, bot)
+        await show_date_for_month(user_id, month_number, f_object, bot)
+    else:
+        await remind_about_auth(callback_query.from_user.id)

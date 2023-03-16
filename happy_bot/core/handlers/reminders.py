@@ -8,7 +8,7 @@ from happy_bot.core.utils.callbackdata import Search
 from happy_bot.core.utils.named_tuple_classes import Info, BDinfo
 from happy_bot.models import User
 from happy_site.models import Reminder, BDays
-from happy_bot.core.handlers.check_user import check_user, get_user_for_user_id
+from happy_bot.core.handlers.check_user import check_user, get_user_for_user_id, remind_about_auth
 
 import pytz
 from happy_bday.settings import TIME_ZONE
@@ -192,13 +192,16 @@ def get_soon_bdays(user):
 async def show_soon_birthdays(message: Message, bot: Bot):
     id_chat = message.from_user.id
 
-    today_birthdays, next_birthdays = await set_bdays(id_chat, 'soon')
+    if (await check_user(message.from_user.id))[0]:
+        today_birthdays, next_birthdays = await set_bdays(id_chat, 'soon')
 
-    if today_birthdays:
-        await message.answer('Сьогодні святкуємо:')
-        for birthday in today_birthdays:
-            await send_birthday_date(bot, id_chat, birthday)
-    if next_birthdays:
-        await message.answer('Незабаром святкуємо:')
-        for birthday in next_birthdays:
-            await send_birthday_date(bot, id_chat, birthday)
+        if today_birthdays:
+            await message.answer('Сьогодні святкуємо:')
+            for birthday in today_birthdays:
+                await send_birthday_date(bot, id_chat, birthday)
+        if next_birthdays:
+            await message.answer('Незабаром святкуємо:')
+            for birthday in next_birthdays:
+                await send_birthday_date(bot, id_chat, birthday)
+    else:
+        await remind_about_auth(message.from_user.id)

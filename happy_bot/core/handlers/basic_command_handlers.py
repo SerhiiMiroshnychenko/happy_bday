@@ -16,7 +16,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from happy_bot.bd_bot import bot
 from happy_bot.bot_exceptions import BotException
 from happy_bot.models import Profile
-from happy_bot.core.handlers.check_user import check_user
+from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 from happy_bot.core.handlers.send_media import get_picture
 from happy_bot.core.keyboards.reply import get_reply_keyboard
 from happy_bot.core.messages.bese_command_messages import help_message
@@ -47,10 +47,14 @@ async def get_start(message: Message, apscheduler: AsyncIOScheduler) -> None:
 
     await get_picture(message.from_user.id, bot, message_for_user, 'start')
 
-    await message.answer('Оберіть подальшу дію.', reply_markup=get_reply_keyboard())
-    apscheduler.add_job(update_reminders_for_id, trigger='interval',
-                        seconds=30,
-                        kwargs={'bot': bot, 'chat_id': message.from_user.id})
+    if user_id:
+        await message.answer('Оберіть подальшу дію.', reply_markup=get_reply_keyboard())
+
+        apscheduler.add_job(update_reminders_for_id, trigger='interval',
+                            seconds=30,
+                            kwargs={'bot': bot, 'chat_id': message.from_user.id})
+    else:
+        await remind_about_auth(message.from_user.id)
 
 
 """HELP"""
@@ -69,10 +73,14 @@ async def get_help(message: Message, apscheduler: AsyncIOScheduler) -> None:
     :return: None; Send a picture with a description of the bot's capabilities
     """
     await get_picture(message.from_user.id, bot, help_message, 'help')
-    apscheduler.add_job(send_message_chat_gpt, trigger='date',
-                        run_date=datetime.now() + timedelta(minutes=2),
-                        kwargs={'message': message})
-    await show_jobs()
+    user_id = (await check_user(message.from_user.id))[0]
+    if user_id:
+        apscheduler.add_job(send_message_chat_gpt, trigger='date',
+                            run_date=datetime.now() + timedelta(minutes=2),
+                            kwargs={'message': message})
+        await show_jobs()
+    else:
+        await remind_about_auth(message.from_user.id)
 
 
 async def show_jobs() -> None:

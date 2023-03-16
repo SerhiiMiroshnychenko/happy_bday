@@ -7,6 +7,7 @@ from aiogram.fsm.context import FSMContext
 
 # Внутрішні імпорти
 from happy_bot.bd_bot import bot
+from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 from happy_bot.core.utils.callbackdata import Search
 from happy_bot.core.states.rem_name_state import RemNameState
 from happy_bot.core.handlers.reminders_name_handlers import show_rems_for_name
@@ -25,9 +26,12 @@ async def get_reminders_birthdays(message: Message) -> None:
     :param message: Message: Get the user id and message text
     :return: The keyboard for the user to choose further action
     """
-    await message.answer('\U0001F916\n\nОберіть подальшу дію:',
-                         reply_markup=get_rem_bd_keyboard(
-                             message.from_user.id, message.text))
+    if (await check_user(message.from_user.id))[0]:
+        await message.answer('\U0001F916\n\nОберіть подальшу дію:',
+                             reply_markup=get_rem_bd_keyboard(
+                                 message.from_user.id, message.text))
+    else:
+        await remind_about_auth(message.from_user.id)
 
 
 async def show_month_ver(call: CallbackQuery, callback_data: Search) -> None:
@@ -40,11 +44,14 @@ async def show_month_ver(call: CallbackQuery, callback_data: Search) -> None:
     :param callback_data: Search: Get the user_id and search_object
     :return: None; Send a keyboard with months
     """
-    await call.message.answer('\U0001F916\n\nОберіть місяць:',
-                              reply_markup=get_months_keyboard(
-                                  callback_data.user_id,
-                                  callback_data.search_object
-                              ))
+    if (await check_user(call.from_user.id))[0]:
+        await call.message.answer('\U0001F916\n\nОберіть місяць:',
+                                  reply_markup=get_months_keyboard(
+                                      callback_data.user_id,
+                                      callback_data.search_object
+                                  ))
+    else:
+        await remind_about_auth(call.from_user.id)
 
 
 async def ask_name(call: CallbackQuery, callback_data: Search, state: FSMContext) -> None:
@@ -58,9 +65,13 @@ async def ask_name(call: CallbackQuery, callback_data: Search, state: FSMContext
     :param state: FSMContext: Store the state of the conversation
     :return: None; Save search_object in state's data.
     """
-    await state.update_data(search_object=callback_data.search_object)
-    await call.message.answer("\U0001F916\n\nВведіть ім'я чи прізвище іменинника:")
-    await state.set_state(RemNameState.waiting_for_name)
+    if (await check_user(call.from_user.id))[0]:
+        await state.update_data(search_object=callback_data.search_object)
+        await call.message.answer("\U0001F916\n\nВведіть ім'я чи прізвище іменинника:")
+        await state.set_state(RemNameState.waiting_for_name)
+    else:
+        await state.clear()
+        await remind_about_auth(call.from_user.id)
 
 
 async def process_name(message: Message, state: FSMContext) -> None:

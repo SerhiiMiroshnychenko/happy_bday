@@ -12,7 +12,7 @@ from happy_bot.core.utils.callbackdata import Search
 from happy_bot.core.states.rem_name_state import RemNameState
 from happy_bot.core.handlers.reminders_name_handlers import show_reminders_for_name
 from happy_bot.core.handlers.birthdays_name_handlers import show_bdays_for_name
-from happy_bot.core.keyboards.inline import get_rem_bd_keyboard, get_months_keyboard
+from happy_bot.core.keyboards.inline import get_reminders_birthdays_keyboard, get_months_keyboard
 
 
 async def get_reminders_birthdays(message: Message) -> None:
@@ -28,7 +28,7 @@ async def get_reminders_birthdays(message: Message) -> None:
     """
     if (await check_user(message.from_user.id))[0]:
         await message.answer('\U0001F916\n\nОберіть подальшу дію:',
-                             reply_markup=get_rem_bd_keyboard(
+                             reply_markup=get_reminders_birthdays_keyboard(
                                  message.from_user.id, message.text))
     else:
         await remind_about_auth(message.from_user.id)

@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.decorators import method_decorator
 
 from happy_bot.core.handlers.reminders_and_birthdays import get_next_day_month
+from happy_bot.core.keyboards.inline import month_names
 from .forms import AddBDayForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
@@ -89,20 +90,6 @@ class BDayList(LoginRequiredMixin, DataMixin, ListView):
             order_by('date__month').values('date__month').distinct()
         print(f'{months=}')
 
-        month_names = {
-            1: 'Січень',
-            2: 'Лютий',
-            3: 'Березень',
-            4: 'Квітень',
-            5: 'Травень',
-            6: 'Червень',
-            7: 'Липень',
-            8: 'Серпень',
-            9: 'Вересень',
-            10: 'Жовтень',
-            11: 'Листопад',
-            12: 'Грудень'
-        }
         for month in months:
             month["name__month"] = month_names[month["date__month"]]
 

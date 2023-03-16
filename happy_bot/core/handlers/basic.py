@@ -94,7 +94,7 @@ async def get_glory(message: Message, bot: Bot, apscheduler: AsyncIOScheduler) -
     await message.answer('Героям Слава!')
     apscheduler.add_job(send_message_glory, trigger='date',
                         run_date=datetime.now() + timedelta(seconds=8),
-                        kwargs={'bot': bot, 'chat_id': message.from_user.id})
+                        kwargs={'chat_id': message.from_user.id})
 
 
 async def get_glory_answer(message: Message) -> None:

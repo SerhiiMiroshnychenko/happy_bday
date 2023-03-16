@@ -109,20 +109,6 @@ async def get_glory_answer(message: Message) -> None:
     await message.answer('<b>ПЕРЕМОЗІ БУТИ</b>!', reply_markup=get_ukr_keyboard())
 
 
-async def get_message(message: Message) -> None:
-    """
-    The get_message function is a coroutine that takes in a Message object and
-        returns None. It writes the message to file, then replies with the same text.
-
-    :param message: Message: Get the message that was sent to the bot
-    :return: None
-    """
-
-    json_message = message.dict()
-    await write_file(json_message)
-    await message.reply(f'Ви надіслали мені: " <b>{message.text}</b> ".')
-
-
 async def write_file(content: dict) -> None:
     """
     The write_file function takes in a dictionary and writes it to the message_arg.json file.
@@ -135,13 +121,15 @@ async def write_file(content: dict) -> None:
         json.dump(content, f, indent=4, default=str)
 
 
-async def get_all(message: Message) -> None:
+async def get_message(message: Message) -> None:
     """
     Реакція на надсилання користувачем різних типів повідомлень
     """
     message_types = []
+    if message.text:
+        message_types.append(f'текст: " <b>{message.text}</b> ".')
     if message.photo:
-        message_types.append('фото')
+        message_types.append(f'картинку розміром {int(message.photo[-1].file_size / 1000)} kb')
     if message.video:
         message_types.append('відео')
     if message.audio:
@@ -158,6 +146,8 @@ async def get_all(message: Message) -> None:
         message_types.append('голосове повідомлення')
     if message.animation:
         message_types.append('анімацію')
+    if message.caption:
+        message_types.append(f'з описом: " <b>{message.caption}</b> ".')
     if not message_types:
         message_types.append('повідомлення')
 
@@ -165,3 +155,6 @@ async def get_all(message: Message) -> None:
     await message.answer(message_to_user)
     for message_type in message_types:
         await message.answer(f' - {message_type}')
+
+    json_message = message.dict()
+    await write_file(json_message)

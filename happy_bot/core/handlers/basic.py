@@ -25,7 +25,7 @@ from happy_bot.models import Profile
 from happy_bot.bot_exceptions import BotException
 from happy_bot.core.utils.commands import set_commands
 from happy_bot.core.keyboards.inline import get_ukr_keyboard
-from happy_bot.core.handlers.schedul_task import send_message_glory
+from happy_bot.core.handlers.schedule_task import send_message_glory
 from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_id
 
 

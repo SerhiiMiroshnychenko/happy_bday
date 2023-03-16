@@ -20,7 +20,7 @@ from happy_bot.core.handlers.check_user import check_user, remind_about_auth
 from happy_bot.core.handlers.send_media import get_picture
 from happy_bot.core.keyboards.reply import get_reply_keyboard
 from happy_bot.core.messages.bese_command_messages import help_message
-from happy_bot.core.handlers.schedul_task import send_message_chat_gpt
+from happy_bot.core.handlers.schedule_task import send_message_chat_gpt
 from happy_bot.core.bot_scheduler.update_reminders import update_reminders_for_id
 from happy_site.signals import sync_show_job
 

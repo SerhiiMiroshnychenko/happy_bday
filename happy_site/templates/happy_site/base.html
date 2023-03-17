@@ -1,146 +1,163 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
-	<title>{{title}}</title>
-	<link type="text/css" href="{% static 'happy_site/css/styles.css' %}" rel="stylesheet" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" href="{% static 'happy_site/images/happy_logo.png' %}" type="image/x-icon"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link type="text/css" href="{% static 'happy_site/css/styles.css' %}" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{% static 'happy_site/images/happy_logo.png' %}" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-<table class="table-page" border=0 cellpadding="0" cellspacing="0">
-<tr><td valign=top>
-{% block mainmenu %}
-		<div class="header">
-			<ul id="mainmenu" class="mainmenu">
-                <li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
-            {% if user.is_authenticated %}
-                <li><a href="/bdays/">Дні народження</a></li>
-                <li><a href="/add_bday/">Додати день народження{{m.title}}</a></li>
-               <li>Happy Bot<a href="https://web.telegram.org/k/#@hhappy_bday_bbot" target="_blank">
-                   <img id="happy-bot" style="width: 30px; height: 30px"
-                        alt="Happy Bot" src="{% static 'happy_site/images/happy_bot.png' %}" /></a></li>
-            {% endif %}
-                    {% if user.is_authenticated %}
-                            {% if user.username == 'admin' %}
-                                <li class="last"><a href="/admin/">Привіт, {{ user.username }}</a>
-                                                 | <a href="{% url 'logout' %}">Вихід</a></li>
+    <table class="table-page" border=0 cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign=top>
+                {% block mainmenu %}
+                <div class="header">
+                    <ul id="mainmenu" class="mainmenu">
+                        <li class="logo"><a href="{% url 'home' %}">
+                                <div class="logo"></div>
+                            </a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="/bdays/">Дні народження</a></li>
+                        <li><a href="/add_bday/">Додати день народження{{m.title}}</a></li>
+                        <li>Happy Bot<a href="https://web.telegram.org/k/#@hhappy_bday_bbot" target="_blank">
+                                <img id="happy-bot" style="width: 30px; height: 30px" alt="Happy Bot"
+                                    src="{% static 'happy_site/images/happy_bot.png' %}" /></a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        {% if user.username == 'admin' %}
+                        <li class="last"><a href="/admin/">Привіт, {{ user.username }}</a>
+                            | <a href="{% url 'logout' %}">Вихід</a></li>
+                        {% else %}
+                        <li class="last"><a href="home/">Привіт, {{ user.username }}</a>
+                            | <a href="{% url 'logout' %}">Вихід</a></li>
+                        {% endif %}
+                        {% else %}
+
+                        <li class="last"><a href="{% url 'register' %}">Реєстрація</a>
+                            | <a href="{% url 'login' %}">Вхід</a></li>
+                        {% endif %}
+
+                    </ul>
+                    <div class="clear"></div>
+                    <div class="animator">
+                        <svg height="20" width="auto">
+                            <circle cx="10" cy="10" r="10" fill="lightsteelblue">
+                                <animate attributeName="cx" from="0" to="2000" dur="100s" fill="freeze"
+                                    repeatCount="10" />
+                            </circle>
+                        </svg>
+                    </div>
+                </div>
+                {% endblock mainmenu %}
+
+                <table class="table-content" border=0 cellpadding="0" cellspacing="0">
+                    <tr>
+                        <!-- Sidebar зліва -->
+                        <td valign="top" class="left-chapters">
+
+                            {% if user.is_authenticated %}
+                            <div id="year"><a href="/bdays/">Весь рік</a></div>
+                            <div class="months">
+                                <ul class="months-list">
+                                    {% for month in months %} <!-- Для кожної категорії із всіх категорій -->
+                                    <li>
+                                        <div id="month" class="button-bd"><a
+                                                href="/bdays/?month={{ month.date__month }}">{{month.name__month }}</a>
+                                        </div>
+                                    </li> <!-- Інакше як посилання -->
+
+
+                                    {% endfor %}
+                                </ul>
+
+
+                            </div>
                             {% else %}
-                                <li class="last"><a href="home/">Привіт, {{ user.username }}</a>
-                                                 | <a href="{% url 'logout' %}">Вихід</a></li>
+                            <div class="welcome-site">
+                                <div class="welcome">W</div>
+                                <div class="welcome">E</div>
+                                <div class="welcome">L</div>
+                                <div class="welcome">C</div>
+                                <div class="welcome">O</div>
+                                <div class="welcome">M</div>
+                                <div class="welcome">E</div>
+                                <div class="welcome">!!</div>
+
+                            </div>
+
                             {% endif %}
-                    {%  else %}
+                        </td>
 
-                    <li class="last"><a href="{% url 'register' %}">Реєстрація</a>
-                    | <a href="{% url 'login' %}">Вхід</a></li>
-                {% endif %}
+                        <!-- Кінець Sidebar'а -->
 
-			</ul>
-			<div class="clear"></div>
-    <div class="animator">
-        <svg  height="20" width="auto">
-            <circle cx="10" cy="10" r="10" fill="lightsteelblue">
-                <animate attributeName="cx" from="0" to="2000" dur="100s" fill="freeze" repeatCount="10"/>
-            </circle>
-        </svg>
-    </div>
-		</div>
-{% endblock mainmenu %}
-
-<table class="table-content" border=0 cellpadding="0" cellspacing="0">
-<tr>
-<!-- Sidebar зліва -->
-	<td valign="top" class="left-chapters">
-
-        {% if user.is_authenticated %}
-            <div id="year"><a href="/bdays/">Весь рік</a></div>
-<div class="months">
-<ul class="months-list">
-    {% for month in months %}  <!-- Для кожної категорії із всіх категорій -->
-        <li><div id="month" class="button-bd"><a href="/bdays/?month={{ month.date__month }}">{{month.name__month }}</a></div></li>  <!-- Інакше як посилання -->
+                        <td valign="top" class="content">
 
 
-    {% endfor %}
-</ul>
+                            <!-- Хлібні крихти -->
+                            {% block breadcrumbs %}
+                            {% endblock %}
 
+                            <!-- Блок контенту -->
+                            <div class="content-text">
+                                {% block content %}
+                                {% endblock %}
+                                {% block start %}
+                                {% if not user.is_authenticated %}
+                                <div class="INTRO">
+                                    <p>Вітаю на сайті <b>HAPPY B-DAYS!</b></p>
 
-</div>
-{% else %}
-            <div class="welcome-site">
-                <div class="welcome">W</div>
-                <div class="welcome">E</div>
-                <div class="welcome">L</div>
-                <div class="welcome">C</div>
-                <div class="welcome">O</div>
-                <div class="welcome">M</div>
-                <div class="welcome">E</div>
-                <div class="welcome">!!</div>
+                                    <p>Завдяки цьому сайту та його вірному помічнику:<br>боту <b>Happy Bot</b>,
+                                        Ви ніколи не забудете привітати<br>рідних та знайомих з їхніми <b>Днями
+                                            народження!</b></p>
+                                    <p>Будемо раді допомогти Вам після <b>реєстрації</b>!</p>
+                                </div>
+                                {% endif %}
+                                {% endblock start %}
+                            </div>
+                            <!-- Кінець блоку контенту -->
 
-            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-        {% endif %}
-</td>
-
-<!-- Кінець Sidebar'а -->
-
-<td valign="top" class="content">
-
-
-<!-- Хлібні крихти -->
-{% block breadcrumbs %}
-{% endblock %}
-
-<!-- Блок контенту -->
-	<div class="content-text">
-        {% block content %}
-        {% endblock %}
-    {% block start %}
-    {% if not user.is_authenticated %}
-        <div class="INTRO">
-            <p>Вітаю на сайті <b>HAPPY B-DAYS!</b></p>
-
-            <p>Завдяки цьому сайту та його вірному помічнику:<br>боту <b>Happy Bot</b>,
-                Ви ніколи не забудете привітати<br>рідних та знайомих з їхніми <b>Днями народження!</b></p>
-            <p>Будемо раді допомогти Вам після <b>реєстрації</b>!</p>
-        </div>
-    {% endif %}
-    {% endblock start %}
-	</div>
-<!-- Кінець блоку контенту -->
-
-</td></tr></table>
-</td></tr>
-
-{% block footer %}
-<!-- Footer -->
-<footer>
-        <td>
-            <div id="footer" class="contacts">
-                <div class="animator">
-                    <svg  height="50" width="auto">
-                        <circle cx="10" cy="25" r="20" fill="lightsteelblue">
-                            <animate attributeName="cx" from="0" to="2000" dur="100s" fill="freeze" repeatCount="10"/>
-                        </circle>
-                    </svg>
-                </div>
-        </td>
-</footer>
-    <div class="author-contacts">
-    <h3><span>Контакти автора</span></h3>
-                <div>
-                   <a class="link-contact" href="https://www.linkedin.com/in/serhii-miroshnychenko-mariupol/" target="_blank">
+        {% block footer %}
+        <!-- Footer -->
+        <footer>
+            <td>
+                <div id="footer" class="contacts">
+                    <div class="animator">
+                        <svg height="50" width="auto">
+                            <circle cx="10" cy="25" r="20" fill="lightsteelblue">
+                                <animate attributeName="cx" from="0" to="2000" dur="100s" fill="freeze"
+                                    repeatCount="10" />
+                            </circle>
+                        </svg>
+                    </div>
+            </td>
+        </footer>
+        <div class="author-contacts">
+            <h3><span>Контакти автора</span></h3>
+            <div>
+                <a class="link-contact" href="https://www.linkedin.com/in/serhii-miroshnychenko-mariupol/"
+                    target="_blank">
                     <img alt="Linkedin" src="{% static 'happy_site/images/Linkedin.png' %}" />
-                   </a>
-                    <a class="link-contact" href="https://www.sololearn.com/" target="_blank">
-                            <img alt="SoloLearn" src="https://www.sololearn.com/Uploads/icons/sololearn.png" />
-                    </a>
-                    <a class="link-contact" href="https://github.com/SerhiiMiroshnychenko" target="_blank">
-                            <img alt="GitHub" src="{% static 'happy_site/images/GitHub.png' %}" />
-                    </a>
-                </div>
-    </div>
-<!-- Кінець footer'а та сторінки -->
-{% endblock %}
+                </a>
+                <a class="link-contact" href="https://www.sololearn.com/" target="_blank">
+                    <img alt="SoloLearn" src="https://www.sololearn.com/Uploads/icons/sololearn.png" />
+                </a>
+                <a class="link-contact" href="https://github.com/SerhiiMiroshnychenko" target="_blank">
+                    <img alt="GitHub" src="{% static 'happy_site/images/GitHub.png' %}" />
+                </a>
+            </div>
+        </div>
+        <!-- Кінець footer'а та сторінки -->
+        {% endblock %}
 </body>
+
 </html>

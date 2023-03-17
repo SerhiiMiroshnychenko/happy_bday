@@ -1,25 +1,25 @@
 {% extends 'happy_site/base.html' %}
 
 {% block content %}
-    <h1>{{title}}</h1>
+<h1>{{title}}</h1>
 
-    <form action="{% url 'add_bday' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+<form action="{% url 'add_bday' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
 
-        <div class="form-error">{{ form.non_field_errors }}</div>
+    <div class="form-error">{{ form.non_field_errors }}</div>
 
-        {% for f in form %}
-            <p>
-                <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}:</label>
-                {{ f }}
-                {% if f.help_text %}
-                    <span class="help-text">{{ f.help_text }}</span>
-                {% endif %}
-            </p>
-            <div class="form-error">{{ f.errors }}</div>
-        {% endfor %}
+    {% for f in form %}
+    <p>
+        <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}:</label>
+        {{ f }}
+        {% if f.help_text %}
+        <span class="help-text">{{ f.help_text }}</span>
+        {% endif %}
+    </p>
+    <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
 
-        <button type="submit">Додати</button>
-    </form>
+    <button type="submit">Додати</button>
+</form>
 
 {% endblock %}

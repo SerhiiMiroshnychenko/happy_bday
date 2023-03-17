@@ -2,15 +2,15 @@
 
 
 {% block content %}
-    <h1>Редагування нагадування</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Зберегти</button>
-    </form>
+<h1>Редагування нагадування</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зберегти</button>
+</form>
 
 <div class="button-bd" style="display: inline-block; margin-right: 30px;">
-    <a  href="/edit_reminder/{{ reminder_id }}/delete"
+    <a href="/edit_reminder/{{ reminder_id }}/delete"
         onclick="return confirm('Ви впевнені, що хочете видалити це нагадування?')">Видалити</a>
 </div>
 

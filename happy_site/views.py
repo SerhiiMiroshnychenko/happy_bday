@@ -17,13 +17,13 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import DetailView, CreateView, TemplateView, ListView
 
 # Імпорти додатка HappyBot
-from happy_bot.bot_exceptions import BotException
 from happy_bot.core.keyboards.inline import month_names
 from happy_bot.core.handlers.reminders_and_birthdays import get_next_day_month
 
 # Внутрішні імпорти
 from happy_site.models import BDays, Reminder
 from happy_site.utils import DataMixin
+from happy_site.site_exceptions import SiteException
 from happy_site.signals import update_reminders_for_signal
 from happy_site.forms import RegisterUserForm, LoginUserForm,\
     AddBDayForm, UpdateBDayForm, ReminderForm, UpdateReminderForm
@@ -412,12 +412,12 @@ def del_reminder(request: WSGIRequest, reminder_id: int) -> HttpResponseRedirect
     bday_id = current_reminder.first().bday.id
     try:
         current_reminder.delete()
-    except BotException as error:
+    except SiteException as error:
         print(error.__class__, error, 'in del_reminder')
     try:
         print(f'IN VIEW: {request}')
         update_reminders_for_signal()
-    except BotException as error:
+    except SiteException as error:
         print(error.__class__, error, 'in del_reminder')
 
     return redirect('bday', bday_pk=bday_id)

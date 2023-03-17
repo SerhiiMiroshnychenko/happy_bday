@@ -2,14 +2,14 @@
 
 {% block content %}
 
-        <h1>Створення нагадування до дня народження</h1>
-        <h2>{{ reminder.bday.title }}</h2>
-        <h2>{{ reminder.bday.date }}</h2>
+<h1>Створення нагадування до дня народження</h1>
+<h2>{{ reminder.bday.title }}</h2>
+<h2>{{ reminder.bday.date }}</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Зберегти</button>
-    </form>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зберегти</button>
+</form>
 
 {% endblock %}

@@ -18,7 +18,7 @@
             <p class="first">{{today_birthday.date}}</p>
         </div>
         {% if today_birthday.photo %}
-        <p><img class="img-article-left thumb" src="{{today_birthday.photo.url}}"></p>
+        <p><img class="img-article-left thumb" src="{{today_birthday.photo.url}}" alt="Фото іменинника"></p>
         {% endif %}
         <h2 class="BD-link"><a href="/bday/{{ today_birthday.id }}/">{{today_birthday.title}}</a></h2>
         {% autoescape on %}
@@ -54,7 +54,7 @@
         </div>
 
         {% if next_birthday.photo %}
-        <p><img class="img-article-left thumb" src="{{next_birthday.photo.url}}"></p>
+        <p><img class="img-article-left thumb" src="{{next_birthday.photo.url}}" alt="Фото іменинника"></p>
         {% endif %}
         <h2 class="BD-link"><a href="/bday/{{ next_birthday.id }}/">{{next_birthday.title}}</a></h2>
         {% autoescape on %}

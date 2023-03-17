@@ -30,7 +30,7 @@
             <p class="first">{{day.date}}</p>
         </div>
         {% if day.photo %}
-        <p><img class="img-article-left thumb" src="{{day.photo.url}}"></p>
+        <p><img class="img-article-left thumb" src="{{day.photo.url}}" alt="Фото іменинника"></p>
         {% endif %}
         <h2 class="BD-link"><a href="/bday/{{ day.id }}/">{{day.title}}</a></h2>
         {% autoescape on %}

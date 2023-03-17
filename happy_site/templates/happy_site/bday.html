@@ -10,7 +10,7 @@
             <p class="first">{{bday.date}}</p>
         </div>
         {% if bday.photo %}
-        <p><img class="img-article-left thumb" src="{{bday.photo.url}}"></p>
+        <p><img class="img-article-left thumb" src="{{bday.photo.url}}" alt="Фото іменинника"></p>
         {% endif %}
         <h2>{{bday.title}}</h2>
         {% autoescape on %}

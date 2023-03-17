@@ -81,6 +81,12 @@ class UpdateBDayForm(forms.ModelForm):
     class Meta:
         model = BDays
         fields = ['title', 'content', 'photo', 'date']
+        labels = {
+            'title': 'Іменинник',
+            'content': 'Опис',
+            'photo': 'Фото',
+            'date': 'Дата народження',
+        }
 
 
 class ReminderForm(forms.ModelForm):

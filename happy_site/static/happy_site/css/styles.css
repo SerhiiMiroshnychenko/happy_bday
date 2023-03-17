@@ -687,3 +687,40 @@ ul.lang-list li a:hover {color: #fdc073;}
 	font-size: 30px;
 
 }
+
+
+.edit-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+input,
+textarea {
+	display: block;
+	width: 50%;
+	padding: 0.375rem 0.75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: dodgerblue;
+	background-color: #eaf1fc;
+	background-clip: padding-box;
+	border: 3px solid lightsteelblue;
+	border-radius: 0.5rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4d90fe;
+  box-shadow: 0 0}

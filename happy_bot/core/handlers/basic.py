@@ -80,13 +80,12 @@ async def stop_bot(bot: Bot) -> None:
     await bot.send_message(ADMIN_ID, text=text)
 
 
-async def get_glory(message: Message, bot: Bot, apscheduler: AsyncIOScheduler) -> None:
+async def get_glory(message: Message, apscheduler: AsyncIOScheduler) -> None:
     """
     The get_glory function is a reaction to the message with text "Слава Україні".
 
 
     :param message: Message: Get the message object
-    :param bot: Bot: Send messages to the user
     :param apscheduler: AsyncIOScheduler: Schedule a job
     :return: None; Send the answer to the message with text "Слава Україні"
     """

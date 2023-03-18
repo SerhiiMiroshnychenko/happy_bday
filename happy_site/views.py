@@ -25,7 +25,7 @@ from happy_site.models import BDays, Reminder
 from happy_site.utils import DataMixin
 from happy_site.site_exceptions import SiteException
 from happy_site.signals import update_reminders_for_signal
-from happy_site.forms import RegisterUserForm, LoginUserForm,\
+from happy_site.forms import RegisterUserForm, LoginUserForm, \
     AddBDayForm, UpdateBDayForm, ReminderForm, UpdateReminderForm
 
 
@@ -301,14 +301,23 @@ class NextBDay(TemplateView):
             ).order_by('date', 'title')
 
             # Знаходимо наступні дні народження
-            birthdays = BDays.objects.filter(user=self.request.user).\
+            birthdays = BDays.objects.filter(user=self.request.user). \
                 order_by('date__month', 'date__day', 'title')
             next_day_month = get_next_day_month(today, birthdays)
-            next_birthdays = BDays.objects.filter(
-                date__month=next_day_month[1],
-                date__day=next_day_month[0],
-                user=self.request.user
-            ).order_by('date', 'title')
+            next_day, next_month = None, None
+            try:
+                next_day = next_day_month[0]
+                next_month = next_day_month[1]
+            except TypeError as error:
+                print(error.__class__, error)
+            if next_day and next_month:
+                next_birthdays = BDays.objects.filter(
+                    date__month=next_day_month[1],
+                    date__day=next_day_month[0],
+                    user=self.request.user
+                ).order_by('date', 'title')
+            else:
+                next_birthdays = None
 
             context['today_birthdays'] = today_birthdays
             context['next_birthdays'] = next_birthdays

@@ -5,3 +5,4 @@ P1=$!
 python manage.py runbot & # your second application
 P2=$!
 wait $P1 $P2
+

@@ -16,14 +16,15 @@ services:
       - .:/code
     ports:
       - "8000:8000"
+    env_file: .env
     environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - SECRET_KEY='django-insecure-m&5fvb0igdc$%x_liggoc!7a4=%i8_zjyhgyjq=l9r$1$k)i6$'
-      - TELEGRAM_BOT_TOKEN=6049641343:AAFMBuCs9MQfcdqO8s88x4-jWUIB2OjaP4c
-      - ADMIN_ID=2042028422
-      - DEBUG=True
-      - DATABASE_NAME=db.sqlite3
+      POSTGRES_NAME: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      # SECRET_KEY: ${SECRET_KEY}
+      # TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      # ADMIN_ID: ${ADMIN_ID}
+      # DEBUG: ${DEBUG}
+      # DATABASE_NAME: ${DATABASE_NAME}
     depends_on:
       - db

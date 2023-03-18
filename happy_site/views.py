@@ -185,9 +185,10 @@ def delete_bd(request: WSGIRequest, bd_id: int) -> HttpResponseRedirect:
     :param bd_id: int: Specify the id of the object to be deleted
     :return: The redirect function, which returns an HttpResponseRedirect object
     """
-    print(request)
     topic = BDays.objects.filter(id=bd_id)
     topic.delete()
+    if request:
+        print(request)
     return redirect('b_days')
 
 

@@ -5,6 +5,7 @@
 happy_site/migrations
 happy_bot/migrations
 db.sqlite3
+pg_data
 
 /happy_bday/happy_site/migrations/
 /venv/

@@ -1,6 +1,6 @@
 """РЕЄСТРАЦІЯ МОДЕЛІВ ДОДАТКУ HAPPY SITE"""
 from django.contrib import admin
-from .models import BDays, Reminder
+from happy_site.models import BDays, Reminder
 
 
 # Register birthday and reminder models.

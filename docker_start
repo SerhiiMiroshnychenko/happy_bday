@@ -1,0 +1,7 @@
+#!/bin/sh -eux
+
+python manage.py runserver 0.0.0.0:8000 & # your first application
+P1=$!
+python manage.py runbot & # your second application
+P2=$!
+wait $P1 $P2

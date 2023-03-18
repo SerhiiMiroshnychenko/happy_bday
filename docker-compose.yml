@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: './docker_start'
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - SECRET_KEY='django-insecure-m&5fvb0igdc$%x_liggoc!7a4=%i8_zjyhgyjq=l9r$1$k)i6$'
+      - TELEGRAM_BOT_TOKEN=6049641343:AAFMBuCs9MQfcdqO8s88x4-jWUIB2OjaP4c
+      - ADMIN_ID=2042028422
+      - DEBUG=True
+      - DATABASE_NAME=db.sqlite3
+    depends_on:
+      - db

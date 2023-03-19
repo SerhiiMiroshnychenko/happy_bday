@@ -45,7 +45,11 @@ async def get_start(message: Message, apscheduler: AsyncIOScheduler) -> None:
                                  f'Для ознайомлення з моїми можливостями оберіть команду "<b>/help</b>".'
     message_for_user = start_message_for_auth if user_id else start_message_for_not_auth
 
-    await get_picture(message.from_user.id, bot, message_for_user, 'start')
+    try:
+        await get_picture(message.from_user.id, bot, message_for_user, 'start')
+    except BotException as error:
+        print(error)
+        await bot.send_message(message.from_user.id, message_for_user)
 
     if user_id:
         await message.answer('Оберіть подальшу дію.', reply_markup=get_reply_keyboard())
@@ -72,7 +76,11 @@ async def get_help(message: Message, apscheduler: AsyncIOScheduler) -> None:
     :param apscheduler: AsyncIOScheduler: Add a job to the scheduler
     :return: None; Send a picture with a description of the bot's capabilities
     """
-    await get_picture(message.from_user.id, bot, help_message, 'help')
+    try:
+        await get_picture(message.from_user.id, bot, help_message, 'help')
+    except BotException as error:
+        print(error)
+        await bot.send_message(message.from_user.id, help_message)
     user_id = (await check_user(message.from_user.id))[0]
     if user_id:
         apscheduler.add_job(send_message_chat_gpt, trigger='date',
@@ -132,7 +140,11 @@ async def disabling_authentication(message: Message) -> None:
     if user_id:
         await profile_delete(message.from_user.id)
         message_to_user = f'{user_name}, Ваша реєстрація анульована. Для відновлення використовуйте команду /auth.'
-        await get_picture(message.from_user.id, bot, message_to_user, 'off')
+        try:
+            await get_picture(message.from_user.id, bot, message_to_user, 'off')
+        except BotException as error:
+            print(error)
+            await bot.send_message(message.from_user.id, message_to_user)
     else:
         message_to_user = f'{message.from_user.full_name},Ви ще не зареєстровані в боті. Дивиться команду /help.'
         await message.answer(message_to_user)

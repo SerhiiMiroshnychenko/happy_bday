@@ -49,11 +49,7 @@ class BDays(models.Model):
         :return: The age of the person on their birthday in the current year
         """
         today = date.today()
-        birthday = self.date.replace(year=today.year)
-        if birthday < today:
-            return today.year - self.date.year
-        else:
-            return today.year - self.date.year - 1
+        return today.year - self.date.year
 
     def __str__(self) -> str:
         """

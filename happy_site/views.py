@@ -269,6 +269,8 @@ class BDayList(LoginRequiredMixin, DataMixin, ListView):
         # Add age information to each BDays instance
         for bday in bdays:
             bday.age = bday.get_age()
+            if bday.photo:
+                print('PHOTO->', bday.photo.path)
         return bdays
 
 

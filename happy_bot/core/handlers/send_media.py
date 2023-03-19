@@ -22,6 +22,7 @@ async def get_birthday_photo(chat_id: int, bot: Bot, text: str, photo_path: str)
     """
     bday_path = fr'D:\Final_project\happy_bday\media\{photo_path}'
     try:
+        print('PHOTO-+->', bday_path)
         birthday_photo = FSInputFile(path=bday_path,
                                      filename='BDayPerson.png')
         await bot.send_photo(chat_id, photo=birthday_photo, caption=text)

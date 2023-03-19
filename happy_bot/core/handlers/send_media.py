@@ -14,7 +14,6 @@ async def get_birthday_photo(chat_id: int, bot: Bot, text: str, photo_path: str)
         messages and photos to users on Telegram. The third argument is a string containing
         the message that will be sent along with the birthday photo while the fourth one is
         a string containing path of where our birthday photos are stored.
-
     :param chat_id: int: Send the message to a specific chat
     :param bot: Bot: Send the photo to the user
     :param text: str: Send a message to the user
@@ -40,13 +39,12 @@ async def get_picture(chat_id: int, bot: Bot, text: str = None, name: str = None
             bot (Bot): The bot that will be sending messages and pictures.
             text (str, optional): A string containing a caption for our picture.
             Defaults to None if not specified by user.
-
     :param chat_id: int: Send the picture to a specific chat
     :param bot: Bot: Send the photo to the user
     :param text: str: Send a message to the user with the picture
     :param name: str: Get the name of the person whose birthday it is,
     :return: None
     """
-    reminder_picture = FSInputFile(path=fr'D:\Final_project\happy_bday\media\pictures\{name}.png',
+    reminder_picture = FSInputFile(path=fr'D:\Final_project\happy_bday\happy_bot\static\happy_bot\images\{name}.png',
                                    filename=f'ItIs{name.title()}.png')
     await bot.send_photo(chat_id, photo=reminder_picture, caption=text)

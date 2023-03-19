@@ -20,7 +20,7 @@ async def get_birthday_photo(chat_id: int, bot: Bot, text: str, photo_path: str)
     :param photo_path: str: Specify the path to the photo
     :return: None
     """
-    bday_path = fr'D:\Python\HappyDay\media\{photo_path}'
+    bday_path = fr'/code/media/{photo_path}'
     try:
         birthday_photo = FSInputFile(path=bday_path,
                                      filename='BDayPerson.png')
@@ -46,7 +46,7 @@ async def get_picture(chat_id: int, bot: Bot, text: str = None, name: str = None
     :return: None
     """
     try:
-        reminder_picture = FSInputFile(path=fr'D:\Python\HappyDay\happy_bot\static\happy_bot\images\{name}.png',
+        reminder_picture = FSInputFile(path=fr'/code/happy_bot/static/happy_bot/images/{name}.png',
                                        filename=f'ItIs{name.title()}.png')
         await bot.send_photo(chat_id, photo=reminder_picture, caption=text)
     except BotException as error:
